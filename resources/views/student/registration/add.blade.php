@@ -36,7 +36,7 @@
                                                 <select class="form-control select2" name="campus_id" id="campus-id">
                                                     <option selected value="">Select Student</option>
                                                     @foreach($data['campus'] as $item)
-                                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                                        <option value="{{$item->id}}">{{$item->campus}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -51,11 +51,9 @@
                                         <div class="form-group">
                                             <div class="pos-relative">
                                             <label class="form-label tx-semibold">Class</label>
-                                                <select class="form-control select2" name="class_id" id="class-id">
-                                                    <option selected value="">Select Class</option>
-                                                    @foreach($data['studentClass'] as $item)
-                                                        <option value="{{$item->id}}">{{$item->name}}</option>
-                                                    @endforeach
+                                                <select class="form-control select2" name="class_id" id="class-id" disabled>
+                                                    <option value="">Select Class</option>
+                                                   
                                                 </select>
                                             </div>
                                         </div>
