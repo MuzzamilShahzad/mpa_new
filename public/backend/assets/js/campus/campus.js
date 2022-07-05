@@ -1,5 +1,3 @@
-const { forEach } = require("lodash");
-
 $(document).ready(function () {
 
     var baseUrl = $(".base-url").val();
@@ -10,24 +8,25 @@ $(document).ready(function () {
         var systemLength = $('.system option').length;
         var length = jQuery("div[id='system-details']").length + 1;
 
-        var options = $(".system > option").clone();
-        console.log(options);
+        // var options = $('.system option');
+        // var values = $.map(options, function (key, value) {
+        //     console.log(key + " - " + value);
+        // });
+
+        $(this).find("select").each(function () {
+            console.log($(this).find('option').text());
+        });
 
         if (length < systemLength) {
             $(this).attr("class", "btn-remove-system");
             $(this).attr("alt", "remove-system");
             $(this).attr("src", "http://localhost/accounts/public/backend/assets/img/remove-icon.png");
 
+            var system = $('.system').parent('div');
+
             $('.btn-add-system-row').after(`<div class="form-row" id="system-details">
                                                 <div class="col-5">
-                                                    <div class="form-group">
-                                                        <label class="tx-semibold">Select System</label>
-                                                        <div class="pos-relative">
-                                                            <select class="form-control select2">
-                                                                <option value=''>Select..</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
+                                                    
                                                 </div>
                                                 <div class="col-5">
                                                     <div class="form-group">
