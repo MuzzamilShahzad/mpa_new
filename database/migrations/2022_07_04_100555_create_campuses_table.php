@@ -17,14 +17,14 @@ return new class extends Migration
             
             $table->increments('id');
 
-            $table->string('name',20);
+            $table->string('name',20)->unique();
             
             $table->string('address',60);
             $table->string('phone',15);
             $table->string('email',30);
             
             $table->tinyInteger('active_session');
-            $table->string('logo',100);
+            $table->string('logo',100)->nullable();
             $table->tinyInteger('is_active')->default(1);
             $table->tinyInteger('is_delete')->default(0);
 

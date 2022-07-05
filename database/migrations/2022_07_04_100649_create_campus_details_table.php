@@ -17,15 +17,15 @@ return new class extends Migration
             
             $table->increments('id');
             
-            $table->string('short_name',10);
+            $table->string('short_name',10)->unique();
             
-            $table->unsignedInteger('campus_id')->nullable();
+            $table->unsignedInteger('campus_id');
             $table->foreign('campus_id')->references('id')->on('campuses')->onDelete('cascade');
             
-            $table->unsignedInteger('system_id')->nullable();
+            $table->unsignedInteger('system_id');
             $table->foreign('system_id')->references('id')->on('systems')->onDelete('cascade');
             
-            $table->unique(array('campus_id','system_id'));
+            $table->unique(['campus_id','system_id']);
             
             $table->timestamps();
         });
