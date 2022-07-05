@@ -2,6 +2,13 @@
 @section('main-content')
 @section('page_title', 'Add Student Registration')
 
+<style>
+    .select2-selection__clear {
+        margin-top: 1px;
+        margin-right: 10px;
+    }
+</style>
+
 <div class="main-content side-content pt-0">
     <div class="main-container container-fluid">
         <div class="inner-body">
@@ -16,7 +23,6 @@
                 </div>
             </div>
             <!-- End Page Header -->
-
             <!-- Row -->
             <div class="row">
                 <div class="col-md-12 col-lg-12">
@@ -34,37 +40,44 @@
                                             <label class="form-label tx-semibold">Campus</label>
                                             <div class="pos-relative">
                                                 <select class="form-control select2" name="campus_id" id="campus-id">
-                                                    <option selected value="">Select Student</option>
-                                                    @foreach($data['campus'] as $item)
-                                                        <option value="{{$item->id}}">{{$item->campus}}</option>
+                                                    <option value="">Select</option>
+                                                    @foreach($data['campus'] as $campus)
+                                                        <option value="{{$campus->id}}">{{$campus->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-4 mb-0">
-                                        <div class="form-group" id="campus-system-input">
-                                        
+                                        <div class="form-group">
+                                            <label class="form-label tx-semibold">School System</label>
+                                            <div class="pos-relative">
+                                                <select class="form-control select2" name="system_id" id="system-id" disabled>
+                                                    <option value="">Select</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <div class="pos-relative">
-                                            <label class="form-label tx-semibold">Class</label>
+                                                <label class="form-label tx-semibold">Class</label>
                                                 <select class="form-control select2" name="class_id" id="class-id" disabled>
-                                                    <option value="">Select Class</option>
-                                                   
+                                                    <option value="">Select</option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-row">
                                     <div class="form-group col-md-4 mb-0">
-                                        <div class="form-group" id="campus-system-input">
-                                            <label class="form-label tx-semibold">Form Number</label>
-                                            <input type="text" class="form-control" name="form_no" id="form-no">
+                                        <div class="form-group">
+                                            <label class="form-label tx-semibold">Class Group</label>
+                                            <div class="pos-relative">
+                                                <select class="form-control select2" name="class_group_id" id="class-group-id" disabled>
+                                                    <option value="">Select</option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-4 mb-0">
@@ -72,22 +85,21 @@
                                             <div class="pos-relative">
                                             <label class="form-label tx-semibold">Session</label>
                                                 <select class="form-control select2" name="session_id" id="session-id">
-                                                    <option selected value="">Select Session</option>
-                                                    @foreach($data['session'] as $item)
-                                                        <option value="{{$item->id}}">{{$item->session}}</option>
+                                                    <option value="">Select</option>
+                                                    @foreach($data['session'] as $session)
+                                                        <option value="{{$session->id}}">{{$session->session}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-4 mb-0">
-                                        <div class="form-group" id="campus-system-input">
-                                            <label class="form-label tx-semibold">Computerize Registration</label>
-                                            <input type="text" class="form-control" name="computerize_registration"  id="computerize-registration">
+                                        <div class="form-group">
+                                            <label class="form-label tx-semibold">Form Number</label>
+                                            <input type="text" class="form-control" name="form_no" id="form-no">
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-row">
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
@@ -104,11 +116,10 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold date-picker">Date of Birth</label>
-                                            <input class="form-control date-picker" name="dob" id="dob" placeholder="DD-MM-YYYY" type="text">
+                                            <input class="form-control date-picker bg-transparent" name="dob" id="dob" placeholder="DD-MM-YYYY" type="text" readonly>
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-row">
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
@@ -127,7 +138,7 @@
                                             <label class="form-label tx-semibold">Is there any sibling currently studying in MPA ?</label>
                                             <div class="pos-relative">
                                                 <select class="form-control select2" name="siblings_in_mpa" id="siblings-in-mpa">
-                                                    <option selected value="">Select</option>
+                                                    <option value="">Select If Any</option>
                                                     <option value="Yes">Yes</option>
                                                     <option value="No">No</option>
                                                 </select>
@@ -141,12 +152,18 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-row">
                                     <div class="form-group col-md-6 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Previous Class (IF ANY)</label>
-                                            <input type="text" class="form-control" name="previous_class"  id="previous-class">
+                                            <div class="pos-relative">
+                                                <select class="form-control select2" name="previous_class" id="previous-class">
+                                                    <option value="">Select</option>
+                                                    @foreach($data['class'] as $class)
+                                                        <option value="{{$class->id}}">{{$class->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6 mb-0">
@@ -157,11 +174,9 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="card-body">
                                 <h4 class="main-content-label"> <strong>Current Address</strong> </h4>
                                 <br>
-
                                 <div class="form-row">
                                     <div class="form-group col-md-6 mb-0">
                                         <div class="form-group">
@@ -176,12 +191,11 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div class="form-row">
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Building Name/Number (If ANY)</label>
-                                            <input type="text" class="form-control" name="building_name_no"  id="building-name-no">
+                                            <input type="text" class="form-control" name="building_no"  id="building-no">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-4 mb-0">
@@ -189,9 +203,9 @@
                                             <label class="form-label tx-semibold">Area</label>
                                             <div class="pos-relative">
                                                 <select class="form-control select2" name="area_id " id="area-id">
-                                                    <option selected value="">Select Area</option>
-                                                    @foreach($data['area'] as $item)
-                                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                                    <option value="">Select</option>
+                                                    @foreach($data['area'] as $area)
+                                                        <option value="{{$area->id}}">{{$area->name}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -200,12 +214,18 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">City</label>
-                                            <input type="text" class="form-control" name="city" id="city">
+                                            <div class="pos-relative">
+                                                <select class="form-control select2" name="city_id" id="city-id">
+                                                    <option value="">Select</option>
+                                                    @foreach($data['city'] as $city)
+                                                        <option value="{{$city->id}}">{{$city->city}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <div class="card-body">
                                 <h4 class="main-content-label"> <strong>Father</strong> </h4>
                                 <br>
@@ -260,68 +280,58 @@
                                             <input type="text" class="form-control" name="father_phone"  id="father-phone" data-inputmask="'mask': '03##-#######'" placeholder="03##-#######">
                                         </div>
                                     </div>
-
-                                    <div class="form-group col-md-3 mb-0">
+                                    <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
-                                            <label class="form-label tx-semibold">How did you hear about us?</label>
-
-                                            <div class="selectgroup selectgroup-pills">
-                                                <label class="selectgroup-item ">
-                                                    <input type="checkbox" name="first_person_call" value="Social Media" class="selectgroup-input">
-                                                    <span class="selectgroup-button">Social Media</span>
-                                                </label>
-                                                <label class="selectgroup-item">
-                                                    <input type="checkbox" name="first_person_call" value="Electronic Media" class="selectgroup-input">
-                                                    <span class="selectgroup-button">Electronic Media</span>
-                                                </label>
-                                                <label class="selectgroup-item">
-                                                    <input type="checkbox" name="first_person_call" value="Print Media" class="selectgroup-input">
-                                                    <span class="selectgroup-button">Print Media</span>
-                                                </label>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group col-md-5 mb-0">
-                                        <div class="form-group">
-                                            <label class="form-label tx-semibold">Other</label>
-                                            <input type="text" class="form-control" name="other"  id="other">
+                                                <label class="form-label tx-semibold">How did you hear about us?</label>
+                                                <div class="pos-relative">
+                                                    <select class="form-control select2" name="hear_about_us " id="hear-about-us">
+                                                        <option value="">Select</option>
+                                                        <option value="Social Media">Social Media</option>
+                                                        <option value="Electronic Media">Electronic Media</option>
+                                                        <option value="Print Media">Print Media</option>
+                                                        <option value="Other">Other</option>
+                                                    </select>
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                             <div class="card-body">
-                                <h4 class="main-content-label"> <strong>Test Group</strong> </h4>
+                                <h4 class="main-content-label"> 
+                                    <input type="checkbox" name="test_group_chkbox" id="test-group-chkbox">
+                                    <strong>Test Group</strong> 
+                                </h4>
                                 <br>
-                            
-                                <div class="form-row">
+                                <div class="form-row" id="test-group-row">
                                     <div class="form-group col-md-6 mb-0">
                                         <div class="form-group">
-                                            <label class="form-label tx-semibold">Test Group</label>
-                                            <div class="pos-relative">
-                                                <select class="form-control select2" name="test_group" id="test-group">
-                                                   
-                                                
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group col-md-6 mb-0">
-                                        <div class="form-group">
-                                            <label class="form-label tx-semibold">Interview Group</label>
-                                            <div class="pos-relative">
-                                                <select class="form-control select2" name="interview_group" id="interview-group">
-                                                   
-                                              
+                                           <div class="pos-relative">
+                                                <select class="form-control select2" name="test_group" id="test-group" disabled>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                
+                            </div>
+                            <div class="card-body">
+                                <h4 class="main-content-label"> 
+                                    <input type="checkbox" name="interview_group_chkbox" id="interview-group-chkbox"/>
+                                    <strong>Interview Group</strong> 
+                                </h4>
+                                <br>
+                                <div class="form-row" id="interview-group-row">
+                                    <div class="form-group col-md-6 mb-0">
+                                        <div class="form-group">
+                                           <div class="pos-relative">
+                                                <select class="form-control select2" name="interview_group" id="interview-group" disabled>
+                                                    <option value="">Select Interview</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
                                 <div class="form-footer mt-2">
                                     <button type="submit" class="btn btn-primary" id="btn-add-registration">Save</button>
                                 </div>
@@ -336,7 +346,7 @@
 </div>
 
 <!-- {{-- Own javascript --}} -->
-<script src="{{ url('backend/assets/js/student-registration/registration.js') }}"></script>
+<script src="{{ url('backend/assets/js/student/registration.js') }}"></script>
 
 <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/3/jquery.inputmask.bundle.js"></script>
 

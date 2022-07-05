@@ -10,6 +10,96 @@ use App\Models\CampusDetails;
 
 class CampusController extends Controller
 {
+
+    public function getCampusSchoolSystemByCampusId(Request $request){
+        
+        $validator = Validator::make($request->all(), [
+            'campus_id'       =>  'required|numeric|gt:0|digits_between:1,11'
+        ]);
+
+        if ($validator->fails()) {
+
+            $response = array(
+                'status'  =>  false, 
+                'error'   =>  $validator->errors()
+            );
+            
+            return response()->json($response);
+            
+        } else {
+            
+            $formData = $request->all();
+
+            $campusSchoolSystems  =  $this->getCampusSchoolSystem($formData['campus_id']);
+           
+            $response = array(
+                'status'               => true,
+                'campusSchoolSystems'  =>  $campusSchoolSystems,
+            );
+
+            return response()->json($response);
+        }
+    }
+
+    public function getCampusSchoolSystem($campus_id = NULL){
+        
+        $schoolSystems = Campus::select('systems.*')
+                            ->join('campus_details','campus_details.campus_id','=','campuses.id')
+                            ->join('systems','systems.id','=','campus_details.system_id')
+                            ->where('campuses.id',$campus_id)
+                            ->where('campuses.is_active',1)
+                            ->where('campuses.is_delete',0)
+                            ->get();
+
+        return $schoolSystems;
+    }
+    
+    public function getCampusClassesByCampusAndSystemId(Request $request){
+        
+
+        $validator = Validator::make($request->all(), [
+            'campus_id'       =>  'required|numeric|gt:0|digits_between:1,11',
+            'system_id'       =>  'required|numeric|gt:0|digits_between:1,11'
+        ]);
+
+        if ($validator->fails()) {
+
+            $response = array(
+                'status'  =>  false, 
+                'error'   =>  $validator->errors()
+            );
+            
+            return response()->json($response);
+            
+        } else {
+            
+            $formData = $request->all();
+           
+            $campusClasses        =  $this->getCampusClasses($formData);
+           
+            $response = array(
+                'status'               => true,
+                'campusClasses'        =>  $campusClasses
+            );
+
+            return response()->json($response);
+        }
+    }
+
+    public function getCampusClasses($data = array()){
+       
+        $campusClasses = Classes::select('classes.id','classes.name')
+                            ->join('campus_classes','campus_classes.class_id','=','classes.id')
+                            ->join('campus_details','campus_details.id','=','campus_classes.campus_detail_id')
+                            ->where('campus_details.campus_id',$data['campus_id'])
+                            ->where('campus_details.system_id',$data['system_id'])
+                            ->where('classes.is_active',1)
+                            ->where('classes.is_delete',0)
+                            ->get();
+                            
+        return $campusClasses;
+    }
+
     public function listing(){
         $Campus = Campus::all();
         $data = array(
