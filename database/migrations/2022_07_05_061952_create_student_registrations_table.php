@@ -57,14 +57,17 @@ return new class extends Migration
             $table->unsignedInteger('city_id');
             $table->foreign('city_id')->references('id')->on('cities')->onDelete('cascade');
 
-            $table->string('father_cnic',20);
-            $table->string('father_name',30);
-            $table->string('father_occupation',30)->nullable();
-            $table->string('father_company_name',30)->nullable();
-            $table->string('father_salary',20)->nullable();
-            $table->string('father_email',30)->nullable();
-            $table->string('father_phone',20);
-            $table->string('hear_about_us',30)->nullable();
+            // $table->string('father_cnic',20);
+            // $table->string('father_name',30);
+            // $table->string('father_occupation',30)->nullable();
+            // $table->string('father_company_name',30)->nullable();
+            // $table->string('father_salary',20)->nullable();
+            // $table->string('father_email',30)->nullable();
+            // $table->string('father_phone',20);
+
+            $table->text('father_details');
+
+            $table->enum('hear_about_us',['social_media','electronic_media','print_media','other'])->nullable();
             $table->string('hear_about_us_other',30)->nullable();
 
             $table->unsignedInteger('test_group_id')->nullable();
