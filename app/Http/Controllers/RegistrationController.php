@@ -12,7 +12,7 @@ use App\Models\City;
 
 class RegistrationController extends Controller
 {
-    public function create(){
+    public function add(){
         
         $campus   =  Campus::get();
         $session  =  Session::get();
@@ -30,4 +30,5 @@ class RegistrationController extends Controller
 
         return view('student.registration.add', compact('data'));
     }
+
 }
