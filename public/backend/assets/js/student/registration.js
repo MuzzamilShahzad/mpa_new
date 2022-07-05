@@ -481,7 +481,6 @@ $(document).ready(function () {
                 type: "GET",
                 data: { campus_id: campus_id },
                 success: function (response) {
-
                     if (response.status === true) {
 
                         var campusSchoolSystems = response.campusSchoolSystems
@@ -489,24 +488,14 @@ $(document).ready(function () {
                         console.log(campusSchoolSystems);
 
                         var schoolSystems = `<option selected value="0">Select School System</option>`;
-                        // var classes  = `<option selected value="">Select</option>`;
                         if (campusSchoolSystems.length) {
                             $(campusSchoolSystems).each(function (key, value) {
                                 schoolSystems += `<option value="` + value.id + `" >` + value.type + `</option>`;
                             });
                         }
 
-                        // if(campusClasses.length){
-                        //     $(campusClasses).each(function(key, value){
-                        //         classes += `<option value="`+value.id+`" >`+value.name+`</option>`;
-                        //     });
-                        // }
-
                         $('#system-id').prop('disabled', false);
                         $('#system-id').html(schoolSystems);
-
-                        // $('#class-id').prop('disabled',false);
-                        // $('#class-id').html(classes);
                     }
                 }
             });

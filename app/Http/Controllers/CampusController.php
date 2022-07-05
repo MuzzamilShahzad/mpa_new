@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Campus;
 use App\Models\System;
 use App\Models\CampusDetails;
+use App\Models\Classes;
 
 class CampusController extends Controller
 {
