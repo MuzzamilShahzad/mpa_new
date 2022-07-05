@@ -33,9 +33,6 @@
                         <ul class="nav-sub">
                             <li class="side-menu-label1"><a href="javascript:;">Campus</a></li>
                             <li class="nav-sub-item">
-                                <a class="nav-sub-link {{ isset($data['menu']) && !empty($data['menu']) && $data['menu'] == 'Manage Campus' ? 'active' : '' }}" href="{{route('campus.view')}}">Manage Campus</a>
-                            </li>
-                            <li class="nav-sub-item">
                                 <a class="nav-sub-link {{ isset($data['menu']) && !empty($data['menu']) && $data['menu'] == 'Add Campus' ? 'active' : '' }}" href="{{route('campus.create')}}">Add Campus</a>
                             </li>
                         </ul>
@@ -50,9 +47,6 @@
                         </a>
                         <ul class="nav-sub">
                             <li class="side-menu-label1"><a href="javascript:;">System</a></li>
-                            <li class="nav-sub-item">
-                                <a class="nav-sub-link {{ isset($data['menu']) && !empty($data['menu']) && $data['menu'] == 'Manage System' ? 'active' : '' }}" href="{{route('system.view')}}">Manage System</a>
-                            </li>
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link {{ isset($data['menu']) && !empty($data['menu']) && $data['menu'] == 'Add System' ? 'active' : '' }}" href="{{route('system.create')}}">Add System</a>
                             </li>
