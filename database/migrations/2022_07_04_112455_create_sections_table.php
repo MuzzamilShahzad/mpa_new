@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('systems', function (Blueprint $table) {
-            
+        Schema::create('sections', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('system',20)->unique();
-
+            $table->string('section',20)->unique();
             $table->tinyInteger('is_active')->default(1);
             $table->tinyInteger('is_delete')->default(0);
-            
             $table->timestamps();
         });
     }
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('systems');
+        Schema::dropIfExists('sections');
     }
 };

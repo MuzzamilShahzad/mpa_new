@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('systems', function (Blueprint $table) {
+        Schema::create('fees_types', function (Blueprint $table) {
             
             $table->increments('id');
-            $table->string('system',20)->unique();
-
+            $table->string('type',20)->unique();
+            $table->string('short_code',3)->unique();
             $table->tinyInteger('is_active')->default(1);
             $table->tinyInteger('is_delete')->default(0);
-            
             $table->timestamps();
         });
     }
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('systems');
+        Schema::dropIfExists('fees_types');
     }
 };

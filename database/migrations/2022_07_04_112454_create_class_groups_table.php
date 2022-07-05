@@ -13,15 +13,20 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('systems', function (Blueprint $table) {
+        Schema::create('class_groups', function (Blueprint $table) {
             
             $table->increments('id');
-            $table->string('system',20)->unique();
 
-            $table->tinyInteger('is_active')->default(1);
-            $table->tinyInteger('is_delete')->default(0);
+            $table->unsignedInteger('class_id');
+            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
             
+            $table->unsignedInteger('group_id');
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
+            
+            $table->unique(['class_id','group_id']);
+
             $table->timestamps();
+
         });
     }
 
@@ -32,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('systems');
+        Schema::dropIfExists('class_groups');
     }
 };
