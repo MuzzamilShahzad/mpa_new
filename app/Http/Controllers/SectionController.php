@@ -3,34 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\System;
+use App\Models\Section;
 use Illuminate\Support\Facades\Validator;
 
-class SystemController extends Controller
+class SectionController extends Controller
 {
+    
     public function listing(){
-        $System = System::all();
+        $Section = Section::all();
         $data = array(
-            'System'  =>  $System,
-            'page'     =>  'System',
-            'menu'     =>  'Manage System'
+            'Section'    =>  $Section,
+            'page'      =>  'Section',
+            'menu'      =>  'Manage Section'
         );
 
-        return view('system.listing', compact('data'));
+        return view('section.listing', compact('data'));
     }
 
     public function add(){
-        $data = array(
-            'page'  =>  'System',
-            'menu'  =>  'Add System',
+
+       $data = array(
+            'page'       =>  'Section',
+            'menu'       =>  'Add Section',
         );
 
-        return view('system.add', compact('data'));
+        return view('section.add', compact('data'));
     }
 
     public function store(Request $request) {
+
         $validator = Validator::make($request->all(), [
-            'system'          =>  'required|max:20',
+            'section'              =>  'required|max:20|unique:sections'
         ]);
 
         if ($validator->errors()->all()) {
@@ -43,17 +46,17 @@ class SystemController extends Controller
             return response()->json($response);
 
         } else {
-            $system = new System;
+            $section = new Section;
 
-            $system->system          =  $request->system;
-
-            $query = $system->save();
+            $section->section           =  $request->section;
+            
+            $query = $section->save();
 
             if ($query) {
-                
+
                 $response = array(
                     'status'   =>  true, 
-                    'message'  =>  'System has been added successfully'
+                    'message'  =>  'Section has been added successfully.'
                 );
 
                 return response()->json($response);
@@ -71,20 +74,20 @@ class SystemController extends Controller
     }
 
     public function edit($id){
-        $System = System::findOrFail($id);
+        $Section = Section::findOrFail($id);
 
         $data = array(
-            'system'  =>  $System,
-            'page'    =>  'System',
-            'menu'    =>  'Edit System'
+            'section'  =>  $Section,
+            'page'    =>  'Section',
+            'menu'    =>  'Edit Section'
         );
 
-        return view('system.edit', compact('data'));
+        return view('section.edit', compact('data'));
     }
 
     public function update(Request $request, $id) {
         $validator = Validator::make($request->all(), [
-            'system'          =>  'required',
+            'section'          =>  'required',
         ]);
 
         if ($validator->errors()->all()) {
@@ -97,16 +100,16 @@ class SystemController extends Controller
             return response()->json($response);
 
         } else {
-            $system = System::find($id);
+            $section = Section::find($id);
 
-            $system->system          =  $request->system;
-            $query = $system->update();
+            $section->section          =  $request->section;
+            $query = $section->update();
 
             if ($query) {
 
                 $response = array(
                     'status'   =>  true, 
-                    'message'  =>  'System has been updated successfully'
+                    'message'  =>  'Section has been updated successfully'
                 );
 
                 return response()->json($response);
@@ -124,8 +127,8 @@ class SystemController extends Controller
     }
 
     public function delete(Request $request) {
-        $system_id  =  $request->system_id;
-        $query      =  System::find($system_id)->delete();
+        $section_id  =  $request->section_id;
+        $query      =  Section::find($section_id)->delete();
 
         if ($query) {
 
@@ -144,4 +147,5 @@ class SystemController extends Controller
 
         return response()->json($response); 
     }
+
 }

@@ -3,34 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\System;
+use App\Models\Area;
 use Illuminate\Support\Facades\Validator;
 
-class SystemController extends Controller
+class AreaController extends Controller
 {
+
     public function listing(){
-        $System = System::all();
+        $Area = Area::all();
         $data = array(
-            'System'  =>  $System,
-            'page'     =>  'System',
-            'menu'     =>  'Manage System'
+            'Area'    =>  $Area,
+            'page'      =>  'Area',
+            'menu'      =>  'Manage Area'
         );
 
-        return view('system.listing', compact('data'));
+        return view('area.listing', compact('data'));
     }
 
     public function add(){
-        $data = array(
-            'page'  =>  'System',
-            'menu'  =>  'Add System',
+
+       $data = array(
+            'page'       =>  'Areas',
+            'menu'       =>  'Add Area',
         );
 
-        return view('system.add', compact('data'));
+        return view('area.add', compact('data'));
     }
 
     public function store(Request $request) {
+
         $validator = Validator::make($request->all(), [
-            'system'          =>  'required|max:20',
+            'area'              =>  'required'
         ]);
 
         if ($validator->errors()->all()) {
@@ -43,17 +46,17 @@ class SystemController extends Controller
             return response()->json($response);
 
         } else {
-            $system = new System;
+            $area = new Area;
 
-            $system->system          =  $request->system;
-
-            $query = $system->save();
+            $area->area           =  $request->area;
+            
+            $query = $area->save();
 
             if ($query) {
-                
+
                 $response = array(
                     'status'   =>  true, 
-                    'message'  =>  'System has been added successfully'
+                    'message'  =>  'Area has been added successfully.'
                 );
 
                 return response()->json($response);
@@ -69,22 +72,22 @@ class SystemController extends Controller
             }
         }
     }
-
+    
     public function edit($id){
-        $System = System::findOrFail($id);
+        $Area = Area::findOrFail($id);
 
         $data = array(
-            'system'  =>  $System,
-            'page'    =>  'System',
-            'menu'    =>  'Edit System'
+            'area'  =>  $Area,
+            'page'    =>  'Area',
+            'menu'    =>  'Edit Area'
         );
 
-        return view('system.edit', compact('data'));
+        return view('area.edit', compact('data'));
     }
 
     public function update(Request $request, $id) {
         $validator = Validator::make($request->all(), [
-            'system'          =>  'required',
+            'area'          =>  'required',
         ]);
 
         if ($validator->errors()->all()) {
@@ -97,16 +100,16 @@ class SystemController extends Controller
             return response()->json($response);
 
         } else {
-            $system = System::find($id);
+            $area = Area::find($id);
 
-            $system->system          =  $request->system;
-            $query = $system->update();
+            $area->area          =  $request->area;
+            $query = $area->update();
 
             if ($query) {
 
                 $response = array(
                     'status'   =>  true, 
-                    'message'  =>  'System has been updated successfully'
+                    'message'  =>  'Area has been updated successfully'
                 );
 
                 return response()->json($response);
@@ -124,8 +127,8 @@ class SystemController extends Controller
     }
 
     public function delete(Request $request) {
-        $system_id  =  $request->system_id;
-        $query      =  System::find($system_id)->delete();
+        $area_id  =  $request->area_id;
+        $query      =  Area::find($area_id)->delete();
 
         if ($query) {
 

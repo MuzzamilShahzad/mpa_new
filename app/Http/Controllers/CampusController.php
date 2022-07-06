@@ -8,6 +8,8 @@ use App\Models\Campus;
 use App\Models\System;
 use App\Models\CampusDetails;
 use App\Models\Classes;
+use App\Models\ClassGroup;
+use App\Models\Section;
 
 class CampusController extends Controller
 {
@@ -87,9 +89,65 @@ class CampusController extends Controller
         }
     }
 
+    public function getClassGroupAndSectionByCampusSystemAndClassId(Request $request){
+        
+        $validator = Validator::make($request->all(), [
+            'campus_id'       =>  'required|numeric|gt:0|digits_between:1,11',
+            'system_id'       =>  'required|numeric|gt:0|digits_between:1,11',
+            'class_id'        =>  'required|numeric|gt:0|digits_between:1,11'
+        ]);
+
+        if ($validator->fails()) {
+
+            $response = array(
+                'status'  =>  false, 
+                'error'   =>  $validator->errors()
+            );
+            
+            return response()->json($response);
+            
+        } else {
+            
+            $formData = $request->all();
+
+            $ClassGroupAndSection  =  $this->getCampusClassGroupAndSection($formData);
+            
+            $response = array(
+                'status'         => true,
+                'classGroups'    =>  $ClassGroupAndSection['classGroups'],
+                'classSections'  =>  $ClassGroupAndSection['classSections'],
+            );
+
+            return response()->json($response);
+        }
+    }
+
+    public function getCampusClassGroupAndSection($formData){
+
+        
+        $classGroups = ClassGroup::select('class_groups.*')
+                            // ->join('groups', 'groups.id', '=', 'class_groups.group_id')
+                            ->join('campus_class_groups','campus_class_groups.class_group_id','=','class_groups.id')
+                            ->join('campus_classes','campus_classes.id','=','campus_class_groups.campus_class_id')
+                            ->join('campus_details','campus_details.id','=','campus_classes.campus_detail_id')
+                            ->where('campus_details.campus_id',$formData['campus_id'])
+                            ->where('campus_details.system_id',$formData['system_id'])
+                            ->where('campus_classes.class_id',$formData['class_id'])
+                            // ->where('class_groups.is_active',1)
+                            // ->where('class_groups.is_delete',0)
+                            ->get();
+        
+        $classSections = Section::get();                                
+        
+        return array(   
+            'classGroups'   => $classGroups,
+            'classSections' => $classSections
+        );
+    }
+
     public function getCampusClasses($data = array()){
        
-        $campusClasses = Classes::select('classes.id','classes.name')
+        $campusClasses = Classes::select('classes.id','classes.class')
                             ->join('campus_classes','campus_classes.class_id','=','classes.id')
                             ->join('campus_details','campus_details.id','=','campus_classes.campus_detail_id')
                             ->where('campus_details.campus_id',$data['campus_id'])
@@ -104,7 +162,7 @@ class CampusController extends Controller
     public function listing(){
         $Campus = Campus::all();
         $data = array(
-            'Driver'    =>  $Campus,
+            'Campus'    =>  $Campus,
             'page'      =>  'Campus',
             'menu'      =>  'Manage Campus'
         );
@@ -128,10 +186,10 @@ class CampusController extends Controller
     public function store(Request $request) {
 
         $validator = Validator::make($request->all(), [
-            'name'              =>  'required',
+            'name'              =>  'required|max:20',
             'email'             =>  'required',
-            'phone'             =>  'required',
-            'address'           =>  'required',
+            'phone'             =>  'required|max:15',
+            'address'           =>  'required|max:60',
             'active_session'    =>  'required|numeric',
             'system'            =>  'required|numeric',
             'short_name'        =>  'required|max:10',
@@ -206,14 +264,14 @@ class CampusController extends Controller
     }
 
     public function edit($id){
-        $system = System::find($id);
+        $campus = Campus::find($id);
         $data = array(
-            'driver'  =>  $system,
+            'campus'  =>  $campus,
             'page'    =>  'System',
             'menu'    =>  'Edit System'
         );
 
-        return view('system.edit', compact('data'));
+        return view('campus.edit', compact('data'));
     }
 
     public function update(Request $request, $id) {

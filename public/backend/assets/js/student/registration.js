@@ -275,7 +275,6 @@ $(document).ready(function () {
                 data: formData,
                 dataType: "json",
                 success: function (response) {
-                    console.log(response);
                     if (response.status === false) {
 
                         if (response.error) {
@@ -585,21 +584,20 @@ $(document).ready(function () {
 
         var campus_id = $('#campus-id').val();
         if (campus_id !== "" && campus_id > "0") {
-
             $.ajax({
                 url: baseUrl + '/campus/school-system',
                 type: "GET",
                 data: { campus_id: campus_id },
                 success: function (response) {
-
                     if (response.status === true) {
-
+                        console.log(response);
                         var campusSchoolSystems = response.campusSchoolSystems
                         var schoolSystems = `<option value="">Select</option>`;
 
                         if (campusSchoolSystems.length) {
                             $(campusSchoolSystems).each(function (key, value) {
-                                schoolSystems += `<option value="` + value.id + `" >` + value.type + `</option>`;
+                                schoolSystems += `<option value="` + value.id + `" >` + value.system + `</option>`;
+                                console.log(schoolSystems);
                             });
                         }
 
@@ -639,7 +637,7 @@ $(document).ready(function () {
 
                         if (campusClasses.length) {
                             $(campusClasses).each(function (key, value) {
-                                classes += `<option value="` + value.id + `" >` + value.name + `</option>`;
+                                classes += `<option value="` + value.id + `" >` + value.class + `</option>`;
                             });
                         }
 
@@ -682,7 +680,7 @@ $(document).ready(function () {
 
                         if (classGroup.length) {
                             $(classGroup).each(function (key, value) {
-                                groups += `<option value="` + value.id + `" >` + value.name + `</option>`;
+                                groups += `<option value="` + value.id + `" >` + value.group_id + `</option>`;
                             });
 
                             $('#class-group-id').prop('disabled', false);
@@ -691,7 +689,7 @@ $(document).ready(function () {
 
                         if (classSection.length) {
                             $(classSection).each(function (key, value) {
-                                sections += `<option value="` + value.id + `" >` + value.name + `</option>`;
+                                sections += `<option value="` + value.id + `" >` + value.section + `</option>`;
                             });
                         }
 
