@@ -30,3 +30,7 @@ form input:checked+label:before {
     margin-top: 1px;
     margin-right: 10px;
 }
+
+.has-error {
+    border-color: #fd6074;
+}

@@ -160,7 +160,7 @@
                                                 <select class="form-control select2" name="previous_class" id="previous-class">
                                                     <option value="">Select</option>
                                                     @foreach($data['class'] as $class)
-                                                        <option value="{{$class->id}}">{{$class->name}}</option>
+                                                        <option value="{{$class->id}}">{{$class->class}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -205,7 +205,7 @@
                                                 <select class="form-control select2" name="area_id " id="area-id">
                                                     <option value="">Select</option>
                                                     @foreach($data['area'] as $area)
-                                                        <option value="{{$area->id}}">{{$area->name}}</option>
+                                                        <option value="{{$area->id}}">{{$area->area}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

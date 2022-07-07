@@ -28,6 +28,7 @@
 
     <!-- Style css-->
     <link href="{{ url('backend/assets/css/style.css') }}" rel="stylesheet">
+    <link href="{{ url('backend/assets/css/custom/style.css') }}" rel="stylesheet">
     <link href="{{ url('backend/assets/css/transparent-style.css') }}" rel="stylesheet">
     <link href="{{ url('backend/assets/css/dark-style.css') }}" rel="stylesheet">
     <link href="{{ url('backend/assets/css/skin-modes.css') }}" rel="stylesheet">

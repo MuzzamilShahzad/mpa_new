@@ -43,9 +43,10 @@ Route::controller(CampusController::class)->group(function () {
 });
 
 //Admission routes
-Route::controller(RegistrationController::class)->group(function () {
+Route::controller(StudentRegistrationController::class)->group(function () {
     Route::get('/student/registration/add', 'add')->name('student.registration.create');
     Route::post('/student/registration/store', 'store')->name('student.registration.store');
+    Route::get('/campus/student/form-id', 'getStudentFormNumberByCampusIdAndSystemIdAndSessionId')->name('campus.studentFormNumberByCampusIdAndSystemIdAndSessionId');
 });
 
 //Area routes
