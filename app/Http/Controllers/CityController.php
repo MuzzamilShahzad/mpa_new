@@ -3,34 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\System;
 use Illuminate\Support\Facades\Validator;
+use App\Models\City;
 
-class SystemController extends Controller
+class CityController extends Controller
 {
+
     public function listing(){
-        $System = System::all();
+        $City = City::all();
         $data = array(
-            'System'  =>  $System,
-            'page'     =>  'System',
-            'menu'     =>  'Manage System'
+            'City'    =>  $City,
+            'page'      =>  'City',
+            'menu'      =>  'Manage City'
         );
 
-        return view('system.listing', compact('data'));
+        return view('city.listing', compact('data'));
     }
 
     public function add(){
-        $data = array(
-            'page'  =>  'System',
-            'menu'  =>  'Add System',
+
+       $data = array(
+            'page'       =>  'City',
+            'menu'       =>  'Add City',
         );
 
-        return view('system.add', compact('data'));
+        return view('city.add', compact('data'));
     }
 
     public function store(Request $request) {
+
         $validator = Validator::make($request->all(), [
-            'system'          =>  'required|max:20',
+            'city'              =>  'required|unique:cities'
         ]);
 
         if ($validator->errors()->all()) {
@@ -43,17 +46,17 @@ class SystemController extends Controller
             return response()->json($response);
 
         } else {
-            $system = new System;
+            $city = new City;
 
-            $system->system          =  $request->system;
-
-            $query = $system->save();
+            $city->city           =  $request->city;
+            
+            $query = $city->save();
 
             if ($query) {
-                
+
                 $response = array(
                     'status'   =>  true, 
-                    'message'  =>  'System has been added successfully'
+                    'message'  =>  'City has been added successfully.'
                 );
 
                 return response()->json($response);
@@ -69,22 +72,22 @@ class SystemController extends Controller
             }
         }
     }
-
+    
     public function edit($id){
-        $System = System::findOrFail($id);
+        $City = City::findOrFail($id);
 
         $data = array(
-            'system'  =>  $System,
-            'page'    =>  'System',
-            'menu'    =>  'Edit System'
+            'city'  =>  $City,
+            'page'    =>  'City',
+            'menu'    =>  'Edit City'
         );
 
-        return view('system.edit', compact('data'));
+        return view('city.edit', compact('data'));
     }
 
     public function update(Request $request, $id) {
         $validator = Validator::make($request->all(), [
-            'system'          =>  'required',
+            'city'          =>  'required',
         ]);
 
         if ($validator->errors()->all()) {
@@ -97,16 +100,16 @@ class SystemController extends Controller
             return response()->json($response);
 
         } else {
-            $system = System::find($id);
+            $city = City::find($id);
 
-            $system->system          =  $request->system;
-            $query = $system->update();
+            $city->city          =  $request->city;
+            $query = $city->update();
 
             if ($query) {
 
                 $response = array(
                     'status'   =>  true, 
-                    'message'  =>  'System has been updated successfully'
+                    'message'  =>  'City has been updated successfully'
                 );
 
                 return response()->json($response);
@@ -124,8 +127,8 @@ class SystemController extends Controller
     }
 
     public function delete(Request $request) {
-        $system_id  =  $request->system_id;
-        $query      =  System::find($system_id)->delete();
+        $city_id  =  $request->city_id;
+        $query      =  City::find($city_id)->delete();
 
         if ($query) {
 

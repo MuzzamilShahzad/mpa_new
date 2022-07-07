@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('main-content')
-@section('page_title', 'System')
+@section('page_title', 'Group')
 
 <div class="main-content side-content pt-0">
     <div class="main-container container-fluid">
@@ -22,7 +22,7 @@
                 <div class="col-lg-12">
                     <div class="card custom-card">
                         <div class="card-body">
-                        <a href="{{ route('system.create') }}" class="btn btn-primary" style="float:right">Add System</a>
+                        <a href="{{ route('group.create') }}" class="btn btn-primary" style="float:right">Add Group</a>
                             <div>
                                 <h1 class="main-content-label mb-1">{{ $data['menu'] }} </h1>
                             </div>
@@ -40,10 +40,10 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($data['System'] as $sno => $item)
+                                        @foreach($data['Group'] as $sno => $item)
                                         <tr>
                                             <td>{{ ++$loop->index }}</td>
-                                            <td>{{ $item->system }}</td>
+                                            <td>{{ $item->group }}</td>
                                             <td> 
                                                 @if($item->is_active)
                                                 <button class="btn btn-success btn-sm"> Active </button> 
@@ -52,8 +52,8 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{ route('system.edit',$item->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                                                <button data-id="{{ $item->id }}" id="btn-delete-system" class="btn btn-danger btn-sm">Delete</button>
+                                                <a href="{{ route('group.edit',$item->id) }}" class="btn btn-primary btn-sm">Edit</a>
+                                                <button data-id="{{ $item->id }}" id="btn-delete-group" class="btn btn-danger btn-sm">Delete</button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -70,6 +70,6 @@
 </div>
 
 <!-- {{-- Own javascript --}} -->
-<script src="{{ url('backend/assets/js/system/system.js') }}"></script>
+<script src="{{ url('backend/assets/js/group/group.js') }}"></script>
 
 @endsection

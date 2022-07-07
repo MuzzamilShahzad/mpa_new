@@ -3,34 +3,37 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\System;
+use App\Models\Classes;
 use Illuminate\Support\Facades\Validator;
 
-class SystemController extends Controller
+class ClassController extends Controller
 {
+    
     public function listing(){
-        $System = System::all();
+        $Class = Classes::all();
         $data = array(
-            'System'  =>  $System,
-            'page'     =>  'System',
-            'menu'     =>  'Manage System'
+            'Class'    =>  $Class,
+            'page'      =>  'Class',
+            'menu'      =>  'Manage Class'
         );
 
-        return view('system.listing', compact('data'));
+        return view('class.listing', compact('data'));
     }
 
     public function add(){
-        $data = array(
-            'page'  =>  'System',
-            'menu'  =>  'Add System',
+
+       $data = array(
+            'page'       =>  'Class',
+            'menu'       =>  'Add Class',
         );
 
-        return view('system.add', compact('data'));
+        return view('class.add', compact('data'));
     }
 
     public function store(Request $request) {
+
         $validator = Validator::make($request->all(), [
-            'system'          =>  'required|max:20',
+            'class'              =>  'required|max:20|unique:classes'
         ]);
 
         if ($validator->errors()->all()) {
@@ -43,17 +46,17 @@ class SystemController extends Controller
             return response()->json($response);
 
         } else {
-            $system = new System;
+            $class = new Classes;
 
-            $system->system          =  $request->system;
-
-            $query = $system->save();
+            $class->class           =  $request->class;
+            
+            $query = $class->save();
 
             if ($query) {
-                
+
                 $response = array(
                     'status'   =>  true, 
-                    'message'  =>  'System has been added successfully'
+                    'message'  =>  'Class has been added successfully.'
                 );
 
                 return response()->json($response);
@@ -71,20 +74,20 @@ class SystemController extends Controller
     }
 
     public function edit($id){
-        $System = System::findOrFail($id);
+        $Class = Classes::findOrFail($id);
 
         $data = array(
-            'system'  =>  $System,
-            'page'    =>  'System',
-            'menu'    =>  'Edit System'
+            'class'  =>  $Class,
+            'page'    =>  'Class',
+            'menu'    =>  'Edit Class'
         );
 
-        return view('system.edit', compact('data'));
+        return view('class.edit', compact('data'));
     }
 
     public function update(Request $request, $id) {
         $validator = Validator::make($request->all(), [
-            'system'          =>  'required',
+            'class'          =>  'required',
         ]);
 
         if ($validator->errors()->all()) {
@@ -97,16 +100,16 @@ class SystemController extends Controller
             return response()->json($response);
 
         } else {
-            $system = System::find($id);
+            $class = Classes::find($id);
 
-            $system->system          =  $request->system;
-            $query = $system->update();
+            $class->class          =  $request->class;
+            $query = $class->update();
 
             if ($query) {
 
                 $response = array(
                     'status'   =>  true, 
-                    'message'  =>  'System has been updated successfully'
+                    'message'  =>  'Class has been updated successfully'
                 );
 
                 return response()->json($response);
@@ -124,8 +127,8 @@ class SystemController extends Controller
     }
 
     public function delete(Request $request) {
-        $system_id  =  $request->system_id;
-        $query      =  System::find($system_id)->delete();
+        $class_id  =  $request->class_id;
+        $query      =  Classes::find($class_id)->delete();
 
         if ($query) {
 
@@ -144,4 +147,5 @@ class SystemController extends Controller
 
         return response()->json($response); 
     }
+    
 }

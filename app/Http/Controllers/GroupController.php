@@ -3,34 +3,36 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\System;
+use App\Models\Group;
 use Illuminate\Support\Facades\Validator;
 
-class SystemController extends Controller
+class GroupController extends Controller
 {
     public function listing(){
-        $System = System::all();
+        $Group = Group::all();
         $data = array(
-            'System'  =>  $System,
-            'page'     =>  'System',
-            'menu'     =>  'Manage System'
+            'Group'    =>  $Group,
+            'page'      =>  'Group',
+            'menu'      =>  'Manage Group'
         );
 
-        return view('system.listing', compact('data'));
+        return view('group.listing', compact('data'));
     }
 
     public function add(){
-        $data = array(
-            'page'  =>  'System',
-            'menu'  =>  'Add System',
+
+       $data = array(
+            'page'       =>  'Group',
+            'menu'       =>  'Add Group',
         );
 
-        return view('system.add', compact('data'));
+        return view('group.add', compact('data'));
     }
 
     public function store(Request $request) {
+
         $validator = Validator::make($request->all(), [
-            'system'          =>  'required|max:20',
+            'group'              =>  'required|max:20|unique:groups'
         ]);
 
         if ($validator->errors()->all()) {
@@ -43,17 +45,17 @@ class SystemController extends Controller
             return response()->json($response);
 
         } else {
-            $system = new System;
+            $group = new Group;
 
-            $system->system          =  $request->system;
-
-            $query = $system->save();
+            $group->group           =  $request->group;
+            
+            $query = $group->save();
 
             if ($query) {
-                
+
                 $response = array(
                     'status'   =>  true, 
-                    'message'  =>  'System has been added successfully'
+                    'message'  =>  'Group has been added successfully.'
                 );
 
                 return response()->json($response);
@@ -71,20 +73,20 @@ class SystemController extends Controller
     }
 
     public function edit($id){
-        $System = System::findOrFail($id);
+        $Group = Group::findOrFail($id);
 
         $data = array(
-            'system'  =>  $System,
-            'page'    =>  'System',
-            'menu'    =>  'Edit System'
+            'group'  =>  $Group,
+            'page'    =>  'Group',
+            'menu'    =>  'Edit Group'
         );
 
-        return view('system.edit', compact('data'));
+        return view('group.edit', compact('data'));
     }
 
     public function update(Request $request, $id) {
         $validator = Validator::make($request->all(), [
-            'system'          =>  'required',
+            'group'          =>  'required',
         ]);
 
         if ($validator->errors()->all()) {
@@ -97,16 +99,16 @@ class SystemController extends Controller
             return response()->json($response);
 
         } else {
-            $system = System::find($id);
+            $group = Group::find($id);
 
-            $system->system          =  $request->system;
-            $query = $system->update();
+            $group->group          =  $request->group;
+            $query = $group->update();
 
             if ($query) {
 
                 $response = array(
                     'status'   =>  true, 
-                    'message'  =>  'System has been updated successfully'
+                    'message'  =>  'Group has been updated successfully'
                 );
 
                 return response()->json($response);
@@ -124,8 +126,8 @@ class SystemController extends Controller
     }
 
     public function delete(Request $request) {
-        $system_id  =  $request->system_id;
-        $query      =  System::find($system_id)->delete();
+        $group_id  =  $request->group_id;
+        $query      =  Group::find($group_id)->delete();
 
         if ($query) {
 

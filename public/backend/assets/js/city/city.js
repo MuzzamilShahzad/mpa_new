@@ -3,25 +3,25 @@ $(document).ready(function () {
     var baseUrl = $(".base-url").val();
 
     // Start data store script
-    $("#btn-add-system").on("click", function (e) {
+    $("#btn-add-city").on("click", function (e) {
 
         e.preventDefault();
         $("span.error, .alert").remove();
         $("span, input").removeClass("has-error");
 
         var flag = true;
-        var system = $("#system").val();
+        var city = $("#city").val();
 
-        if (system == "") {
-            $("#system").addClass("has-error");
-            $("#system").after("<span class='error text-danger'>This field is required.</span>");
+        if (city == "") {
+            $("#city").addClass("has-error");
+            $("#city").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
 
         if (flag) {
 
-            $("#btn-add-system").addClass('disabled');
-            $("#btn-add-system").html('. . . . .');
+            $("#btn-add-city").addClass('disabled');
+            $("#btn-add-city").html('. . . . .');
 
             var message = '';
 
@@ -29,7 +29,7 @@ $(document).ready(function () {
                 type: $(this).parent('form').attr('method'),
                 url: $(this).parent('form').attr('action'),
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                data: { "system": system },
+                data: { "city": city },
                 dataType: "json",
                 success: function (response) {
 
@@ -59,7 +59,7 @@ $(document).ready(function () {
                         }
                     } else {
 
-                        $("#system").val('');
+                        $("#city").val('');
 
                         message += `<div class="alert alert-success alert-dismissible">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
@@ -76,8 +76,8 @@ $(document).ready(function () {
                 complete: function () {
 
                     $("form").prepend(message);
-                    $("#btn-add-system").removeClass('disabled');
-                    $("#btn-add-system").html('Submitted');
+                    $("#btn-add-city").removeClass('disabled');
+                    $("#btn-add-city").html('Submitted');
                     setTimeout(function () {
                         $(".alert").remove();
                     }, 4000);
@@ -88,25 +88,25 @@ $(document).ready(function () {
     // End data store script
 
     // Start data update script
-    $("#btn-update-system").on("click", function (e) {
-        console.log("running");
+    $("#btn-update-city").on("click", function (e) {
+
         e.preventDefault();
         $("span.error, .alert").remove();
         $("span, input").removeClass("has-error");
 
         var flag = true;
-        var system = $("#system").val();
+        var city = $("#city").val();
 
-        if (system == "") {
-            $("#system").addClass("has-error");
-            $("#system").after("<span class='error text-danger'>This field is required.</span>");
+        if (city == "") {
+            $("#city").addClass("has-error");
+            $("#city").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
 
         if (flag) {
 
-            $("#btn-update-system").addClass('disabled');
-            $("#btn-update-system").html('. . . . .');
+            $("#btn-update-city").addClass('disabled');
+            $("#btn-update-city").html('. . . . .');
 
             var message = '';
 
@@ -114,7 +114,7 @@ $(document).ready(function () {
                 type: $(this).parent('form').attr('method'),
                 url: $(this).parent('form').attr('action'),
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                data: { "system": system },
+                data: { "city": city },
                 dataType: "json",
                 success: function (response) {
 
@@ -159,8 +159,8 @@ $(document).ready(function () {
                 complete: function () {
 
                     $("form").prepend(message);
-                    $("#btn-update-system").removeClass('disabled');
-                    $("#btn-update-system").html('Updated');
+                    $("#btn-update-city").removeClass('disabled');
+                    $("#btn-update-city").html('Updated');
                     setTimeout(function () {
                         $(".alert").remove();
                     }, 4000);
@@ -171,14 +171,11 @@ $(document).ready(function () {
     // End data update script
 
 
-
-
-
     // Start Delete Data Script
-    $(document).on('click', '#btn-delete-system', function () {
+    $(document).on('click', '#btn-delete-city', function () {
 
-        var system_id = $(this).data('id');
-        var url = baseUrl + '/system/delete';
+        var city_id = $(this).data('id');
+        var url = baseUrl + '/city/delete';
         var row = $(this).parent().parent("tr");
 
         swal.fire({
@@ -205,7 +202,7 @@ $(document).ready(function () {
                     url: url,
                     type: 'DELETE',
                     headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    data: { system_id: system_id },
+                    data: { city_id: city_id },
                     dataType: "json",
                     success: function (response) {
                         if (response.status == false) {
