@@ -17,8 +17,8 @@ return new class extends Migration
             
             $table->increments('id');
             
-            $table->unsignedInteger('campus_class_id')->nullable();
-            $table->foreign('campus_class_id')->references('id')->on('campus_classes')->onDelete('cascade');
+            $table->unsignedInteger('campus_details_id')->nullable();
+            $table->foreign('campus_details_id')->references('id')->on('campus_details')->onDelete('cascade');
 
             $table->unsignedInteger('class_group_id')->nullable();
             $table->foreign('class_group_id')->references('id')->on('class_groups')->onDelete('cascade');
