@@ -17,7 +17,6 @@ $(document).ready(function () {
         var class_group_id = $("#class-group-id").val();
         var session_id = $("#session-id").val();
         var form_no = $("#form-no").val();
-        // var computerize_registration  =  $("#computerize-registration").val();
         var first_name = $("#first-name").val();
         var last_name = $("#last-name").val();
         var dob = $("#dob").val();
@@ -48,114 +47,93 @@ $(document).ready(function () {
 
         if (campus_id == "" || campus_id == "0") {
             $("#campus-id").siblings("span").find(".select2-selection--single").addClass("has-error");
-            $("#campus-id").siblings("span").after("<span class='error'>This field is required.</span>");
+            $("#campus-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
         if (system_id == "" || system_id == "0") {
-            $("#system-id:not([disabled])").siblings("span").find(".select2-selection--single").addClass("has-error");
-            $("#system-id:not([disabled])").siblings("span").after("<span class='error'>This field is required.</span>");
+            $("#system-id:not([disabled])").find(".select2-selection--single").addClass("has-error");
+            $("#system-id:not([disabled])").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
         if (class_id == "" || class_id == "0") {
-            $("#class-id:not([disabled]").siblings("span").find(".select2-selection--single").addClass("has-error");
-            $("#class-id:not([disabled]").siblings("span").after("<span class='error'>This field is required.</span>");
-            flag = false;
-        }
-        if (class_group_id == "" || class_group_id == "0") {
-            $("#class-group-id:not([disabled])").siblings("span").find(".select2-selection--single").addClass("has-error");
-            $("#class-group-id:not([disabled])").siblings("span").after("<span class='error'>This field is required.</span>");
+            $("#class-id:not([disabled]").find(".select2-selection--single").addClass("has-error");
+            $("#class-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
         if (session_id == "" || session_id == "0") {
-            $("#session-id").siblings("span").find(".select2-selection--single").addClass("has-error");
-            $("#session-id").siblings("span").after("<span class='error'>This field is required.</span>");
+            $("#session-id").find(".select2-selection--single").addClass("has-error");
+            $("#session-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
-        // if (form_no == "") {
-        //     $("#form-no").addClass("has-error");
-        //     $("#form-no").after("<span class='error'>This field is required.</span>");
-        //     flag = false;
-        // }
         if (first_name == "") {
             $("#first-name").addClass("has-error");
-            $("#first-name").after("<span class='error'>This field is required.</span>");
+            $("#first-name ").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
         if (last_name == "") {
             $("#last-name").addClass("has-error");
-            $("#last-name").after("<span class='error'>This field is required.</span>");
+            $("#last-name").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
         if (gender == "") {
-            $("#gender").siblings("span").find(".select2-selection--single").addClass("has-error");
-            $("#gender").siblings("span").after("<span class='error'>This field is required.</span>");
+            $("#gender").find(".select2-selection--single").addClass("has-error");
+            $("#gender").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
 
         if (siblings_in_mpa == "Yes" && no_of_siblings == "") {
-
             $("#no_of_siblings").addClass("has-error");
-            $("#no_of_siblings").after("<span class='error'>This field is required.</span>");
+            $("#no_of_siblings").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
         if (house_no == "") {
             $("#house-no").addClass("has-error");
-            $("#house-no").after("<span class='error'>This field is required.</span>");
+            $("#house-no").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
         if (block_no == "") {
             $("#block-no").addClass("has-error");
-            $("#block-no").after("<span class='error'>This field is required.</span>");
+            $("#block-no").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
-
-        // if (building_no != "") {
-        //     $("#building-no").addClass("has-error");
-        //     $("#building-no").after("<span class='error'>This field is required.</span>");
-        //     flag = false;
-        // }
-
         if (area_id == "" || area_id == "0") {
-            $("#area-id").siblings("span").find(".select2-selection--single").addClass("has-error");
-            $("#area-id").siblings("span").after("<span class='error'>This field is required.</span>");
+            $("#area-id").siblings("span").addClass("has-error");
+            $("#area-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
         if (city_id == "" || city_id == "0") {
-            $("#city-id").siblings("span").find(".select2-selection--single").addClass("has-error");
-            $("#city-id").siblings("span").after("<span class='error'>This field is required.</span>");
+            $("#city-id").siblings("span").addClass("has-error");
+            $("#city-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+            flag = false;
+        }
+        if (father_name == "") {
+            $("#father-name").addClass("has-error");
+            $("#father-name").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
         if (father_cnic == "") {
             $("#father-cnic").addClass("has-error");
-            $("#father-cnic").after("<span class='error'>This field is required.</span>");
+            $("#father-cnic").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         } else if ($.isNumeric(father_cnic.replace(/-/g, '')) === false) {
             $("#father-cnic").addClass("has-error");
-            $("#father-cnic").after("<span class='error'>This field must be a number.</span>");
+            $("#father-cnic").after("<span class='error text-danger'>This field must be a number.</span>");
             flag = false;
         }
 
-        // console.log(father_cnic);
-        // console.log(father_cnic.replace(/-/g,''));
-        // console.log($.isNumeric(father_cnic.replace("-","")));
-
-        if (father_name == "") {
-            $("#father-name").addClass("has-error");
-            $("#father-name").after("<span class='error'>This field is required.</span>");
-            flag = false;
-        }
         if (father_phone == "") {
             $("#father-phone").addClass("has-error");
-            $("#father-phone").after("<span class='error'>This field is required.</span>");
+            $("#father-phone").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         } else if ($.isNumeric(father_phone.replace(/-/g, '')) === false) {
             $("#father-phone").addClass("has-error");
-            $("#father-phone").after("<span class='error'>This field must be a number.</span>");
+            $("#father-phone").after("<span class='error text-danger'>This field must be a number.</span>");
             flag = false;
         }
+
         if (hear_about_us == "Other" && hear_about_us_other == "") {
             $("#hear-about-us-other").addClass("has-error");
-            $("#hear-about-us-other").after("<span class='error'>This field is required.</span>");
+            $("#hear-about-us-other").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
         if ($('#test-group-chkbox').is(':checked')) {
@@ -164,17 +142,17 @@ $(document).ready(function () {
 
                 if ($("#test-name").val() == "") {
                     $("#test-name").addClass("has-error");
-                    $("#test-name").after("<span class='error'>This field is required.</span>");
+                    $("#test-name").after("<span class='error text-danger'>This field is required.</span>");
                     flag = false;
                 }
                 if ($("#test-date").val() == "") {
                     $("#test-date").addClass("has-error");
-                    $("#test-date").after("<span class='error'>This field is required.</span>");
+                    $("#test-date").after("<span class='error text-danger'>This field is required.</span>");
                     flag = false;
                 }
                 if ($("#test-time").val() == "") {
                     $("#test-time").addClass("has-error");
-                    $("#test-time").after("<span class='error'>This field is required.</span>");
+                    $("#test-time").after("<span class='error text-danger'>This field is required.</span>");
                     flag = false;
                 }
 
@@ -182,7 +160,7 @@ $(document).ready(function () {
             } else {
 
                 $("#test-group:not([disabled]").siblings("span").find(".select2-selection--single").addClass("has-error");
-                $("#test-group:not([disabled]").siblings("span").after("<span class='error'>This field is required.</span>");
+                $("#test-group:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
                 flag = false;
 
             }
@@ -190,43 +168,34 @@ $(document).ready(function () {
         }
         if ($('#interview-group-chkbox').is(':checked')) {
 
-            console.log('if');
-
             if ($("#interview-group").prop("disabled")) {
-
-                console.log($("#interview-group").prop("disabled"));
 
                 if ($("#interview-name").val() == "") {
                     $("#interview-name").addClass("has-error");
-                    $("#interview-name").after("<span class='error'>This field is required.</span>");
+                    $("#interview-name").after("<span class='error text-danger'>This field is required.</span>");
                     flag = false;
                 }
                 if ($("#interview-date").val() == "") {
                     $("#interview-date").addClass("has-error");
-                    $("#interview-date").after("<span class='error'>This field is required.</span>");
+                    $("#interview-date").after("<span class='error text-danger'>This field is required.</span>");
                     flag = false;
                 }
                 if ($("#interview-time").val() == "") {
                     $("#interview-time").addClass("has-error");
-                    $("#interview-time").after("<span class='error'>This field is required.</span>");
+                    $("#interview-time").after("<span class='error text-danger'>This field is required.</span>");
                     flag = false;
                 }
 
 
             } else {
 
-                console.log($("#interview-group").prop("disabled"));
-
                 $("#interview-group:not([disabled]").siblings("span").find(".select2-selection--single").addClass("has-error");
-                $("#interview-group:not([disabled]").siblings("span").after("<span class='error'>This field is required.</span>");
+                $("#interview-group:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
                 flag = false;
             }
         }
 
-        console.log(flag);
-        // flag = true;
         if (flag) {
-            console.log('If & flag = 1');
 
             $("#btn-add-registration").addClass('disabled');
             $("#btn-add-registration").html('. . . . .');
@@ -280,28 +249,18 @@ $(document).ready(function () {
                         if (response.error) {
                             if (Object.keys(response.error).length > 0) {
 
-                                console.log(Object.keys(response.error));
                                 var input_fields = ['form_no', 'first_name', 'last_name', 'dob', 'no_of_siblings', 'previous_school', 'father_cnic', 'father_name', 'father_occupation', 'father_phone',
                                     'father_salary', 'father_email', 'father_company_name', 'test_name', 'test_date', 'test_time', 'interview_name', 'interview_date', 'interview_time'];
                                 $.each(response.error, function (key, value) {
 
                                     if (input_fields.indexOf(key)) {
 
-                                        // if (key === 'form_no'             ||  key === 'first_name'      ||  key === 'last_name'          || 
-                                        //     key === 'dob'                 ||  key === 'no_of_siblings'  ||  key === 'previous_school'    ||
-                                        //     key === 'house_no'            ||  key === 'block_no'        ||  key === 'building_no'        ||
-                                        //     key === 'father_cnic'         ||  key === 'father_name'     ||  key === 'father_occupation'  ||
-                                        //     key === 'father_phone'        ||  key === 'father_salary'   ||  key === 'father_email'       ||
-                                        //     key === 'father_company_name' ||  key === 'test_name'       ||  key === 'test_date'          ||
-                                        //     key === 'test_time'           ||  key === 'interview_name'  ||  key === 'interview_date'     ||
-                                        //     key === 'interview_time') {
-
                                         $("input[name='" + key + "']").addClass("has-error");
-                                        $("input[name='" + key + "']").after("<span class='error'>" + value.toString().split(/[,]+/).join("<br/>") + "</span>");
+                                        $("input[name='" + key + "']").after("<span class='error text-danger'>" + value.toString().split(/[,]+/).join("<br/>") + "</span>");
                                     } else {
 
                                         $("select[name='" + key + "']").siblings("span").find(".select2-selection--single").addClass("has-error");
-                                        $("select[name='" + key + "']").siblings("span").after("<span class='error'>" + value.toString().split(/[,]+/).join("<br/>") + "</span>");
+                                        $("select[name='" + key + "']").siblings("span").after("<span class='error text-danger'>" + value.toString().split(/[,]+/).join("<br/>") + "</span>");
                                     }
 
                                 });
@@ -355,7 +314,7 @@ $(document).ready(function () {
             $('#hear-about-us').parent().parent().parent().after(`<div class="form-group col-md-4 mb-0" id="hear-about-us-other-row">
                                                                         <div class="form-group">
                                                                             <label class="form-label tx-semibold">Other</label>
-                                                                            <input type="text" class="form-control" name="hear-about-us-other" id="hear-about-us-other">
+                                                                            <input type="text" class="form-control" name="hear_about_us_other" id="hear-about-us-other">
                                                                         </div>
                                                                     </div>`);
         } else {
@@ -395,7 +354,7 @@ $(document).ready(function () {
                                         <div class="form-group col-md-2 mb-0">
                                             <div class="form-group">
                                                 <label class="form-label tx-semibold date-picker">Remove</label>
-                                                <img src="`+ baseUrl + `/assets/img/remove-icon.png" class="btn-remove-img" alt="Remove Test" id="btn-remove-test">
+                                                <img src="`+ baseUrl + `/backend/assets/img/remove-icon.png" class="btn-remove-img" alt="Remove Test" id="btn-remove-test">
                                             </div>
                                         </div>
                                     </div>`);
@@ -414,7 +373,7 @@ $(document).ready(function () {
 
         $("#test-group-details").remove();
         $("#test-group-row").children('div').after(`<div class="form-group col-md-2 mb-0">
-                                                        <img src="`+ baseUrl + `/assets/img/add-icon.png" class="btn-add-img" alt="Add Test" id="btn-add-test">
+                                                        <img src="`+ baseUrl + `/backend/assets/img/add-icon.png" class="btn-add-img" alt="Add Test" id="btn-add-test">
                                                     </div>`);
     });
 
@@ -446,7 +405,7 @@ $(document).ready(function () {
                                             <div class="form-group col-md-2 mb-0">
                                                 <div class="form-group">
                                                     <label class="form-label tx-semibold date-picker">Remove</label>
-                                                    <img src="`+ baseUrl + `/assets/img/remove-icon.png" class="btn-remove-img" alt="Remove Interview" id="btn-remove-interview">
+                                                    <img src="`+ baseUrl + `/backend/assets/img/remove-icon.png" class="btn-remove-img" alt="Remove Interview" id="btn-remove-interview">
                                                 </div>
                                             </div>
                                         </div>`);
@@ -464,7 +423,7 @@ $(document).ready(function () {
 
         $("#interview-group-details").remove();
         $("#interview-group-row").children('div').after(`<div class="form-group col-md-2 mb-0">
-                                                            <img src="`+ baseUrl + `/assets/img/add-icon.png" class="btn-add-img" alt="Add Interview" id="btn-add-interview">
+                                                            <img src="`+ baseUrl + `/backend/assets/img/add-icon.png" class="btn-add-img" alt="Add Interview" id="btn-add-interview">
                                                         </div>`);
     });
 
@@ -484,7 +443,6 @@ $(document).ready(function () {
 
                         var campusSchoolSystems = response.campusSchoolSystems
                         var campusClasses = response.campusClasses
-                        console.log(campusSchoolSystems);
 
                         var schoolSystems = `<option selected value="0">Select School System</option>`;
                         if (campusSchoolSystems.length) {
@@ -526,7 +484,6 @@ $(document).ready(function () {
 
                     if (response.status === true) {
 
-                        console.log(response);
 
                         var campusClasses = response.campusClasses;
 
@@ -590,24 +547,28 @@ $(document).ready(function () {
                 data: { campus_id: campus_id },
                 success: function (response) {
                     if (response.status === true) {
-                        console.log(response);
                         var campusSchoolSystems = response.campusSchoolSystems
                         var schoolSystems = `<option value="">Select</option>`;
 
                         if (campusSchoolSystems.length) {
                             $(campusSchoolSystems).each(function (key, value) {
                                 schoolSystems += `<option value="` + value.id + `" >` + value.system + `</option>`;
-                                console.log(schoolSystems);
                             });
                         }
 
                         $('#system-id').prop('disabled', false);
                         $('#system-id').html(schoolSystems);
+
+
+                        $('#class-id, #class-group-id').siblings("span.error").remove();
+                        $('#class-id, #class-group-id').siblings("span").find(".select2-selection--single").removeClass("has-error");
+
+                        $('#class-id, #class-group-id').html('<option value="">Select</option>');
+                        $('#class-id, #class-group-id').prop('disabled', true);
                     }
                 }
             });
         } else {
-
             $('#system-id, #class-id, #class-group-id').siblings("span.error").remove();
             $('#system-id, #class-id, #class-group-id').siblings("span").find(".select2-selection--single").removeClass("has-error");
 
@@ -624,6 +585,7 @@ $(document).ready(function () {
         var system_id = $('#system-id').val();
 
         if ((campus_id !== "" && campus_id > "0") && (system_id !== "" && system_id > "0")) {
+
             $.ajax({
                 url: baseUrl + '/campus/classes',
                 type: "GET",
@@ -643,9 +605,28 @@ $(document).ready(function () {
 
                         $('#class-id').prop('disabled', false);
                         $('#class-id').html(classes);
+
+                        $('#class-group-id').siblings("span.error").remove();
+                        $('#class-group-id').siblings("span").find(".select2-selection--single").removeClass("has-error");
+
+                        $('#class-group-id').html('<option value="">Select</option>');
+                        $('#class-group-id').prop('disabled', true);
                     }
                 }
             });
+
+            $.ajax({
+                url: baseUrl + '/campus/student/form-id',
+                type: "GET",
+                data: { campus_id: campus_id, system_id: system_id, session_id: session_id },
+                success: function (response) {
+                    if (response.status === true) {
+                        var formNumber = response.formNumber;
+                        console.log(formNumber);
+                    }
+                }
+            })
+
         } else {
 
             $('#class-id, #class-group-id').siblings("span.error").remove();
@@ -761,7 +742,7 @@ $(document).ready(function () {
         if ($('#test-group-chkbox').is(':checked')) {
             $("#test-group").prop('disabled', false);
             $("#test-group-row").children('div').after(`<div class="form-group col-md-2 mb-0">
-                                                        <img src="`+ baseUrl + `/assets/img/add-icon.png" class="btn-add-img" alt="Add Test" id="btn-add-test">
+                                                        <img src="`+ baseUrl + `/backend/assets/img/add-icon.png" class="btn-add-img" alt="Add Test" id="btn-add-test">
                                                     </div>`);
         } else {
 
@@ -781,7 +762,7 @@ $(document).ready(function () {
         if ($('#interview-group-chkbox').is(':checked')) {
             $("#interview-group").prop('disabled', false);
             $("#interview-group-row").children('div').after(`<div class="form-group col-md-2 mb-0">
-                                                        <img src="`+ baseUrl + `/assets/img/add-icon.png" class="btn-add-img" alt="Add interview" id="btn-add-interview">
+                                                        <img src="`+ baseUrl + `/backend/assets/img/add-icon.png" class="btn-add-img" alt="Add interview" id="btn-add-interview">
                                                     </div>`);
         } else {
             $("#interview-group").val('0').change();

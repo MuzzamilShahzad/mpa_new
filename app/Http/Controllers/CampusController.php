@@ -58,7 +58,6 @@ class CampusController extends Controller
     }
     
     public function getCampusClassesByCampusAndSystemId(Request $request){
-        
 
         $validator = Validator::make($request->all(), [
             'campus_id'       =>  'required|numeric|gt:0|digits_between:1,11',

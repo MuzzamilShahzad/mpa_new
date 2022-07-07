@@ -53,6 +53,7 @@
 
 <!-- Custom js -->
 <script src="{{ url('backend/assets/js/custom.js') }}"></script>
+<script src="{{ url('backend/assets/js/custom/custom.js') }}"></script>
 
 <!-- Select2 js-->
 <script src="{{ url('backend/assets/js/select2.js') }}"></script>
