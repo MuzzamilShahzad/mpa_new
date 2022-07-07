@@ -97,6 +97,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Form Number</label>
                                             <input type="text" class="form-control" name="form_no" id="form-no">
+                                            <input type="hidden" class="form-control" name="reg_no" id="reg-no" value="">
                                         </div>
                                     </div>
                                 </div>
@@ -298,7 +299,7 @@
                             </div>
                             <div class="card-body">
                                 <h4 class="main-content-label"> 
-                                    <input type="checkbox" name="test_group_chkbox" id="test-group-chkbox">
+                                    <input type="checkbox" name="test_group_chkbox" value="1" id="test-group-chkbox">
                                     <strong>Test Group</strong> 
                                 </h4>
                                 <br>
@@ -315,7 +316,7 @@
                             </div>
                             <div class="card-body">
                                 <h4 class="main-content-label"> 
-                                    <input type="checkbox" name="interview_group_chkbox" id="interview-group-chkbox"/>
+                                    <input type="checkbox" name="interview_group_chkbox" value="1" id="interview-group-chkbox"/>
                                     <strong>Interview Group</strong> 
                                 </h4>
                                 <br>

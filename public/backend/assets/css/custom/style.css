@@ -16,9 +16,9 @@ form input:checked+label:before {
     margin-right: 4px;
 }
 
-.btn-group>.btn:not(:first-child) {
+/* .btn-group>.btn:not(:first-child) {
     margin-left: 5px;
-}
+} */
 
 .selectgroup-input:checked+.selectgroup-button {
     border-color: #6e85ec;

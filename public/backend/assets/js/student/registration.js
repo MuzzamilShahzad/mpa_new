@@ -16,6 +16,7 @@ $(document).ready(function () {
         var class_id = $("#class-id").val();
         var class_group_id = $("#class-group-id").val();
         var session_id = $("#session-id").val();
+        var reg_no = $("#reg-no").val();
         var form_no = $("#form-no").val();
         var first_name = $("#first-name").val();
         var last_name = $("#last-name").val();
@@ -42,6 +43,9 @@ $(document).ready(function () {
         var hear_about_us = $("#hear-about-us").val();
         var hear_about_us_other = $("#hear-about-us-other").val();
 
+        var test_group_chkbox = $("#test-group-chkbox").val();
+        var interview_group_chkbox = $("#interview-group-chkbox").val();
+
         var test_group = $("#test-group").val();
         var interview_group = $("#interview-group").val();
 
@@ -63,6 +67,10 @@ $(document).ready(function () {
         if (session_id == "" || session_id == "0") {
             $("#session-id").find(".select2-selection--single").addClass("has-error");
             $("#session-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+            flag = false;
+        }
+        if (reg_no == "") {
+            $("#reg-no").addClass("has-error");
             flag = false;
         }
         if (first_name == "") {
@@ -206,6 +214,7 @@ $(document).ready(function () {
                 "system_id": system_id,
                 "class_id": class_id,
                 "class_group_id": class_group_id,
+                "reg_no": reg_no,
                 "form_no": form_no,
                 "session_id": session_id,
                 "first_name": first_name,
@@ -233,10 +242,21 @@ $(document).ready(function () {
                 "hear_about_us": hear_about_us,
                 "hear_about_us_other": hear_about_us_other,
 
-                "test_group": test_group,
-                "interview_group": interview_group
-            };
+                "test_group_chkbox": test_group_chkbox,
+                "interview-group-chkbox": interview_group_chkbox,
 
+                "test_group": test_group,
+                "interview_group": interview_group,
+
+                "test_name": test_name,
+                "test_date": test_date,
+                "test_time": test_time,
+
+                "interview_name": interview_name,
+                "interview_date": interview_date,
+                "interview_time": interview_time,
+
+            };
             $.ajax({
                 url: baseUrl + '/student/registration/store',
                 type: "POST",
@@ -293,9 +313,6 @@ $(document).ready(function () {
 
                     if (message !== '') {
                         $("form").prepend(message);
-                        setTimeout(function () {
-                            $(".alert").remove();
-                        }, 4000);
                     }
 
                     $("#btn-add-registration").removeClass('disabled');
@@ -615,6 +632,25 @@ $(document).ready(function () {
                 }
             });
 
+        } else {
+            $('#class-id, #class-group-id').siblings("span.error").remove();
+            $('#class-id, #class-group-id').siblings("span").find(".select2-selection--single").removeClass("has-error");
+
+            $('#class-id, #class-group-id').html('<option value="">Select</option>');
+            $('#class-id, #class-group-id').prop('disabled', true);
+        }
+
+    });
+
+    $(document).on('change', '#session-id', function (e) {
+        e.preventDefault();
+
+        var campus_id = $('#campus-id').val();
+        var system_id = $('#system-id').val();
+        var session_id = $('#session-id').val();
+
+        if ((campus_id !== "" && campus_id > "0") && (system_id !== "" && system_id > "0") && (session_id !== "" && session_id > "0")) {
+
             $.ajax({
                 url: baseUrl + '/campus/student/form-id',
                 type: "GET",
@@ -622,19 +658,17 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response.status === true) {
                         var formNumber = response.formNumber;
-                        console.log(formNumber);
+                        $('#reg-no').val(formNumber);
                     }
                 }
             })
 
         } else {
 
-            $('#class-id, #class-group-id').siblings("span.error").remove();
-            $('#class-id, #class-group-id').siblings("span").find(".select2-selection--single").removeClass("has-error");
+            $('#reg-no').val("");
 
-            $('#class-id, #class-group-id').html('<option value="">Select</option>');
-            $('#class-id, #class-group-id').prop('disabled', true);
         }
+
     });
 
     $(document).on('change', '#class-id', function (e) {

@@ -10,6 +10,7 @@ use App\Models\Area;
 use App\Models\City;
 use App\Models\Classes;
 use App\Models\Registration;
+use App\Models\TestInterviewGroup;
 
 class StudentRegistrationController extends Controller
 {
@@ -74,7 +75,6 @@ class StudentRegistrationController extends Controller
 
         } else {
 
-
             $father_details = json_encode([
                 "father_name"           => $request->father_name,
                 "father_cnic"           => $request->father_cnic,
@@ -87,7 +87,7 @@ class StudentRegistrationController extends Controller
 
             $registration = new Registration;
 
-            $registration->registration_id     =  "2";
+            $registration->registration_id     =  $request->reg_no;
             $registration->campus_id           =  $request->campus_id;
             $registration->system_id           =  $request->system_id;
             $registration->class_id            =  $request->class_id;
@@ -112,28 +112,45 @@ class StudentRegistrationController extends Controller
             $registration->interview_group_id  =  $request->interview_group;
             $registration->hear_about_us       =  $request->hear_about_us;
             $registration->hear_about_us_other =  $request->hear_about_us_other;
-             
-             
+
+            if($request->test_group_chkbox) {
+                if($request->test_group) {
+                    $registration->test_group_id = $request->test_group;
+                }else {
+                    $testGroup = new TestInterviewGroup;
+                    $testGroup->session_id = $request->session_id;
+                    $testGroup->name = $request->test_name;
+                    $testGroup->type = "test";
+                    $testGroup->date = $request->test_date;
+                    $testGroup->time = $request->test_time;
+        
+                    $testQuery = $testGroup->save();
+
+                    $registration->test_group_id = $testQuery->id;
+                }
+
+            }
+
             $query = $registration->save();
 
-            if ($query) {
+            // if ($query) {
 
-                $response = array(
-                    'status'   =>  true, 
-                    'message'  =>  'Student has been registered successfully.'
-                );
+            //     $response = array(
+            //         'status'   =>  true, 
+            //         'message'  =>  "Student has been registered successfully with registeration id $registration->registration_id."
+            //     );
 
-                return response()->json($response);
+            //     return response()->json($response);
 
-            } else {
+            // } else {
 
-                $response = array(
-                    'status'   =>  false, 
-                    'message'  =>  'Some thing went worng please try again letter'
-                );
+            //     $response = array(
+            //         'status'   =>  false, 
+            //         'message'  =>  'Some thing went worng please try again letter'
+            //     );
 
-                return response()->json($response);
-            }
+            //     return response()->json($response);
+            // }
         }
     }
 
@@ -142,7 +159,7 @@ class StudentRegistrationController extends Controller
         $validator = Validator::make($request->all(), [
             'campus_id'       =>  'required|numeric|gt:0|digits_between:1,11',
             'system_id'       =>  'required|numeric|gt:0|digits_between:1,11',
-            'session_id'       =>  'required|numeric|gt:0|digits_between:1,11'
+            'session_id'      =>  'required|numeric|gt:0|digits_between:1,11'
         ]);
 
         if ($validator->fails()) {
@@ -156,7 +173,15 @@ class StudentRegistrationController extends Controller
             
         } else {
             
-            return response()->json("working fine");
+            $registration = Registration::where("campus_id", $request->campus_id)->where("session_id", $request->session_id)->where("system_id", $request->system_id)->orderBy('id', 'DESC')->limit(1)->first();
+            $session = explode("-", $registration->session->session);
+            $campus_details = $registration->campusDetails;
+
+            $reg_no = $registration->registration_id;
+            // $student_form_number = $campus_details->short_name.substr($session[0], -2)."000".++$reg_no;
+            $student_form_number = ++$reg_no;
+
+            return response()->json(["status" => true, "formNumber" => $student_form_number]);
         }
     }
     
