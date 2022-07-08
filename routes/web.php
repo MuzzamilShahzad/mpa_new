@@ -99,7 +99,28 @@ Route::controller(SectionController::class)->group(function () {
     Route::delete('/section/delete', 'delete')->name('section.delete');
 });
 
+//Admission routes
+Route::controller(AdmissionController::class)->group(function () {
+    
+    Route::get('/admission', 'listing')->name('admission.view');
+    Route::get('/admission/add', 'create')->name('admission.create');
+    Route::post('/admission/store', 'store')->name('admission.store');
+    Route::get('/admission/edit/{id}', 'edit')->name('admission.edit');
+    Route::put('/admission/update', 'update')->name('admission.update');
+    Route::delete('/admission/delete', 'delete')->name('admission.delete');
+    Route::get('/admission/student/details/{id}', 'admissionStudentDetails')->name('student.details');
+
+    Route::post('/search/student', 'searchStudent');
+    Route::get('/student/details', 'studentDetails');
+    // Route::get('/import', 'import')->name('import');
+    Route::get('admission/import', 'import')->name('admission.import');
+    Route::post('/admission/import/store', 'importStore')->name('admission.import.store');
+
+    Route::get('/campus/get-system', 'getCampusSystem');
+});
+
 
 Route::any('/dashboard', function() {
     return view('dashboard.index');
 })->name('dashboard');
+
