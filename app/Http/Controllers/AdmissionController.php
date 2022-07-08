@@ -9,21 +9,20 @@ use App\Models\Session;
 use App\Models\Area;
 use App\Models\City;
 use App\Models\Classes;
+use App\Models\Admission;
 
 class AdmissionController extends Controller
 {
     public function listing() {
-        $students        =  Student::all();
-        $campuses        =  Campus::get();
-        $sessions        =  Session::get();
-        $studentClasses  =  Classes::get();
-        $sections        =  Section::get();
-        // $categories      =  Category::get();
-        $schoolHouses    =  SchoolHouse::get();
-        $areas           =  Area::get();
+        $admissions  =  Admission::all();
+        $campus      =  Campus::where('is_active',1)->where('is_delete',0)->get();
+        $session     =  Session::get();
+        $area        =  Area::get();
+        $city        =  City::get();
+        $class       =  Classes::get();
 
         $data = array(
-            'students'        =>  $students,
+            'admissions'      =>  $admissions,
             'campuses'        =>  $campuses,
             'sessions'        =>  $sessions,
             'studentClasses'  =>  $studentClasses,
@@ -34,6 +33,8 @@ class AdmissionController extends Controller
             'page'            =>  'Admission',
             'menu'            =>  'Manage Admission'
         );
+
+        dd($data);
 
         return view('student.admission.listing', compact('data'));
     }

@@ -46,7 +46,7 @@
                         <ul class="nav-sub">
                             <li class="side-menu-label1"><a href="javascript:;">Admission</a></li>
                             <li class="nav-sub-item">
-                                <a class="nav-sub-link {{ isset($data['menu']) && !empty($data['menu']) && $data['menu'] == 'Manage Admission' ? 'active' : '' }}" href="{{route('admission.view')}}">Manage Admission</a>
+                                <a class="nav-sub-link {{ isset($data['menu']) && !empty($data['menu']) && $data['menu'] == 'Manage Admission' ? 'active' : '' }}" href="{{route('admission.listing')}}">Manage Admission</a>
                             </li>
                             <li class="nav-sub-item">
                                 <a class="nav-sub-link {{ isset($data['menu']) && !empty($data['menu']) && $data['menu'] == 'Add Student Admission' ? 'active' : '' }}" href="{{route('admission.create')}}">Add</a>

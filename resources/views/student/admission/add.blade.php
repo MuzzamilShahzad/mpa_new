@@ -2,11 +2,6 @@
 @section('main-content')
 @section('page_title', 'Add Admission')
 
-<link href="{{ url('assets/css/custom/style.css') }}" rel="stylesheet" />
-<style>
-
-</style>
-
 <div class="main-content side-content pt-0">
     <div class="main-container container-fluid">
         <div class="inner-body">
@@ -680,7 +675,7 @@
                                 </div>
                                 <div class="form-footer mt-2">
                                     <button type="submit" class="btn btn-primary" id="btn-add-admission">Save</button>
-                                    <a href="{{ route('admission.view') }}" class="btn btn-danger">Back</a>
+                                    <a href="{{ route('admission.listing') }}" class="btn btn-danger">Back</a>
                                 </div>
                             </div>
                         </form>

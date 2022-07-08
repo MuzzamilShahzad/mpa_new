@@ -28,7 +28,7 @@ return new class extends Migration
             $table->foreign('campus_id')->references('id')->on('campuses')->onDelete('cascade');
 
             $table->unsignedInteger('system_id');
-            $table->foreign('system_id')->references('id')->on('school_systems')->onDelete('cascade');
+            $table->foreign('system_id')->references('id')->on('systems')->onDelete('cascade');
 
             $table->unsignedInteger('class_id');
             $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
@@ -82,7 +82,9 @@ return new class extends Migration
             $table->string('driver_phone',10)->nullable();
 
             $table->unsignedInteger('transport_id')->nullable();
-            $table->foreign('transport_id')->references('id')->on('transports')->onDelete('cascade');
+
+            // $table->unsignedInteger('transport_id')->nullable();
+            // $table->foreign('transport_id')->references('id')->on('transports')->onDelete('cascade');
 
             $table->enum('status',['active','stuck_of'])->default('active');
             
