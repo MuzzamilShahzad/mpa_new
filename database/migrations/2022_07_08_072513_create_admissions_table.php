@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('students', function (Blueprint $table) {
+        Schema::create('admissions', function (Blueprint $table) {
+            
             $table->increments('id');
             
-            $table->string('temporary_gr',10);
-            $table->string('gr',20);
+            $table->string('temporary_gr',10)->unique();
+            $table->string('gr',20)->unique();
             $table->string('roll_no',10)->nullable();
 
             $table->unsignedInteger('session_id');
@@ -98,6 +99,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('students');
+        Schema::dropIfExists('admissions');
     }
 };

@@ -35,7 +35,7 @@
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Temporary G.R</label>
-                                            <input type="text" class="form-control bg-transparent" name="temporary_gr" id="temporary-gr" value="123" disabled>
+                                            <input type="text" class="form-control bg-transparent" name="temporary_gr" id="temporary-gr">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">

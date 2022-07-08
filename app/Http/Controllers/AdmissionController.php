@@ -12,6 +12,32 @@ use App\Models\Classes;
 
 class AdmissionController extends Controller
 {
+    public function listing() {
+        $students        =  Student::all();
+        $campuses        =  Campus::get();
+        $sessions        =  Session::get();
+        $studentClasses  =  Classes::get();
+        $sections        =  Section::get();
+        // $categories      =  Category::get();
+        $schoolHouses    =  SchoolHouse::get();
+        $areas           =  Area::get();
+
+        $data = array(
+            'students'        =>  $students,
+            'campuses'        =>  $campuses,
+            'sessions'        =>  $sessions,
+            'studentClasses'  =>  $studentClasses,
+            'sections'        =>  $sections,
+            'categories'      =>  $categories,
+            'schoolHouses'    =>  $schoolHouses,
+            'areas'           =>  $areas,
+            'page'            =>  'Admission',
+            'menu'            =>  'Manage Admission'
+        );
+
+        return view('student.admission.listing', compact('data'));
+    }
+
     public function create() {
         $campus   =  Campus::where('is_active',1)->where('is_delete',0)->get();
         $session  =  Session::get();
