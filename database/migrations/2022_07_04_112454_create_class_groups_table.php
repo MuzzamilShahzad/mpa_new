@@ -13,15 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('campus_classes', function (Blueprint $table) {
+        Schema::create('class_groups', function (Blueprint $table) {
             
             $table->increments('id');
-            
-            $table->unsignedInteger('campus_details_id')->nullable();
-            $table->foreign('campus_details_id')->references('id')->on('campus_details')->onDelete('cascade');
 
             $table->unsignedInteger('class_id')->nullable();
             $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
+
+            $table->unsignedInteger('group_id')->nullable();
+            $table->foreign('group_id')->references('id')->on('groups')->onDelete('cascade');
+
+            $table->unique(['class_id','group_id']);
 
             $table->timestamps();
         });
@@ -34,6 +36,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('campus_classes');
+        Schema::dropIfExists('class_groups');
     }
 };

@@ -120,6 +120,12 @@ Route::controller(AdmissionController::class)->group(function () {
 });
 
 
+//Vehicle routes
+Route::controller(VehicleController::class)->group(function () {
+    
+    Route::get('/vehicle/listing-by-type', 'listingByType')->name('vehicle.listingByType');
+});
+
 Route::any('/dashboard', function() {
     return view('dashboard.index');
 })->name('dashboard');

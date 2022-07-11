@@ -302,11 +302,11 @@ $(document).ready(function () {
         
         } else {
 
-            var vehicle_no    =  $("#vehicle-no").val();
-            var driver_name   =  $("#driver-name").val();
-            var driver_phone  =  $("#driver-phone").val();
+            
+           
+            if(pick_and_drop == 'by_ride'){
 
-            if(pick_and_drop == 'by_ride' || pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van'){
+                var vehicle_no    =  $("#vehicle-no").val();
                 
                 if(vehicle_no == ''){
                     $("#vehicle-no").addClass("has-error");
@@ -318,16 +318,14 @@ $(document).ready(function () {
 
             if(pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van') {
                 
-                if(driver_name == ''){
-                    $("#driver-name").addClass("has-error");
-                    $("#driver-name").after("<span class='error'>This field is required.</span>");
+                var vehicle_id    =  $("#vehicle-id").val();
+
+                if(vehicle_id == '' || vehicle_id == '0'){
+                    $("#vehicle-id").addClass("has-error");
+                    $("#vehicle-id").after("<span class='error'>This field is required.</span>");
                     flag = false;
                 }
-                if(driver_phone == ''){
-                    $("#driver-phone").addClass("has-error");
-                    $("#driver-phone").after("<span class='error'>This field is required.</span>");
-                    flag = false;
-                }
+
             } 
         }
 
@@ -414,11 +412,24 @@ $(document).ready(function () {
                 "permanent_city_id"           :  permanent_city_id,
 
                 "pick_and_drop"               :  pick_and_drop,
-                "vehicle_no"                  :  vehicle_no,
-                "driver_name"                 :  driver_name,
-                "driver_phone"                :  driver_phone
+                // "vehicle_no"                  :  vehicle_no,
+                // "driver_name"                 :  driver_name,
+                // "driver_phone"                :  driver_phone
                 
             };
+
+            if(pick_and_drop == 'by_ride'){
+
+                formData.vehicle_no = vehicle_no;
+            }
+            
+            if(pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van') {
+                
+                formData.vehicle_id = vehicle_id;
+
+            }
+
+            console.log(formData);
 
             $.ajax({
                 url: baseUrl + '/admission/store',
@@ -487,6 +498,41 @@ $(document).ready(function () {
         }
     });
     // End data store script
+
+    $(document).on('change', '#pick-and-drop', function (e) {
+        
+        e.preventDefault();
+        $("#pick-drop-details-row").remove();
+        var pick_and_drop = $('#pick-and-drop').val();
+        
+        var html = '<div class="form-row" id="pick-drop-details-row">';
+
+        if(pick_and_drop == 'by_ride'){
+                
+            html +=    `<div class="form-group col-md-12 mb-0">
+                            <label class="form-label tx-semibold">Vehicle No</label>
+                            <input type="text" class="form-control" name="vehicle_no" id="vehicle-no">
+                        </div>`; 
+        }
+
+        if(pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van') {
+            
+            html +=    `<div class="form-group col-md-12 mb-0">
+                            <div class="form-group">
+                                <label class="form-label tx-semibold">Select Vehicle</label>
+                                <div class="pos-relative">
+                                    <select class="form-control select2" name="vehicle_id" id="vehicle-id">
+                                        <option value="">Select Vehicle</option>
+                                        <option value="1">KHI-3900</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>`;
+        } 
+        html +=    `</div>`;
+        $(this).parent().parent().after(html);
+        $("#vehicle-id").select2();
+    });
 
     // Start data update script
     $("#btn-update-admission").on("click", function (e) {
@@ -1121,7 +1167,7 @@ $(document).ready(function () {
     });
 
     // Get Pick / Drop Details
-    $(document).on('change', '#pick-and-drop', function (e) {
+    $(document).on('change', '#pick-and-drop-old', function (e) {
         
         e.preventDefault();
         $("#pick-drop-details-row").remove();
@@ -1201,41 +1247,6 @@ $(document).ready(function () {
         //     $(this).parent().parent().after(html);
         // }
 
-    });
-
-    $(document).on('change', '#pick-and-drop', function (e) {
-        
-        e.preventDefault();
-        $("#pick-drop-details-row").remove();
-        var pick_and_drop = $('#pick-and-drop').val();
-        
-        var html = '<div class="form-row" id="pick-drop-details-row">';
-
-        if(pick_and_drop == 'by_ride'){
-                
-            html +=    `<div class="form-group col-md-4 mb-0">
-                            <label class="form-label tx-semibold">Vehicle No</label>
-                            <input type="text" class="form-control" name="vehicle_no" id="vehicle-no">
-                        </div>`; 
-        }
-
-        if(pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van') {
-            
-            html +=    `<div class="form-group col-md-12 mb-0">
-                            <div class="form-group">
-                                <label class="form-label tx-semibold">Select Vehicle</label>
-                                <div class="pos-relative">
-                                    <select class="form-control select2" name="vehicle_id" id="vehicle-id">
-                                        <option value="">Select Vehicle</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>`;
-        } 
-        html +=    `</div>`;
-
-        $("#vehicle-id").select2();
-        $(this).parent().parent().after(html);
     });
 
     //Student Search

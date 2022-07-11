@@ -32,7 +32,7 @@ form input:checked+label:before {
 }
 
 .has-error {
-    border-color: #fd6074;
+    border-color: #fd6074 !important;
 }
 
 .error{

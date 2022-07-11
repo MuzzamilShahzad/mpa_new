@@ -77,14 +77,12 @@ return new class extends Migration
 
             $table->enum('pick-and-drop',['by_walk','by_ride','by_school_van','by_private_van']);
 
-            $table->string('vehicle_no',20)->nullable();
-            $table->string('driver_name',20)->nullable();
-            $table->string('driver_phone',10)->nullable();
+            // $table->string('vehicle_no',20)->nullable();
+            // $table->string('driver_name',20)->nullable();
+            // $table->string('driver_phone',10)->nullable();
 
-            $table->unsignedInteger('transport_id')->nullable();
-
-            // $table->unsignedInteger('transport_id')->nullable();
-            // $table->foreign('transport_id')->references('id')->on('transports')->onDelete('cascade');
+            $table->unsignedInteger('vehicle_id')->nullable();
+            $table->foreign('vehicle_id')->references('id')->on('vehicles')->onDelete('cascade');
 
             $table->enum('status',['active','stuck_of'])->default('active');
             
