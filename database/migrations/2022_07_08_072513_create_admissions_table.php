@@ -56,10 +56,10 @@ return new class extends Migration
             $table->string('email',30)->nullable();
             $table->date('admission_date');
             $table->string('blood_group',3)->nullable();
-            $table->integer('height')->nullable();
-            $table->integer('weight')->nullable();
+            $table->decimal('height', 1,1)->nullable();
+            $table->decimal('height', 1,1)->nullable();
             $table->date('as_on_date')->nullable();
-            $table->integer('fee_discount')->nullable();
+            $table->tinyInteger('fee_discount')->nullable();
             
             $table->string('religion',20);
             $table->enum('religion_type',['sunni','asna_ashri','other']);

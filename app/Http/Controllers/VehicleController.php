@@ -10,29 +10,27 @@ class VehicleController extends Controller
 {
     public function listingByType(Request $request) {
 
-        $vehicle_type = 'school_van,by_private_van';
-
-        // dd(str_replace('by_',"",$request->vehicle_type));
+        $pick_and_drop = 'by_school_van,by_private_van';
 
         $validator   = Validator::make($request->all(),[
-            'vehicle_type'  =>  'required|in:'.$vehicle_type,
+            'pick_and_drop'  =>  'required|in:'.$pick_and_drop,
         ]);
 
        
-        if($validator->errors()){
-            
-            $vehice_type  =  str_replace('by_',"",$request->vehicle_type); 
-            $vehicles  =  Vehicle::where('vehicle_type',$vehice_type)->where('is_active',1)->where('is_delete',0)->get();
+        if($validator->fails()){
+
             $response = array(
-                'status'    => TRUE,
-                'vehicles'  =>  $vehicles
+                'status'    => FALSE,
+                'error'  =>  $validator->errors()
             );
 
         } else {
             
+            $vehice_type  =  str_replace('by_',"",$request->pick_and_drop); 
+            $vehicles  =  Vehicle::where('vehicle_type',$vehice_type)->where('is_active',1)->where('is_delete',0)->get();
             $response = array(
-                'status'    => FALSE,
-                'error'  =>  $validator->errors()
+                'status'    => TRUE,
+                'vehicles'  =>  $vehicles
             );
         }
 

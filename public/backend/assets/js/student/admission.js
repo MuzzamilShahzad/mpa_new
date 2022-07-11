@@ -18,7 +18,7 @@ $(document).ready(function () {
         var campus_id                   =  $("#campus-id").val();
         var system_id                   =  $("#system-id").val();
         var class_id                    =  $("#class-id").val();
-        var class_group_id              =  $("#class-group-id").val();
+        var group_id                    =  $("#group-id").val();
         var section_id                  =  $("#section-id").val();
         var bform_crms_no               =  $("#bform-crms-no").val();
         var first_name                  =  $("#first-name").val();
@@ -133,10 +133,10 @@ $(document).ready(function () {
             flag = false;
         }
         // if (class_group_id == "" || class_group_id == "0") {
-        if ($("#class-group-id:not([disabled])")) {
-            if(class_group_id == ""){
-                $("#class-group-id").siblings("span").find(".select2-selection--single").addClass("has-error");
-                $("#class-group-id").siblings("span").after("<span class='error'>This field is required.</span>");
+        if ($("#group-id:not([disabled])")) {
+            if(group_id == ""){
+                $("#group-id").siblings("span").find(".select2-selection--single").addClass("has-error");
+                $("#group-id").siblings("span").after("<span class='error'>This field is required.</span>");
                 flag = false;
             }
             
@@ -205,6 +205,15 @@ $(document).ready(function () {
                 flag = false;
             }
         }
+
+        if (siblings_in_mpa == "yes") {
+            if(no_of_siblings == ""){
+                $("#no-of-siblings").addClass("has-error");
+                $("#no-of-siblings").after("<span class='error'>This field is required.</span>");
+                flag = false;
+            }
+        }
+
         if (father_cnic == "") {
             $("#father-cnic").addClass("has-error");
             $("#father-cnic").after("<span class='error'>This field is required.</span>");
@@ -320,9 +329,9 @@ $(document).ready(function () {
                 
                 var vehicle_id    =  $("#vehicle-id").val();
 
-                if(vehicle_id == '' || vehicle_id == '0'){
-                    $("#vehicle-id").addClass("has-error");
-                    $("#vehicle-id").after("<span class='error'>This field is required.</span>");
+                if(vehicle_id == '' || vehicle_id == '0'){ 
+                    $("#vehicle-id").siblings("span").find(".select2-selection--single").addClass("has-error");
+                    $("#vehicle-id").siblings("span").after("<span class='error'>This field is required.</span>");
                     flag = false;
                 }
 
@@ -345,7 +354,7 @@ $(document).ready(function () {
                 "campus_id"                   :  campus_id,
                 "system_id"                   :  system_id,
                 "class_id"                    :  class_id,
-                "class_group_id"              :  class_group_id,
+                "group_id"                    :  group_id,
                 "section_id"                  :  section_id,
                 "bform_crms_no"               :  bform_crms_no,
                 "first_name"                  :  first_name,
@@ -417,6 +426,10 @@ $(document).ready(function () {
                 // "driver_phone"                :  driver_phone
                 
             };
+
+            // if($('#same-as-current').is(':checked') == true){
+
+            // }
 
             if(pick_and_drop == 'by_ride'){
 
@@ -505,33 +518,62 @@ $(document).ready(function () {
         $("#pick-drop-details-row").remove();
         var pick_and_drop = $('#pick-and-drop').val();
         
-        var html = '<div class="form-row" id="pick-drop-details-row">';
-
         if(pick_and_drop == 'by_ride'){
                 
-            html +=    `<div class="form-group col-md-12 mb-0">
-                            <label class="form-label tx-semibold">Vehicle No</label>
-                            <input type="text" class="form-control" name="vehicle_no" id="vehicle-no">
+            var html = `<div class="form-row" id="pick-drop-details-row">
+                            <div class="form-group col-md-12 mb-0">
+                                <label class="form-label tx-semibold">Vehicle No</label>
+                                <input type="text" class="form-control" name="vehicle_no" id="vehicle-no">
+                            </div>
                         </div>`; 
+            $(this).parent().parent().after(html);            
         }
 
         if(pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van') {
-            
-            html +=    `<div class="form-group col-md-12 mb-0">
-                            <div class="form-group">
-                                <label class="form-label tx-semibold">Select Vehicle</label>
-                                <div class="pos-relative">
-                                    <select class="form-control select2" name="vehicle_id" id="vehicle-id">
-                                        <option value="">Select Vehicle</option>
-                                        <option value="1">KHI-3900</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>`;
+
+            $.ajax({
+                url: baseUrl + '/vehicle/listing-by-type',
+                type: "GET",
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                data: { pick_and_drop : pick_and_drop},
+                dataType: "json",
+                success: function (response) {
+                    console.log(response.status);
+                    if (response.status === false) {
+                        if (response.error) {
+                            if (Object.keys(response.error).length > 0) {
+                                console.log();
+                                $("select[name='pick_and_drop']").siblings("span").find(".select2-selection--single").addClass("has-error");
+                                $("select[name='pick_and_drop']").siblings("span").after("<span class='error'>" + response.error.pick_and_drop + "</span>");
+                            }
+                        }
+                    } else {
+
+                        var html = `<div class="form-row" id="pick-drop-details-row">
+                                        <div class="form-group col-md-12 mb-0">
+                                            <div class="form-group">
+                                                <label class="form-label tx-semibold">Select Vehicle</label>
+                                                <div class="pos-relative">
+                                                    <select class="form-control select2" name="vehicle_id" id="vehicle-id">
+                                                        <option value="">Select Vehicle</option>`;
+                        console.log(response.vehicles);
+                        $.each(response.vehicles,function(key, value){
+                            html += `<option value="`+value.id+`">`+value.number+` [ `+value.maker+` ] </option>`;
+                        });
+
+                        html +=`                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`;
+
+                        $('#pick-and-drop').parent().parent().after(html);
+                        $("#vehicle-id").select2();        
+                    }
+                }
+            });
         } 
-        html +=    `</div>`;
-        $(this).parent().parent().after(html);
-        $("#vehicle-id").select2();
+        
     });
 
     // Start data update script

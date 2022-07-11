@@ -97,7 +97,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Class Group</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="class_group_id" id="class-group-id" disabled>
+                                                <select class="form-control select2" name="group_id" id="group-id" disabled>
                                                     <!-- <option selected value="0">Select Class Group</option> -->
                                                 </select>
                                             </div>
@@ -147,8 +147,8 @@
                                             <div class="pos-relative">
                                                 <select class="form-control select2" name="gender" id="gender">
                                                     <option selected value="">Select Gender</option>
-                                                    <option value="Male">Male</option>
-                                                    <option value="Female">Female</option>
+                                                    <option value="male">Male</option>
+                                                    <option value="female">Female</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -244,7 +244,7 @@
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Height</label>
-                                            <input type="number" class="form-control" name="height"  id="height">
+                                            <input type="number" class="form-control" name="height" id="height" min="0">
                                         </div>
                                     </div>
                                 </div>
@@ -262,7 +262,7 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Weight</label>
-                                            <input type="number" class="form-control" name="weight"  id="weight">
+                                            <input type="number" class="form-control" name="weight" id="weight" min="0">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-4 mb-0">
@@ -274,7 +274,7 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Fee Discount</label>
-                                            <input type="number" class="form-control" name="fee_discount"  id="fee-discount">
+                                            <input type="number" class="form-control" name="fee_discount"  id="fee-discount" min="0">
                                         </div>
                                     </div>
                                 </div>
