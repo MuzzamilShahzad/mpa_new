@@ -10,6 +10,7 @@ use App\Models\CampusDetails;
 use App\Models\Classes;
 use App\Models\ClassGroup;
 use App\Models\Section;
+use App\Models\CampusClass;
 
 class CampusController extends Controller
 {
@@ -123,18 +124,26 @@ class CampusController extends Controller
 
     public function getCampusClassGroupAndSection($formData){
 
-        
-        $classGroups = ClassGroup::select('class_groups.*')
-                            // ->join('groups', 'groups.id', '=', 'class_groups.group_id')
-                            ->join('campus_class_groups','campus_class_groups.class_group_id','=','class_groups.id')
-                            ->join('campus_classes','campus_classes.id','=','campus_class_groups.campus_class_id')
+        // $classGroups = ClassGroup::select('class_groups.*')
+        //                     // ->join('groups', 'groups.id', '=', 'class_groups.group_id')
+        //                     // ->join('campus_class_groups','campus_class_groups.class_group_id','=','class_groups.id')
+        //                     ->join('campus_classes','campus_classes.id','=','class_groups.class_id')
+        //                     // ->join('campus_details','campus_details.id','=','campus_classes.campus_detail_id')
+        //                     // ->where('campus_details.campus_id',$formData['campus_id'])
+        //                     // ->where('campus_details.system_id',$formData['system_id'])
+        //                     // ->where('campus_classes.class_id',$formData['class_id'])
+        //                     // ->where('class_groups.is_active',1)
+        //                     // ->where('class_groups.is_delete',0)
+        //                     ->get();
+
+        $classGroups = CampusClass::select('groups.*')
                             ->join('campus_details','campus_details.id','=','campus_classes.campus_detail_id')
+                            ->join('class_groups','class_groups.class_id','=','campus_classes.class_id')
+                            ->join('groups','groups.id','=','class_groups.group_id')
                             ->where('campus_details.campus_id',$formData['campus_id'])
                             ->where('campus_details.system_id',$formData['system_id'])
                             ->where('campus_classes.class_id',$formData['class_id'])
-                            // ->where('class_groups.is_active',1)
-                            // ->where('class_groups.is_delete',0)
-                            ->get();
+                            ->get();                    
         
         $classSections = Section::get();                                
         

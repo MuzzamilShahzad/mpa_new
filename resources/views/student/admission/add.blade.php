@@ -109,8 +109,11 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Section</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="section_id" id="section-id" disabled>
-                                                    <option selected value="">Select Section</option>
+                                                <select class="form-control select2" name="section_id" id="section-id">
+                                                    <option value="">Select Section</option>
+                                                    @foreach($data['section'] as $section)
+                                                        <option value="{{$section->id}}">{{$section->section}}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -177,7 +180,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Previous Class (IF ANY)</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="previous_class" id="previous-class">
+                                                <select class="form-control select2" name="previous_class_id" id="previous-class-id">
                                                     <option value="">Select</option>
                                                     @foreach($data['class'] as $class)
                                                         <option value="{{$class->id}}">{{$class->name}}</option>
@@ -567,7 +570,7 @@
                                                 <select class="form-control select2" name="current_area_id " id="current-area-id">
                                                     <option selected value="">Select Area</option>
                                                     @foreach($data['area'] as $area)
-                                                        <option value="{{$area->id}}">{{$area->name}}</option>
+                                                        <option value="{{$area->id}}">{{$area->area}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

@@ -183,6 +183,16 @@ $(document).ready(function () {
             $("#mother-tongue").after("<span class='error'>This field is required.</span>");
             flag = false;
         }
+
+        if (previous_class_id !== "" && previous_class_id !== "0") {
+
+            if(previous_school == ""){
+                $("#previous-school").addClass("has-error");
+                $("#previous-school").after("<span class='error'>This field is required.</span>");
+                flag = false;
+            }
+        }
+
         if (admission_date == "") {
             $("#admission-date").addClass("has-error");
             $("#admission-date").after("<span class='error'>This field is required.</span>");
@@ -197,11 +207,11 @@ $(document).ready(function () {
             $("#religion-type").siblings("span").find(".select2-selection--single").addClass("has-error");
             $("#religion-type").siblings("span").after("<span class='error'>This field is required.</span>");
             flag = false;
-        }
-        if (religion_type == "other") {
+        
+        } else if(religion_type == "other") {
             if (religion_type_other == "") {
-                $("#religion_type_other").addClass("has-error");
-                $("#religion_type_other").after("<span class='error'>This field is required.</span>");
+                $("#religion-type-other").addClass("has-error");
+                $("#religion-type-other").after("<span class='error'>This field is required.</span>");
                 flag = false;
             }
         }
@@ -246,8 +256,8 @@ $(document).ready(function () {
         }
         if (guardian_relation == "other") {
             if (guardian_relation_other == "") {
-                $("#guardian_relation_other").addClass("has-error");
-                $("#guardian_relation_other").after("<span class='error'>This field is required.</span>");
+                $("#guardian-relation-other").addClass("has-error");
+                $("#guardian-relation-other").after("<span class='error'>This field is required.</span>");
                 flag = false;
             }
         }
@@ -381,27 +391,27 @@ $(document).ready(function () {
                 "no_of_siblings"              :  no_of_siblings,
                 "student_vaccinated"          :  student_vaccinated,
 
-                "father_cnic"                 :  father_cnic,
+                "father_cnic"                 :  father_cnic.replace("-", ""),
                 "father_salary"               :  father_salary,
                 "father_email"                :  father_email,
                 "father_name"                 :  father_name,
-                "father_phone"                :  father_phone,
+                "father_phone"                :  father_phone.replace("-", ""),
                 "father_occupation"           :  father_occupation,
                 "father_company_name"         :  father_company_name,
                 "father_vaccinated"           :  father_vaccinated,
 
-                "mother_cnic"                 :  mother_cnic,
+                "mother_cnic"                 :  mother_cnic.replace("-", ""),
                 "mother_salary"               :  mother_salary,
                 "mother_email"                :  mother_email,
                 "mother_name"                 :  mother_name,
-                "mother_phone"                :  mother_phone,
+                "mother_phone"                :  mother_phone.replace("-", ""),
                 "mother_occupation"           :  mother_occupation,
                 "mother_company_name"         :  mother_company_name,
                 "mother_vaccinated"           :  mother_vaccinated,
 
-                "guardian_cnic"               :  guardian_cnic,
+                "guardian_cnic"               :  guardian_cnic.replace("-", ""),
                 "guardian_name"               :  guardian_name,
-                "guardian_phone"              :  guardian_phone,
+                "guardian_phone"              :  guardian_phone.replace("-", ""),
                 "guardian_relation"           :  guardian_relation,
                 "guardian_relation_other"     :  guardian_relation_other,
                 "first_person_call"           :  first_person_call,
@@ -994,6 +1004,12 @@ $(document).ready(function () {
         
         e.preventDefault();
 
+        $("#campus-id").siblings("span").find(".select2-selection--single").removeClass("has-error");
+        $("#campus-id").siblings('span.error').remove();
+
+        $('#system-id, #class-id, #group-id').html('<option value="">Select</option>');
+        $('#system-id, #class-id, #group-id').prop('disabled',true);
+
         var campus_id = $('#campus-id').val();
         
         if(campus_id !== "" && campus_id > "0"){
@@ -1011,25 +1027,29 @@ $(document).ready(function () {
                         
                         if(campusSchoolSystems.length){
                             $(campusSchoolSystems).each(function(key, value){
-                                schoolSystems += `<option value="`+value.id+`" >`+value.type+`</option>`;
+                                schoolSystems += `<option value="`+value.id+`" >`+value.system+`</option>`;
                             });
                         }
                         
                         $('#system-id').prop('disabled',false);
                         $('#system-id').html(schoolSystems);
+                    } else {
+                        
+                        $("#campus-id").siblings("span").find(".select2-selection--single").addClass("has-error");
+                        $("#campus-id").siblings("span").after("<span class='error'>" + response.error.campus_id.toString().split(/[,]+/).join("<br/>") + "</span>");
+           
                     }
                 }
             });
-        } else {
-            
-            $('#system-id, #class-id, #class-group-id').html('<option value="">Select</option>');
-            $('#system-id, #class-id, #class-group-id').prop('disabled',true);
         }
     });
 
     $(document).on('change', '#system-id', function (e) {
         
         e.preventDefault();
+        
+        $('#class-id, #group-id').html('<option value="">Select</option>');
+        $('#class-id, #group-id').prop('disabled',true);
 
         var campus_id  =  $('#campus-id').val();
         var system_id   =  $('#system-id').val();
@@ -1048,7 +1068,7 @@ $(document).ready(function () {
 
                         if(campusClasses.length){
                             $(campusClasses).each(function(key, value){
-                                classes += `<option value="`+value.id+`" >`+value.name+`</option>`;
+                                classes += `<option value="`+value.id+`" >`+value.class+`</option>`;
                             });
                         }
 
@@ -1057,9 +1077,6 @@ $(document).ready(function () {
                     }
                 }
             });
-        } else {
-            $('#class-id, #class-group-id').html('<option value="">Select</option>');
-            $('#class-id, #class-group-id').prop('disabled',true);
         }
     });
 
@@ -1069,6 +1086,9 @@ $(document).ready(function () {
         var campus_id  =  $('#campus-id').val();
         var system_id  =  $('#system-id').val();
         var class_id   =  $('#class-id').val();
+
+        $('#group-id').html('<option value="">Select</option>');
+        $('#group-id').prop('disabled',true);
   
         if((campus_id !== "" && campus_id > "0") && (system_id !== "" && system_id > "0") && (class_id !== "" && class_id > "0")){
             $.ajax({
@@ -1076,39 +1096,38 @@ $(document).ready(function () {
                 type: "GET",
                 data: { campus_id: campus_id, system_id: system_id, class_id: class_id  },
                 success: function (response) {
-                    
+
+                    console.log(response);
+                    console.log(response.classGroups);
+
                     if(response.status === true){
                         
                         var classGroup  =  response.classGroups;
                         var groups      =  `<option value="">Select</option>`;
 
-                        var classSection  =  response.classSections;
-                        var sections      =  `<option value="">Select</option>`;
+                        // var classSection  =  response.classSections;
+                        // var sections      =  `<option value="">Select</option>`;
 
                         if(classGroup.length){
                             $(classGroup).each(function(key, value){
-                                groups += `<option value="`+value.id+`" >`+value.name+`</option>`;
+                                groups += `<option value="`+value.id+`" >`+value.group+`</option>`;
                             });
 
-                            $('#class-group-id').prop('disabled',false);
-                            $('#class-group-id').html(groups);
+                            $('#group-id').prop('disabled',false);
+                            $('#group-id').html(groups);
                         }
 
-                        if(classSection.length){
-                            $(classSection).each(function(key, value){
-                                sections += `<option value="`+value.id+`" >`+value.name+`</option>`;
-                            });
-                        }
+                        // if(classSection.length){
+                        //     $(classSection).each(function(key, value){
+                        //         sections += `<option value="`+value.id+`" >`+value.section+`</option>`;
+                        //     });
+                        // }
 
-                        $('#section-id').prop('disabled',false);
-                        $('#section-id').html(sections);
-                        
+                        // $('#section-id').prop('disabled',false);
+                        // $('#section-id').html(sections);
                     }
                 }
             });
-        } else {
-            $('#class-group-id, #section-id').html('<option value="">Select</option>');
-            $('#class-group-id, #section-id').prop('disabled',true);
         }
     });
 
@@ -1170,17 +1189,13 @@ $(document).ready(function () {
     $(document).on('change', '#religion-type', function (e) {
         e.preventDefault();
 
-        var value = $('#religion-type').val();
+        var religion_type = $('#religion-type').val();
 
-        if (value == "other") {
-            var html = `<label class="form-label tx-semibold">Other</label>`;
-            html += `<input type="text" class="form-control" name="other_religion" id="other-religion">`;
-            $('#religion-type-other-input').html(html);
+        if (religion_type == "other") {
+            $('#religion-type-other').prop('disabled',false);
         }
         else {
-            var html = `<label class="form-label tx-semibold">Other</label>`;
-            html += `<input type="text" class="form-control" name="other_religion" id="other-religion" readonly>`;
-            $('#religion-type-other-input').html(html);
+            $('#religion-type-other').prop('disabled',true);
         }
     });
 
@@ -1192,19 +1207,12 @@ $(document).ready(function () {
 
         if (guardian_relation == "other") {
             $('#guardian-relation-other').prop('disabled',false);
-            // var html = `<label class="form-label tx-semibold">Other</label>`;
-            // html += `<input type="text" class="form-control" name="other_relation" id="other-relation">`;
-            // $('#guardian-relation-other-input').html(html);
         }
         else {
             $("#guardian-relation-other").removeClass("has-error");
             $("#guardian-relation-other").siblings('span.error').remove();
             $('#guardian-relation-other').val('');
             $('#guardian-relation-other').prop('disabled',true);
-
-            // var html = `<label class="form-label tx-semibold">Other</label>`;
-            // html += `<input type="text" class="form-control" name="other_relation" id="other-relation" readonly>`;
-            // $('#guardian-relation-other-input').html(html);
         }
     });
 

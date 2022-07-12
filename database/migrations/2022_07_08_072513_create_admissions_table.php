@@ -57,7 +57,7 @@ return new class extends Migration
             $table->date('admission_date');
             $table->string('blood_group',3)->nullable();
             $table->decimal('height', 1,1)->nullable();
-            $table->decimal('height', 1,1)->nullable();
+            $table->decimal('weight', 1,1)->nullable();
             $table->date('as_on_date')->nullable();
             $table->tinyInteger('fee_discount')->nullable();
             
