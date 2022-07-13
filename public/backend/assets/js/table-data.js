@@ -18,16 +18,17 @@ $(function(e) {
 			sSearch: '',
 		}
 	});
-	var session_id  =  $("#session-id").val();
-	var campus_id   =  $("#campus-id").val();
-	var system_id   =  $("#system-id").val();
-	var class_id    =  $("#class-id").val();
-	var group_id    =  $("#group-id").val();
-	var section_id  =  $("#section-id").val();
 	
 	$("#btn-admission-search").on("click",function(e){
 
 		e.preventDefault();
+		var session_id  =  $("#session-id").val();
+		var campus_id   =  $("#campus-id").val();
+		var system_id   =  $("#system-id").val();
+		var class_id    =  $("#class-id").val();
+		var group_id    =  $("#group-id").val();
+		var section_id  =  $("#section-id").val();
+		
 		$('#admission-listing-datatable').DataTable({
 			ajax: {
 				url: baseUrl+'/admission/listingBySessionSystemClassGroupSection',
