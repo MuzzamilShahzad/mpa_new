@@ -3,10 +3,10 @@
 @section('page_title', 'Add Student Registration')
 
 <style>
-    .select2-selection__clear {
+    /* .select2-selection__clear {
         margin-top: 1px;
         margin-right: 10px;
-    }
+    } */
 </style>
 
 <div class="main-content side-content pt-0">

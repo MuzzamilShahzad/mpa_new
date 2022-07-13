@@ -76,6 +76,8 @@ return new class extends Migration
             $table->unsignedInteger('interview_group_id')->nullable();
             $table->foreign('interview_group_id')->references('id')->on('test_interview_groups')->onDelete('cascade');
 
+            $table->tinyInteger('is_enroll')->default(0);
+
             $table->timestamps();
         });
     }
