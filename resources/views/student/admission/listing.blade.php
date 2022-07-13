@@ -104,7 +104,7 @@
                                     </div>
                                     <div class="form-group col-md-2 mt-4">
                                         <div class="form-group">
-                                            <button class="btn btn-primary" type="submit" id="btn-search-admission">
+                                            <button class="btn btn-primary" type="submit" id="btn-admission-search">
                                                 <i class="fas fa-search"></i>
                                             </button>
                                         </div>
@@ -117,7 +117,7 @@
                             </div>
                             <br>
                             <div class="table-responsive" id="notifications">
-                                <table class="table table-bordered text-nowrap border-bottom" id="responsive-datatable">
+                                <table class="table table-bordered text-nowrap border-bottom" id="admission-listing-datatable">
                                     <thead>
                                         <tr>
                                             <th width="5px"> 
@@ -125,7 +125,6 @@
                                                     <input class="form-check-input checkBox" type="checkbox" value="" id="flexCheckDefault">
                                                 </div>
                                             </th>
-                                            <th width="5px">S.NO</th>
                                             <th>Gr.No</th>
                                             <th>First Name</th>
                                             <th>Last Name</th>
@@ -135,29 +134,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($data['admission'] as $key => $student)
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                                                </div>
-                                            </td>
-
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>{{$student->gr}}</td>
-                                            <td>
-                                                <a data-bs-target="#student-details-modal" data-bs-toggle="modal" href="{{$student->id}}" style="color: black" data-id="{{$student->id}}" id="btn-student-details">{{$student->first_name}}</a>
-                                            </td>
-                                            <td>{{$student->last_name}}</td>
-                                            <td>{{$student->gender}}</td>
-                                            <td>{{ date('d/m/Y', strtotime($student->admission_date)) }}</td>
-                                            <td>
-                                                <a href="{{ route('student.details',$student->id) }}" class="btn btn-info btn-sm">Details</a>
-                                                <a href="{{ route('admission.edit',$student->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                                                <button data-id="{{$student->id}}" id="btn-delete-admission" class="btn btn-danger btn-sm">Delete</button>
-                                            </td>
-                                        </tr>
-                                        @endforeach
+                                        
                                     </tbody>
                                 </table>
                             </div>

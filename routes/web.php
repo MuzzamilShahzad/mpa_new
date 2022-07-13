@@ -102,6 +102,7 @@ Route::controller(SectionController::class)->group(function () {
 //Admission routes
 Route::controller(AdmissionController::class)->group(function () {
     
+    Route::get('/admission/listingBySessionSystemClassGroupSection', 'getListingBySessionSystemClassGroupSection')->name('admission.listingBySessionSystemClassGroupSection');
     Route::get('/admission', 'listing')->name('admission.listing');
     Route::get('/admission/add', 'create')->name('admission.create');
     Route::post('/admission/store', 'store')->name('admission.store');

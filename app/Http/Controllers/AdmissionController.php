@@ -59,6 +59,46 @@ class AdmissionController extends Controller
 
         return view('student.admission.listing', compact('data'));
     }
+    
+    public function getListingBySessionSystemClassGroupSection(Request $request) {
+        
+        if($request->session_id){
+            $where['session_id'] = $request->session_id;
+        }
+        
+        if($request->campus_id){
+            $where['campus_id'] = $request->campus_id;
+        }
+        
+        if($request->system_id){
+            $where['system_id'] = $request->system_id;
+        }
+        
+        if($request->class_id){
+            $where['class_id'] = $request->class_id;
+        }
+
+        if($request->group_id){
+            $where['group_id'] = $request->group_id;
+        }
+
+        if($request->section_id){
+            $where['section_id'] = $request->section_id;
+        }
+
+        $where['is_active'] = 1;
+        $where['is_delete'] = 0;
+        $admission  =  Admission::where($where)->get();
+        
+        $response = array(
+            'data'         => $admission
+        );
+
+        // dd($response);
+
+        return response()->json($response);
+
+    }
 
     public function create() {
         $session  =  Session::get();
