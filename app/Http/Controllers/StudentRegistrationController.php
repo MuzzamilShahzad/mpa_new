@@ -254,7 +254,7 @@ class StudentRegistrationController extends Controller
             // 'campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
             // 'system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
             // 'class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
-            // 'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
+            // 'session_id'                   =>  'required|numeric|gt:0|digits_between:1,11',
             'id'                        =>  'numeric|gt:0|digits_between:1,11',
             'class_group_id'            =>  'numeric|gt:0|digits_between:1,11',
             'form_no'                   =>  'nullable|alpha_num',         
