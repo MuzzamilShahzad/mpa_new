@@ -280,11 +280,11 @@ class StudentRegistrationController extends Controller
             'father_occupation'         =>  'string|max:30',
             'father_company_name'       =>  'max:30',
             'father_phone'              =>  'required|numeric|gt:0|digits:11',
-            'hear_about_us'             =>  'string|max:20',
-            'other'                     =>  'string|max:20',
+            'hear_about_us'             =>  'nullable|string|max:20',
+            'hear_about_us_other'       =>  'required_if:hear_about_us,other|string|max:20',
             // TEST-INTERVIEW GROUP
-            'test_group_id'                =>  'numeric|gt:0|digits_between:1,11',
-            'interview_group_id'           =>  'numeric|gt:0|digits_between:1,11'
+            'test_group_id'             =>  'numeric|gt:0|digits_between:1,11',
+            'interview_group_id'        =>  'numeric|gt:0|digits_between:1,11'
         ]);
 
         if ($validator->errors()->all()) {

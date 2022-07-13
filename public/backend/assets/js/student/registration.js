@@ -10,7 +10,7 @@ $(document).ready(function () {
         $("span, input").removeClass("has-error");
 
         var flag = true;
-        // var gr                        =  $("#gr").val();
+
         var campus_id = $("#campus-id").val();
         var system_id = $("#system-id").val();
         var class_id = $("#class-id").val();
@@ -365,6 +365,101 @@ $(document).ready(function () {
         }
 
     });
+
+    $('#promote').on('click', function (e) {
+        e.preventDefault();
+
+        console.log("running");
+    });
+
+    $("#delete-all").on("click", function () {
+        console.log("runing");
+        ('.reg-checkbox:checkbox:checked').each(function () {
+            console.log("runing");
+            var registration_id = (this.checked ? $(this).val() : "");
+            console.log("runing");
+            if (registration_id) {
+                console.log(registration_id);
+            }
+        });
+    })
+
+    $('#select-all').on("click", function () {
+
+        var result = $('.reg-checkbox').is(':checked');
+        if (result) {
+            $('.reg-checkbox').removeAttr('checked');
+
+            $('.action-btn').prop('disabled', false);
+            $('.action-btn').prop('disabled', false);
+            $('.action-btn').prop('disabled', false);
+
+            $('#delete-all').remove();
+        } else {
+            $('.reg-checkbox').attr('checked', 'checked');
+
+            $('.action-btn').prop('disabled', true);
+            $('.action-btn').prop('disabled', true);
+            $('.action-btn').prop('disabled', true);
+
+            $('.table-heading').after("&nbsp;&nbsp;<button class='btn btn-sm btn-danger' id='delete-all'> Delete </button>");
+        }
+
+    })
+
+    $('.reg-checkbox').on("click", function () {
+
+        var result = $('.reg-checkbox').is(':checked');
+        if (result) {
+            $('.action-btn').prop('disabled', true);
+            $('.action-btn').prop('disabled', true);
+            $('.action-btn').prop('disabled', true);
+
+            var length = $('.reg-checkbox:checkbox:checked').length;
+            if (length == 1) {
+
+                var delete_all_btn = $('#delete-all').length;
+                var promote_all_btn = $('#promote').length;
+
+                if (delete_all_btn) {
+
+                    if (promote_all_btn) {
+                        // do nothing
+                    } else {
+                        $('#delete-all').after("&nbsp;&nbsp;<button class='btn btn-sm btn-primary' id='promote'> Promote </button>");
+                    }
+                } else {
+
+                    $('.table-heading').after("&nbsp;&nbsp;<button class='btn btn-sm btn-danger' id='delete-all'> Delete </button>");
+                    if (promote_all_btn) {
+                        // do nothing
+                    } else {
+                        $('#delete-all').after("&nbsp;&nbsp;<button class='btn btn-sm btn-primary' id='promote'> Promote </button>");
+                    }
+
+                }
+
+            } else {
+
+                var delete_all_btn = $('#delete-all').length;
+                if (delete_all_btn) {
+                    // do nothing
+                } else {
+                    $('.table-heading').after("&nbsp;&nbsp;<button class='btn btn-sm btn-danger' id='delete-all'> Delete </button>");
+                }
+                $('#promote').remove();
+
+            }
+        } else {
+            $('.action-btn').prop('disabled', false);
+            $('.action-btn').prop('disabled', false);
+            $('.action-btn').prop('disabled', false);
+
+            $('#delete-all').remove();
+            $('#promote').remove();
+        }
+
+    })
 
     $('body').on("click", "#btn-add-test", function (e) {
 
@@ -771,12 +866,12 @@ $(document).ready(function () {
         $("#siblings-in-mpa").removeAttr("disabled");
         $("#building-no").removeAttr("readonly");
         $("#hear-about-us-update").removeAttr("disabled");
+        $("#hear-about-us-other").removeAttr("readonly");
         $("#area-id").removeAttr("disabled");
         $("#city-id").removeAttr("disabled");
         $("#father-name").removeAttr("readonly");
         $("#father-cnic").removeAttr("readonly");
         $("#father-phone").removeAttr("readonly");
-        $("#hear-about-us-other").removeAttr("readonly");
         $("#test-group-id").removeAttr("disabled");
         $("#interview-group-id").removeAttr("disabled");
 
@@ -989,9 +1084,13 @@ $(document).ready(function () {
                     if (response.status === false) {
 
                         if (response.error) {
+
+                            $("#btn-save-registration").html('Save Details');
+                            $("#btn-save-registration").removeClass('disabled');
+
                             if (Object.keys(response.error).length > 0) {
 
-                                var input_fields = ['registration_number', 'form_number', 'first_name', 'last_name', 'dob', 'no_of_siblings', 'previous_school', 'father_cnic', 'father_name', 'father_occupation', 'father_phone',
+                                var input_fields = ['registration_number', 'form_no', 'first_name', 'last_name', 'dob', 'no_of_siblings', 'previous_school', 'father_cnic', 'father_name', 'father_occupation', 'father_phone',
                                     'father_salary', 'father_email', 'father_company_name', 'test_group_id', 'interview_group_id'];
                                 $.each(response.error, function (key, value) {
 
@@ -1024,6 +1123,10 @@ $(document).ready(function () {
                     }
                 },
                 error: function () {
+
+                    $("#btn-save-registration").html('Save Details');
+                    $("#btn-save-registration").removeClass('disabled');
+
                     message = `<div class="alert alert-danger alert-dismissible">
                                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                     <strong> Whoops !</strong> Something went wrong please contact to admintrator.
@@ -1043,7 +1146,6 @@ $(document).ready(function () {
 
     });
 
-    //Student Details
     $(document).on('click', '#btn-student-details', function () {
         var id = $(this).data('id');
 
@@ -1124,8 +1226,11 @@ $(document).ready(function () {
                     $('#father-occupation').val(father_details.father_occupation);
                     $('#father-phone').val(father_details.father_phone);
                     $('#father-salary').val(father_details.father_salary);
-                    $('#hear-about-us').val(registration.hear_about_us).change();
-                    // $('#hear-about-us-other').val(registration.hear_about_us);
+
+                    $('#hear-about-us-update').val(registration.hear_about_us).change();
+                    if (registration.hear_about_us == 'other') {
+                        $('#hear-about-us-other').val(registration.hear_about_us);
+                    }
 
                     $('#test-group-id').val(registration.test_group_id).change();
                     $('#interview-group-id').val(registration.interview_group_id).change();
@@ -1143,6 +1248,112 @@ $(document).ready(function () {
         });
 
     });
+
+    $(document).on('click', '#btn-edit', function () {
+        var id = $(this).data('id');
+
+        $("#campus-id").removeAttr("disabled");
+        $("#system-id").removeAttr("disabled");
+        $("#class-id").removeAttr("disabled");
+        $("#session-id").removeAttr("disabled");
+        $("#first-name").removeAttr("readonly");
+        $("#last-name").removeAttr("readonly");
+        $("#dob").removeAttr("readonly");
+        $("#form-number").removeAttr("readonly");
+        $("#gender").removeAttr("disabled");
+        $("#no-of-siblings").removeAttr("readonly");
+        $("#house-no").removeAttr("readonly");
+        $("#block-no").removeAttr("readonly");
+        $("#previous-school").removeAttr("readonly");
+        $("#previous-class-id").removeAttr("disabled");
+        $("#father-occupation").removeAttr("readonly");
+        $("#father-company-name").removeAttr("readonly");
+        $("#father-salary").removeAttr("readonly");
+        $("#father-email").removeAttr("readonly");
+        $("#siblings-in-mpa").removeAttr("disabled");
+        $("#building-no").removeAttr("readonly");
+        $("#hear-about-us-update").removeAttr("disabled");
+        $("#hear-about-us-other").removeAttr("readonly");
+        $("#area-id").removeAttr("disabled");
+        $("#city-id").removeAttr("disabled");
+        $("#father-name").removeAttr("readonly");
+        $("#father-cnic").removeAttr("readonly");
+        $("#father-phone").removeAttr("readonly");
+        $("#test-group-id").removeAttr("disabled");
+        $("#interview-group-id").removeAttr("disabled");
+
+        $('#btn-edit-registration').prop('disabled', true);
+        $('#btn-save-registration').prop('disabled', false);
+
+
+        $.ajax({
+            url: baseUrl + '/student/registration/details',
+            type: "GET",
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            data: { id: id },
+            dataType: "json",
+            success: function (response) {
+
+                if (response.status === true) {
+                    var registration = response.registration;
+
+                    $('#record-id').val(registration.id);
+                    $('#campus-id').val(registration.campus_id).change();
+                    $('#form-number').val(registration.form_no);
+                    $('#registration-number').val(registration.registration_id);
+                    $('#first-name').val(registration.first_name);
+                    $('#last-name').val(registration.last_name);
+                    $('#dob').val(registration.dob);
+
+                    var gender = registration.gender;
+                    newGender = gender[0].toUpperCase() + gender.slice(1);
+                    $('#gender').val(newGender).change();
+                    $('#house-no').val(registration.house_no);
+
+                    var siblings_in_mpa = registration.siblings_in_mpa;
+                    new_siblings_in_mpa = siblings_in_mpa[0].toUpperCase() + siblings_in_mpa.slice(1);
+                    $('#siblings-in-mpa').val(new_siblings_in_mpa).change();
+
+                    $('#no-of-siblings').val(registration.no_of_siblings);
+                    $('#previous-class-id').val(registration.previous_class_id).change();
+                    $('#previous-school').val(registration.previous_school);
+                    $('#building-no').val(registration.building_no);
+                    $('#block-no').val(registration.block_no);
+                    $('#area-id').val(registration.area_id).change();
+                    $('#city-id').val(registration.city_id).change();
+
+                    var father_details = $.parseJSON(registration.father_details);
+                    $('#father-cnic').val(father_details.father_cnic);
+                    $('#father-company-name').val(father_details.father_company_name);
+                    $('#father-email').val(father_details.father_email);
+                    $('#father-name').val(father_details.father_name);
+                    $('#father-occupation').val(father_details.father_occupation);
+                    $('#father-phone').val(father_details.father_phone);
+                    $('#father-salary').val(father_details.father_salary);
+
+                    $('#hear-about-us-update').val(registration.hear_about_us).change();
+                    if (registration.hear_about_us == 'other') {
+                        $('#hear-about-us-other').val(registration.hear_about_us);
+                    }
+
+                    $('#test-group-id').val(registration.test_group_id).change();
+                    $('#interview-group-id').val(registration.interview_group_id).change();
+
+                } ``
+            },
+            error: function () {
+                message = `<div class="alert alert-danger alert-dismissible">
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                    <strong> Whoops !</strong> Something went wrong please contact to admintrator.
+                                </div>`;
+            },
+            complete: function () {
+            }
+        }); ``
+
+    });
+
+
 
     // $(document).on('change', '#session-id', function (e) {
     //     e.preventDefault();
