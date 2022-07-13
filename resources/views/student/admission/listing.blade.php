@@ -30,78 +30,92 @@
                             <div>
                                 <h1 class="main-content-label mb-1">Search Students</h1>
                             </div>
-
                             <br>
-                            <div class="form-row">
-                                <div class="form-group col-md-3 mb-0">
-                                    <div class="form-group">
-                                        <label class="form-label tx-semibold">Campus</label>
-                                        <div class="pos-relative">
-                                            <select class="form-control select2" name="campus_id" id="campus-id">
-                                                <option selected value="">Select Student</option>
-                                                @foreach($data['campuses'] as $campus)
-                                                    <option value="{{$campus->id}}">{{$campus->name}}</option>
-                                                @endforeach
-                                            </select>
+                            <form method="GET" action="{{ route('admission.listing') }}">
+                                <div class="form-row">
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-group">
+                                            <label class="form-label tx-semibold">Session</label>
+                                            <div class="pos-relative">
+                                                <select class="form-control select2" name="session_id" id="session-id">
+                                                    <option value="">Select Session</option>
+                                                    @foreach($data['session'] as $session)
+                                                        <option value="{{$session->id}}">{{$session->session}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-group">
+                                            <label class="form-label tx-semibold">Campus</label>
+                                            <div class="pos-relative">
+                                                <select class="form-control select2" name="campus_id" id="campus-id">
+                                                    <option value="">Select Student</option>
+                                                    @foreach($data['campus'] as $campus)
+                                                        <option value="{{$campus->id}}">{{$campus->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-group">
+                                            <label class="form-label tx-semibold">System</label>
+                                            <div class="pos-relative">
+                                                <select class="form-control select2" name="system_id" id="system-id">
+                                                    <option value="">Select System</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-group">
+                                            <label class="form-label tx-semibold">Class</label>
+                                            <div class="pos-relative">
+                                                <select class="form-control select2" name="class_id" id="class-id">
+                                                    <option value="">Select Class</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-group">
+                                            <label class="form-label tx-semibold">Class Group</label>
+                                            <div class="pos-relative">
+                                                <select class="form-control select2" name="group_id" id="group-id">
+                                                    <option value="">Select Class Group</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-3 mb-0">
+                                        <div class="form-group">
+                                            <label class="form-label tx-semibold">Section</label>
+                                            <div class="pos-relative">
+                                                <select class="form-control select2" name="section_id" id="section-id">
+                                                    <option selected value="">Select Section</option>
+                                                    @foreach($data['section'] as $section)
+                                                        <option value="{{$section->id}}">{{$section->section}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-2 mt-4">
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="submit" id="btn-search-admission">
+                                                <i class="fas fa-search"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-2 mb-0">
-                                    <div class="form-group">
-                                        <label class="form-label tx-semibold">Session</label>
-                                        <div class="pos-relative">
-                                            <select class="form-control select2" name="session_id" id="session-id">
-                                                <option selected value="">Select Session</option>
-                                                @foreach($data['sessions'] as $session)
-                                                    <option value="{{$session->id}}">{{$session->session}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-3 mb-0">
-                                    <div class="form-group">
-                                        <label class="form-label tx-semibold">Class</label>
-                                        <div class="pos-relative">
-                                            <select class="form-control select2" name="class_id" id="class-id">
-                                                <option selected value="">Select Class</option>
-                                                @foreach($data['studentClasses'] as $class)
-                                                    <option value="{{$class->id}}">{{$class->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-2 mb-0">
-                                    <div class="form-group">
-                                        <label class="form-label tx-semibold">Section</label>
-                                        <div class="pos-relative">
-                                            <select class="form-control select2" name="section_id" id="section-id">
-                                                <option selected value="">Select Section</option>
-                                                @foreach($data['sections'] as $section)
-                                                    <option value="{{$section->id}}">{{$section->name}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form-group col-md-2 mt-4">
-                                    <div class="form-group">
-                                        <button class="btn btn-primary" type="submit" id="btn-search-student">Search</button>
-                                    </div>
-                                </div>
-                            </div>
-                           
+                            </form>    
                             <hr style="border: 1px solid black;">
-
                             <div>
                                 <h1 class="main-content-label mb-1">{{ $data['menu'] }} </h1>
                             </div>
-
                             <br>
-
                             <div class="table-responsive" id="notifications">
                                 <table class="table table-bordered text-nowrap border-bottom" id="responsive-datatable">
                                     <thead>
@@ -111,7 +125,6 @@
                                                     <input class="form-check-input checkBox" type="checkbox" value="" id="flexCheckDefault">
                                                 </div>
                                             </th>
-
                                             <th width="5px">S.NO</th>
                                             <th>Gr.No</th>
                                             <th>First Name</th>
@@ -122,7 +135,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($data['students'] as $key => $student)
+                                        @foreach($data['admission'] as $key => $student)
                                         <tr>
                                             <td>
                                                 <div class="form-check">
@@ -157,6 +170,6 @@
     </div>
 </div>
 
-<script src="{{ url('backend/assets/js/admission/admission.js') }}"></script>
+<script src="{{ url('backend/assets/js/student/admission.js') }}"></script>
 
 @endsection

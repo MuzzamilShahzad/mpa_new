@@ -1131,60 +1131,6 @@ $(document).ready(function () {
         }
     });
 
-    $(document).on('change', '#session-id', function (e) {
-        e.preventDefault();
-
-        var session_id = $('#session-id').val();
-        
-        if(session_id !== "" && session_id > "0"){
-
-            $.ajax({
-                url: baseUrl + '/campus/test-inteview-groups-and-class-sections',
-                type: "GET",
-                data: { session_id: session_id },
-                success: function (response) {
-                    
-                    if(response.status === true){
-                        
-                        var interviewGroups      =  response.interviewGroups;
-                        var testGroups           =  response.testGroups;
-                        var classSections  =  response.classSections;
-                        
-                        var interviews  =  `<option value="">Select</option>`;
-                        var tests       =  `<option value="">Select</option>`;
-                        var sections    =  `<option value="">Select</option>`;
-                        
-                        if(interviewGroups.length){
-                            $(interviewGroups).each(function(key, value){
-                                interviews += `<option value="`+value.id+`" >`+value.type+`</option>`;
-                            });
-                        }
-                        
-                        if(testGroups.length){
-                            $(testGroups).each(function(key, value){
-                                tests += `<option value="`+value.id+`" >`+value.type+`</option>`;
-                            });
-                        }
-
-                        if(classSections.length){
-                            $(classSections).each(function(key, value){
-                                sections += `<option value="`+value.id+`" >`+value.type+`</option>`;
-                            });
-                        }
-                        
-                        $('#test-group').html(tests);
-                        $('#interview-group').html(interviews);
-                        $('#section-id').prop('disabled',false);
-                        $('#section-id').html(sections);
-                    }
-                }
-            });
-        } else {
-            $('#test-group, #interview-group, #section-id').html('<option value="">Select</option>');
-            $('#section-id').prop('disabled',true);
-        }
-    });
-
     // Enable Religion Other Input
     $(document).on('change', '#religion-type', function (e) {
         e.preventDefault();

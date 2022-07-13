@@ -14,28 +14,48 @@ use App\Models\Admission;
 
 class AdmissionController extends Controller
 {
-    public function listing() {
-        $admissions  =  Admission::all();
-        $campus      =  Campus::where('is_active',1)->where('is_delete',0)->get();
-        $session     =  Session::get();
-        $area        =  Area::get();
-        $city        =  City::get();
-        $class       =  Classes::get();
+    public function listing(Request $request) {
+        
+        $session    =  Session::get();
+        $campus     =  Campus::where('is_active',1)->where('is_delete',0)->get();
+        $section    =  Section::get();
+        
+        if($request->session_id){
+            $where['session_id'] = $request->session_id;
+        }
+        
+        if($request->campus_id){
+            $where['campus_id'] = $request->campus_id;
+        }
+        
+        if($request->system_id){
+            $where['system_id'] = $request->system_id;
+        }
+        
+        if($request->class_id){
+            $where['class_id'] = $request->class_id;
+        }
 
+        if($request->group_id){
+            $where['group_id'] = $request->group_id;
+        }
+
+        if($request->section_id){
+            $where['section_id'] = $request->section_id;
+        }
+
+        $where['is_active'] = 1;
+        $where['is_delete'] = 0;
+        $admission  =  Admission::where($where)->get();
+        
         $data = array(
-            'admissions'      =>  $admissions,
-            'campuses'        =>  $campuses,
-            'sessions'        =>  $sessions,
-            'studentClasses'  =>  $studentClasses,
-            'sections'        =>  $sections,
-            'categories'      =>  $categories,
-            'schoolHouses'    =>  $schoolHouses,
-            'areas'           =>  $areas,
-            'page'            =>  'Admission',
-            'menu'            =>  'Manage Admission'
+            'session'    =>  $session,
+            'campus'     =>  $campus,
+            'section'    =>  $section,
+            'admission'  =>  $admission,
+            'page'       =>  'Admission',
+            'menu'       =>  'Admissions Listing'
         );
-
-        dd($data);
 
         return view('student.admission.listing', compact('data'));
     }
