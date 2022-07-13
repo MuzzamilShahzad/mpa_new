@@ -42,10 +42,13 @@ Route::controller(CampusController::class)->group(function () {
     Route::get('/campus/test-inteview-groups-and-class-sections', 'getTestInterviewGroupAndClassSectionByCampusSystemClassId')->name('campus.testInterviewGroupAndClassSectionByCampusSystemClassId');
 });
 
-//Admission routes
+//Registeration routes
 Route::controller(StudentRegistrationController::class)->group(function () {
+    Route::get('/student/registration', 'listing')->name('student.registration.listing');
     Route::get('/student/registration/add', 'add')->name('student.registration.create');
+    Route::get('/student/registration/details', 'registrationDetails')->name('student.registration.details');
     Route::post('/student/registration/store', 'store')->name('student.registration.store');
+    Route::put('/student/registration/update', 'update')->name('student.registration.update');
     Route::get('/campus/student/form-id', 'getStudentFormNumberByCampusIdAndSystemIdAndSessionId')->name('campus.studentFormNumberByCampusIdAndSystemIdAndSessionId');
 });
 
