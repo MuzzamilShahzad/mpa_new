@@ -97,6 +97,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Form Number</label>
                                             <input type="text" class="form-control" name="form_no" id="form-no">
+                                            <input type="hidden" class="form-control" name="reg_no" id="reg-no" value="">
                                         </div>
                                     </div>
                                 </div>
@@ -286,10 +287,10 @@
                                                 <div class="pos-relative">
                                                     <select class="form-control select2" name="hear_about_us " id="hear-about-us">
                                                         <option value="">Select</option>
-                                                        <option value="Social Media">Social Media</option>
-                                                        <option value="Electronic Media">Electronic Media</option>
-                                                        <option value="Print Media">Print Media</option>
-                                                        <option value="Other">Other</option>
+                                                        <option value="social_media">Social Media</option>
+                                                        <option value="electronic_media">Electronic Media</option>
+                                                        <option value="print_media">Print Media</option>
+                                                        <option value="other">Other</option>
                                                     </select>
                                                 </div>
                                         </div>
@@ -298,7 +299,7 @@
                             </div>
                             <div class="card-body">
                                 <h4 class="main-content-label"> 
-                                    <input type="checkbox" name="test_group_chkbox" id="test-group-chkbox">
+                                    <input type="checkbox" name="test_group_chkbox" value="1" id="test-group-chkbox">
                                     <strong>Test Group</strong> 
                                 </h4>
                                 <br>
@@ -306,7 +307,7 @@
                                     <div class="form-group col-md-6 mb-0">
                                         <div class="form-group">
                                            <div class="pos-relative">
-                                                <select class="form-control select2" name="test_group" id="test-group" disabled>
+                                                <select class="form-control select2" name="test_group_id" id="test-group-id" disabled>
                                                 </select>
                                             </div>
                                         </div>
@@ -315,7 +316,7 @@
                             </div>
                             <div class="card-body">
                                 <h4 class="main-content-label"> 
-                                    <input type="checkbox" name="interview_group_chkbox" id="interview-group-chkbox"/>
+                                    <input type="checkbox" name="interview_group_chkbox" value="1" id="interview-group-chkbox"/>
                                     <strong>Interview Group</strong> 
                                 </h4>
                                 <br>
@@ -323,7 +324,7 @@
                                     <div class="form-group col-md-6 mb-0">
                                         <div class="form-group">
                                            <div class="pos-relative">
-                                                <select class="form-control select2" name="interview_group" id="interview-group" disabled>
+                                                <select class="form-control select2" name="interview_group_id" id="interview-group-id" disabled>
                                                     <option value="">Select Interview</option>
                                                 </select>
                                             </div>
