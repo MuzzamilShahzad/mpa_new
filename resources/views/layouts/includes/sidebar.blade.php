@@ -33,6 +33,9 @@
                         <ul class="nav-sub">
                             <li class="side-menu-label1"><a href="javascript:;">Registration</a></li>
                             <li class="nav-sub-item">
+                                <a class="nav-sub-link {{ isset($data['menu']) && !empty($data['menu']) && $data['menu'] == 'Manage Registeration' ? 'active' : '' }}" href="{{route('student.registration.listing')}}">Manage Registeration</a>
+                            </li>
+                            <li class="nav-sub-item">
                                 <a class="nav-sub-link {{ isset($data['menu']) && !empty($data['menu']) && $data['menu'] == 'Add Student Registration' ? 'active' : '' }}" href="{{route('student.registration.create')}}">Add</a>
                             </li>
                         </ul>

@@ -15,12 +15,14 @@ use App\Models\Admission;
 class AdmissionController extends Controller
 {
     public function listing() {
-        $admissions  =  Admission::all();
-        $campus      =  Campus::where('is_active',1)->where('is_delete',0)->get();
-        $session     =  Session::get();
-        $area        =  Area::get();
-        $city        =  City::get();
-        $class       =  Classes::get();
+        $admissions     =  Admission::all();
+        $campuses       =  Campus::where('is_active',1)->where('is_delete',0)->get();
+        $sessions       =  Session::get();
+        $areas          =  Area::get();
+        $city           =  City::get();
+        $studentClasses =  Classes::get();
+        $sections       =  Section::get();
+        $students       =   
 
         $data = array(
             'admissions'      =>  $admissions,
@@ -28,14 +30,12 @@ class AdmissionController extends Controller
             'sessions'        =>  $sessions,
             'studentClasses'  =>  $studentClasses,
             'sections'        =>  $sections,
-            'categories'      =>  $categories,
-            'schoolHouses'    =>  $schoolHouses,
+            // 'categories'      =>  $categories,
+            // 'schoolHouses'    =>  $schoolHouses,
             'areas'           =>  $areas,
             'page'            =>  'Admission',
             'menu'            =>  'Manage Admission'
         );
-
-        dd($data);
 
         return view('student.admission.listing', compact('data'));
     }
