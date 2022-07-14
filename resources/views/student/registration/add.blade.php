@@ -42,7 +42,7 @@
                                                 <select class="form-control select2" name="campus_id" id="campus-id">
                                                     <option value="">Select</option>
                                                     @foreach($data['campus'] as $campus)
-                                                        <option value="{{$campus->id}}">{{$campus->name}}</option>
+                                                        <option value="{{$campus->id}}">{{$campus->campus}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>

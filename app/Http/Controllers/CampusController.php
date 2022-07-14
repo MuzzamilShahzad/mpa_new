@@ -215,7 +215,7 @@ class CampusController extends Controller
         } else {
             $campus = new Campus;
 
-            $campus->name           =  $request->name;
+            $campus->campus           =  $request->name;
             $campus->email          =  $request->email;
             $campus->phone          =  $request->phone;
             $campus->address        =  $request->address;

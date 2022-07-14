@@ -1787,7 +1787,7 @@ $(document).ready(function () {
         showOtherMonths: true,
         selectOtherMonths: true
     });
-
+    
     // $('.date-time-picker').datetimepicker({
     // 	format: "dd-mm-yyyy HH:ii P",
     //     timepicker:true,

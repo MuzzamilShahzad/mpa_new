@@ -86,15 +86,31 @@ class AdmissionController extends Controller
             $where['section_id'] = $request->section_id;
         }
 
-        $where['is_active'] = 1;
-        $where['is_delete'] = 0;
-        $admission  =  Admission::where($where)->get();
-        
-        $response = array(
-            'data'         => $admission
-        );
+        $where['admissions.is_active'] = 1;
+        $where['admissions.is_delete'] = 0;
 
-        // dd($response);
+        $admission  = Admission::select('admissions.id',
+                                        'admissions.temporary_gr',
+                                        'admissions.gr',
+                                        'admissions.first_name',
+                                        'admissions.last_name',
+                                        'admissions.father_details',
+                                        'admissions.admission_date',
+                                        'campuses.campus',
+                                        'systems.system',
+                                        'classes.class',
+                                        'groups.group',
+                                        'sections.section')
+                                ->leftJoin('campuses','campuses.id','=','admissions.campus_id')
+                                ->leftJoin('systems','systems.id','=','admissions.system_id')
+                                ->leftJoin('classes','classes.id','=','admissions.class_id')
+                                ->leftJoin('groups','groups.id','=','admissions.group_id')
+                                ->leftJoin('sections','sections.id','=','admissions.section_id')
+                                ->where($where)
+                                ->get();
+        $response = array(
+            'data'         =>  $admission
+        );
 
         return response()->json($response);
 
@@ -363,6 +379,38 @@ class AdmissionController extends Controller
                 );
                 return response()->json($response);
             }
+        }
+    }
+
+    public function delete(Request $request) {
+        
+        $admission_id      =  $request->admission_id;
+        
+        if($admission_id){
+            $admissionDetails  =  Admission::find($admission_id);
+            
+            if($admissionDetails){
+                
+                $deleteAdmission = Admission::where('id',$student_id)->delete();
+
+                if ($deleteAdmission) {
+                    $response = array(
+                        'status'   =>  true, 
+                        'message'  =>  'Record has been deleted successfully!'
+                    );
+                } else {
+                    $response = array(
+                        'status'   =>  false,
+                        'message'  =>  'Some thing went worng!'
+                    );
+                }
+            } else {
+                $response = array(
+                    'status'   =>  false,
+                    'message'  =>  'Admission Not Found.'
+                );
+            }
+            return response()->json($response); 
         }
     }
 }

@@ -57,7 +57,7 @@
                                                 <select class="form-control select2" name="campus_id" id="campus-id">
                                                     <option value="">Select Campus</option>
                                                     @foreach($data['campuses'] as $campus)
-                                                    <option value="{{$campus->id}}">{{$campus->name}}</option>
+                                                    <option value="{{$campus->id}}">{{$campus->campus}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -193,7 +193,7 @@
                                             <select name="campus_id" id="campus-id" class="form-control campusSelect2" disabled>
                                                 <option selected value="">Select Campus</option>
                                                 @foreach($data['campuses'] as $campus)
-                                                <option value="{{$campus->id}}">{{$campus->name}}</option>
+                                                <option value="{{$campus->id}}">{{$campus->campus}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -499,7 +499,7 @@
                                             <select name="campus_id" id="campus-id" class="form-control select2">
                                                 <option value="">Select Campus</option>
                                                 @foreach($data['campuses'] as $campus)
-                                                <option value="{{$campus->id}}">{{$campus->name}}</option>
+                                                <option value="{{$campus->id}}">{{$campus->campus}}</option>
                                                 @endforeach
                                             </select>
                                         </div>

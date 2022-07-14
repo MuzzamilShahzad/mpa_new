@@ -3,7 +3,19 @@
 @section('page_title', 'Manage Admission')
 
 <style>
-     .checkBox {width: 20px; height: 20px;}
+    .checkBoxAll {
+        width: 20px; 
+        height: 20px;
+    }
+    .fa-check{
+        color: #19b159;
+    }
+    .fa-edit{
+        color: #4d65d9;
+    }
+    .fa-trash{
+        color: #ff334d;
+    }
 </style>
 
 <div class="main-content side-content pt-0">
@@ -53,7 +65,7 @@
                                                 <select class="form-control select2" name="campus_id" id="campus-id">
                                                     <option value="">Select Student</option>
                                                     @foreach($data['campus'] as $campus)
-                                                        <option value="{{$campus->id}}">{{$campus->name}}</option>
+                                                        <option value="{{$campus->id}}">{{$campus->campus}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -116,25 +128,27 @@
                                 <h1 class="main-content-label mb-1">{{ $data['menu'] }} </h1>
                             </div>
                             <br>
-                            <div class="table-responsive" id="notifications">
+                            <div class="table-responsive">
                                 <table class="table table-bordered text-nowrap border-bottom" id="admission-listing-datatable">
                                     <thead>
                                         <tr>
-                                            <th width="5px"> 
+                                            <th> 
                                                 <div class="form-check">
-                                                    <input class="form-check-input checkBox" type="checkbox" value="" id="flexCheckDefault">
+                                                    <input class="form-check-input checkBoxAll" type="checkbox">
                                                 </div>
                                             </th>
-                                            <th>Gr.No</th>
+                                            <th>Temp Gr / Gr.No</th>
                                             <th>First Name</th>
                                             <th>Last Name</th>
-                                            <th>Gender</th>
+                                            <th>Father Name</th>
+                                            <th>Campus (System)</th>
+                                            <th>Class (Group)</th>
+                                            <!-- <th>Section</th> -->
                                             <th>Admission Date</th>
-                                            <th width="20px">Action</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
                                     </tbody>
                                 </table>
                             </div>

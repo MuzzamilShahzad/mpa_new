@@ -1317,73 +1317,73 @@ $(document).ready(function () {
 
     });
 
-    // Start Delete Data Script
-    $(document).on('click', '#btn-delete-admission', function () {
+     // Start Delete Data Script
+    // $(document).on('click', '#btn-delete-admission', function () {
 
-        var student_id = $(this).data('id');
-        var url = baseUrl + '/admission/delete';
-        var row = $(this).parent().parent("tr");
+    //     var admission_id = $(this).data('id');
+    //     var url = baseUrl + '/admission/delete';
+    //     var row = $(this).parent().parent("tr");
 
-        swal.fire({
+    //     swal.fire({
 
-            icon: 'warning',
-            title: 'Are you sure?',
-            html: 'You want to <b>delete</b> this record',
-            showCancelButton: true,
-            showCloseButton: true,
-            cancelButtonText: 'Cancel',
-            confirmButtonText: 'Yes, Delete',
-            cancelButtonColor: '#d33',
-            confirmButtonColor: '#556ee6',
-            allowOutsideClick: false
+    //         icon: 'warning',
+    //         title: 'Are you sure?',
+    //         html: 'You want to <b>delete</b> this record',
+    //         showCancelButton: true,
+    //         showCloseButton: true,
+    //         cancelButtonText: 'Cancel',
+    //         confirmButtonText: 'Yes, Delete',
+    //         cancelButtonColor: '#d33',
+    //         confirmButtonColor: '#556ee6',
+    //         allowOutsideClick: false
 
-        }).then(function (result) {
+    //     }).then(function (result) {
 
-            if (result.value) {
+    //         if (result.value) {
 
-                $.ajax({
-                    url: url,
-                    type: 'DELETE',
-                    headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                    data: { student_id: student_id },
-                    dataType: "json",
-                    success: function (response) {
-                        if (response.status == false) {
-                            message = {
-                                icon: 'error',
-                                title: 'Oops...',
-                                text: response.message,
-                            };
-                        } else {
-                            row.remove();
+    //             $.ajax({
+    //                 url: url,
+    //                 type: 'DELETE',
+    //                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+    //                 data: { admission_id: admission_id },
+    //                 dataType: "json",
+    //                 success: function (response) {
+    //                     if (response.status == false) {
+    //                         message = {
+    //                             icon: 'error',
+    //                             title: 'Oops...',
+    //                             text: response.message,
+    //                         };
+    //                     } else {
+    //                         row.remove();
 
-                            message = {
-                                icon: 'success',
-                                title: 'Success',
-                                text: response.message,
-                            }
-                        }
-                    },
+    //                         message = {
+    //                             icon: 'success',
+    //                             title: 'Success',
+    //                             text: response.message,
+    //                         }
+    //                     }
+    //                 },
 
-                    error: function () {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Some thing went wrong please contact to Administrator!',
-                        })
-                    },
+    //                 error: function () {
+    //                     Swal.fire({
+    //                         icon: 'error',
+    //                         title: 'Oops...',
+    //                         text: 'Some thing went wrong please contact to Administrator!',
+    //                     })
+    //                 },
 
-                    complete: function () {
-                        Swal.fire({
-                            icon: message.icon,
-                            title: message.title,
-                            text: message.text,
-                        })
-                    }
-                });
-            }
-        });
-    });
+    //                 complete: function () {
+    //                     Swal.fire({
+    //                         icon: message.icon,
+    //                         title: message.title,
+    //                         text: message.text,
+    //                     })
+    //                 }
+    //             });
+    //         }
+    //     });
+    // });
     // End Delete Data Script
 
 });
