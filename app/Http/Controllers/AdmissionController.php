@@ -391,8 +391,7 @@ class AdmissionController extends Controller
             
             if($admissionDetails){
                 
-                // $deleteAdmission = Admission::where('id',$student_id)->delete();
-                $deleteAdmission = true;
+                $deleteAdmission = Admission::where('id',$student_id)->delete();
 
                 if ($deleteAdmission) {
                     $response = array(
