@@ -656,8 +656,8 @@ $(document).ready(function () {
                         var classGroup = response.classGroups;
                         var groups = `<option value="">Select</option>`;
 
-                        var classSection = response.classSections;
-                        var sections = `<option value="">Select</option>`;
+                        // var classSection = response.classSections;
+                        // var sections = `<option value="">Select</option>`;
 
                         if (classGroup.length) {
                             $(classGroup).each(function (key, value) {
@@ -668,14 +668,14 @@ $(document).ready(function () {
                             $('#class-group-id').html(groups);
                         }
 
-                        if (classSection.length) {
-                            $(classSection).each(function (key, value) {
-                                sections += `<option value="` + value.id + `" >` + value.section + `</option>`;
-                            });
-                        }
+                        // if (classSection.length) {
+                        //     $(classSection).each(function (key, value) {
+                        //         sections += `<option value="` + value.id + `" >` + value.section + `</option>`;
+                        //     });
+                        // }
 
-                        $('#section-id').prop('disabled', false);
-                        $('#section-id').html(sections);
+                        // $('#section-id').prop('disabled', false);
+                        // $('#section-id').html(sections);
 
                     }
                 }
@@ -778,7 +778,7 @@ $(document).ready(function () {
         showOtherMonths: true,
         selectOtherMonths: true
     });
-
+    
     // $('.date-time-picker').datetimepicker({
     // 	format: "dd-mm-yyyy HH:ii P",
     //     timepicker:true,
