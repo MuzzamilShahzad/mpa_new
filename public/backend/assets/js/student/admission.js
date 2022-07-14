@@ -11,88 +11,88 @@ $(document).ready(function () {
         var flag = true;
 
         //Student Table Data
-        var temporary_gr                =  $("#temporary-gr").val();
-        var gr                          =  $("#gr").val();
-        var roll_no                     =  $("#roll-no").val();
-        var session_id                  =  $("#session-id").val();
-        var campus_id                   =  $("#campus-id").val();
-        var system_id                   =  $("#system-id").val();
-        var class_id                    =  $("#class-id").val();
-        var group_id                    =  $("#group-id").val();
-        var section_id                  =  $("#section-id").val();
-        var bform_crms_no               =  $("#bform-crms-no").val();
-        var first_name                  =  $("#first-name").val();
-        var last_name                   =  $("#last-name").val();
-        var dob                         =  $("#dob").val();
-        var gender                      =  $("#gender").val();
-        var place_of_birth              =  $("#place-of-birth").val();
-        var nationality                 =  $("#nationality").val();
-        var mother_tongue               =  $("#mother-tongue").val();
-        var previous_class_id           =  $("#previous-class-id").val();
-        var previous_school             =  $("#previous-school").val();
-        var mobile_no                   =  $("#mobile-no").val();
-        var email                       =  $("#email").val();
-        var admission_date              =  $("#admission-date").val();
-        var blood_group                 =  $("#blood-group").val();
-        var height                      =  $("#height").val();
-        var weight                      =  $("#weight").val();
-        var as_on_date                  =  $("#as-on-date").val();
-        var fee_discount                =  $("#fee-discount").val();
-        
-        var religion                    =  $("#religion").val();
-        var religion_type               =  $("#religion-type").val();
-        var religion_type_other         =  $("#religion-type-other").val();
+        var temporary_gr = $("#temporary-gr").val();
+        var gr = $("#gr").val();
+        var roll_no = $("#roll-no").val();
+        var session_id = $("#session-id").val();
+        var campus_id = $("#campus-id").val();
+        var system_id = $("#system-id").val();
+        var class_id = $("#class-id").val();
+        var group_id = $("#group-id").val();
+        var section_id = $("#section-id").val();
+        var bform_crms_no = $("#bform-crms-no").val();
+        var first_name = $("#first-name").val();
+        var last_name = $("#last-name").val();
+        var dob = $("#dob").val();
+        var gender = $("#gender").val();
+        var place_of_birth = $("#place-of-birth").val();
+        var nationality = $("#nationality").val();
+        var mother_tongue = $("#mother-tongue").val();
+        var previous_class_id = $("#previous-class-id").val();
+        var previous_school = $("#previous-school").val();
+        var mobile_no = $("#mobile-no").val();
+        var email = $("#email").val();
+        var admission_date = $("#admission-date").val();
+        var blood_group = $("#blood-group").val();
+        var height = $("#height").val();
+        var weight = $("#weight").val();
+        var as_on_date = $("#as-on-date").val();
+        var fee_discount = $("#fee-discount").val();
 
-        var siblings_in_mpa             =  $("#siblings-in-mpa").val();
-        var no_of_siblings              =  $("#no-of-siblings").val();
-        
-        var student_vaccinated          =  $("input[name='student_vaccinated']:checked").val();
+        var religion = $("#religion").val();
+        var religion_type = $("#religion-type").val();
+        var religion_type_other = $("#religion-type-other").val();
+
+        var siblings_in_mpa = $("#siblings-in-mpa").val();
+        var no_of_siblings = $("#no-of-siblings").val();
+
+        var student_vaccinated = $("input[name='student_vaccinated']:checked").val();
 
         //Student Father Table Data
-        var father_cnic                 =  $("#father-cnic").val();
-        var father_salary               =  $("#father-salary").val();
-        var father_email                =  $("#father-email").val();
-        var father_name                 =  $("#father-name").val();
-        var father_phone                =  $("#father-phone").val();
-        var father_occupation           =  $("#father-occupation").val();
-        var father_company_name         =  $("#father-company-name").val();
-        var father_vaccinated           =  $("input[name='father_vaccinated']:checked").val();
+        var father_cnic = $("#father-cnic").val();
+        var father_salary = $("#father-salary").val();
+        var father_email = $("#father-email").val();
+        var father_name = $("#father-name").val();
+        var father_phone = $("#father-phone").val();
+        var father_occupation = $("#father-occupation").val();
+        var father_company_name = $("#father-company-name").val();
+        var father_vaccinated = $("input[name='father_vaccinated']:checked").val();
 
         //Student Mother Table Data
-        var mother_cnic                 =  $("#mother-cnic").val();
-        var mother_salary               =  $("#mother-salary").val();
-        var mother_email                =  $("#mother-email").val();
-        var mother_name                 =  $("#mother-name").val();
-        var mother_phone                =  $("#mother-phone").val();
-        var mother_occupation           =  $("#mother-occupation").val();
-        var mother_company_name         =  $("#mother-company-name").val();
-        var mother_vaccinated           =  $("input[name='mother_vaccinated']:checked").val();
+        var mother_cnic = $("#mother-cnic").val();
+        var mother_salary = $("#mother-salary").val();
+        var mother_email = $("#mother-email").val();
+        var mother_name = $("#mother-name").val();
+        var mother_phone = $("#mother-phone").val();
+        var mother_occupation = $("#mother-occupation").val();
+        var mother_company_name = $("#mother-company-name").val();
+        var mother_vaccinated = $("input[name='mother_vaccinated']:checked").val();
 
         //Student Guardian Table Data
-        var guardian_cnic               =  $("#guardian-cnic").val();
-        var guardian_name               =  $("#guardian-name").val();
-        var guardian_phone              =  $("#guardian-phone").val();
-        var guardian_relation           =  $("#guardian-relation").val();
-        var guardian_relation_other     =  $("#guardian-relation-other").val();
-        var first_person_call           =  $("#first-person-call").val();
+        var guardian_cnic = $("#guardian-cnic").val();
+        var guardian_name = $("#guardian-name").val();
+        var guardian_phone = $("#guardian-phone").val();
+        var guardian_relation = $("#guardian-relation").val();
+        var guardian_relation_other = $("#guardian-relation-other").val();
+        var first_person_call = $("#first-person-call").val();
 
         //Student Address Table Data
-        var current_house_no            =  $("#current-house-no").val();
-        var current_block_no            =  $("#current-block-no").val();
-        var current_building_name_no    =  $("#current-building-name-no").val();
-        var current_area_id             =  $("#current-area-id").val();
-        var current_city_id             =  $("#current-city-id").val();
+        var current_house_no = $("#current-house-no").val();
+        var current_block_no = $("#current-block-no").val();
+        var current_building_name_no = $("#current-building-name-no").val();
+        var current_area_id = $("#current-area-id").val();
+        var current_city_id = $("#current-city-id").val();
 
-        var same_as_current             =  $("input[name='same_as_current']:checked").val();
+        var same_as_current = $("input[name='same_as_current']:checked").val();
 
-        var permanent_house_no          =  $("#permanent-house-no").val();
-        var permanent_block_no          =  $("#permanent-block-no").val();
-        var permanent_building_name_no  =  $("#permanent-building-name-no").val();
-        var permanent_area_id           =  $("#permanent-area-id").val();
-        var permanent_city_id           =  $("#permanent-city-id").val();
+        var permanent_house_no = $("#permanent-house-no").val();
+        var permanent_block_no = $("#permanent-block-no").val();
+        var permanent_building_name_no = $("#permanent-building-name-no").val();
+        var permanent_area_id = $("#permanent-area-id").val();
+        var permanent_city_id = $("#permanent-city-id").val();
 
         //Student Pick And Drop Table Data
-        var pick_and_drop               =  $("#pick-and-drop").val();
+        var pick_and_drop = $("#pick-and-drop").val();
 
         // var school_driver_name          =  $("#school-driver-name").val();
         // var school_driver_phone         =  $("#school-driver-phone").val();
@@ -134,18 +134,18 @@ $(document).ready(function () {
         }
         // if (class_group_id == "" || class_group_id == "0") {
         if ($("#group-id:not([disabled])")) {
-            if(group_id == ""){
+            if (group_id == "") {
                 $("#group-id").siblings("span").find(".select2-selection--single").addClass("has-error");
                 $("#group-id").siblings("span").after("<span class='error'>This field is required.</span>");
                 flag = false;
             }
-            
+
         }
         if (section_id == "") {
             $("#section-id:not([disabled]").siblings("span").find(".select2-selection--single").addClass("has-error");
             $("#section-id:not([disabled]").siblings("span").after("<span class='error'>This field is required.</span>");
             flag = false;
-        }        
+        }
         if (first_name == "") {
             $("#first-name").addClass("has-error");
             $("#first-name").after("<span class='error'>This field is required.</span>");
@@ -186,7 +186,7 @@ $(document).ready(function () {
 
         if (previous_class_id !== "" && previous_class_id !== "0") {
 
-            if(previous_school == ""){
+            if (previous_school == "") {
                 $("#previous-school").addClass("has-error");
                 $("#previous-school").after("<span class='error'>This field is required.</span>");
                 flag = false;
@@ -207,8 +207,8 @@ $(document).ready(function () {
             $("#religion-type").siblings("span").find(".select2-selection--single").addClass("has-error");
             $("#religion-type").siblings("span").after("<span class='error'>This field is required.</span>");
             flag = false;
-        
-        } else if(religion_type == "other") {
+
+        } else if (religion_type == "other") {
             if (religion_type_other == "") {
                 $("#religion-type-other").addClass("has-error");
                 $("#religion-type-other").after("<span class='error'>This field is required.</span>");
@@ -217,7 +217,7 @@ $(document).ready(function () {
         }
 
         if (siblings_in_mpa == "yes") {
-            if(no_of_siblings == ""){
+            if (no_of_siblings == "") {
                 $("#no-of-siblings").addClass("has-error");
                 $("#no-of-siblings").after("<span class='error'>This field is required.</span>");
                 flag = false;
@@ -291,7 +291,7 @@ $(document).ready(function () {
             $("#current-city-id").siblings("span").after("<span class='error'>This field is required.</span>");
             flag = false;
         }
-        if($('#same-as-current').is(':checked') == false){
+        if ($('#same-as-current').is(':checked') == false) {
             if (permanent_house_no == "") {
                 $("#permanent-house-no").addClass("has-error");
                 $("#permanent-house-no").after("<span class='error'>This field is required.</span>");
@@ -311,41 +311,41 @@ $(document).ready(function () {
                 $("#permanent-city-id").siblings("span").find(".select2-selection--single").addClass("has-error");
                 $("#permanent-city-id").siblings("span").after("<span class='error'>This field is required.</span>");
                 flag = false;
-            }   
-        }        
+            }
+        }
         if (pick_and_drop == "") {
-            
+
             $("#pick-and-drop").siblings("span").find(".select2-selection--single").addClass("has-error");
             $("#pick-and-drop").siblings("span").after("<span class='error'>This field is required.</span>");
             flag = false;
-        
+
         } else {
 
-            
-           
-            if(pick_and_drop == 'by_ride'){
 
-                var vehicle_no    =  $("#vehicle-no").val();
-                
-                if(vehicle_no == ''){
+
+            if (pick_and_drop == 'by_ride') {
+
+                var vehicle_no = $("#vehicle-no").val();
+
+                if (vehicle_no == '') {
                     $("#vehicle-no").addClass("has-error");
                     $("#vehicle-no").after("<span class='error'>This field is required.</span>");
                     flag = false;
                 }
-                
+
             }
 
-            if(pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van') {
-                
-                var vehicle_id    =  $("#vehicle-id").val();
+            if (pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van') {
 
-                if(vehicle_id == '' || vehicle_id == '0'){ 
+                var vehicle_id = $("#vehicle-id").val();
+
+                if (vehicle_id == '' || vehicle_id == '0') {
                     $("#vehicle-id").siblings("span").find(".select2-selection--single").addClass("has-error");
                     $("#vehicle-id").siblings("span").after("<span class='error'>This field is required.</span>");
                     flag = false;
                 }
 
-            } 
+            }
         }
 
         if (flag) {
@@ -354,100 +354,100 @@ $(document).ready(function () {
             $("#btn-add-admission").html('. . . . .');
 
             var message = '';
-            
+
             var formData = {
 
-                "temporary_gr"                : temporary_gr,
-                "gr"                          :  gr,
-                "roll_no"                     :  roll_no,
-                "session_id"                  :  session_id,
-                "campus_id"                   :  campus_id,
-                "system_id"                   :  system_id,
-                "class_id"                    :  class_id,
-                "group_id"                    :  group_id,
-                "section_id"                  :  section_id,
-                "bform_crms_no"               :  bform_crms_no,
-                "first_name"                  :  first_name,
-                "last_name"                   :  last_name,
-                "dob"                         :  dob,
-                "gender"                      :  gender,
-                "place_of_birth"              :  place_of_birth,
-                "nationality"                 :  nationality,
-                "mother_tongue"               :  mother_tongue,
-                "previous_class_id"           :  previous_class_id,
-                "previous_school"             :  previous_school,
-                "mobile_no"                   :  mobile_no,
-                "email"                       :  email,
-                "admission_date"              :  admission_date,
-                "blood_group"                 :  blood_group,
-                "height"                      :  height,
-                "weight"                      :  weight,
-                "as_on_date"                  :  as_on_date,
-                "fee_discount"                :  fee_discount,
-                "religion"                    :  religion,
-                "religion_type"               :  religion_type,
-                "religion_type_other"         :  religion_type_other,
-                "siblings_in_mpa"             :  siblings_in_mpa,
-                "no_of_siblings"              :  no_of_siblings,
-                "student_vaccinated"          :  student_vaccinated,
+                "temporary_gr": temporary_gr,
+                "gr": gr,
+                "roll_no": roll_no,
+                "session_id": session_id,
+                "campus_id": campus_id,
+                "system_id": system_id,
+                "class_id": class_id,
+                "group_id": group_id,
+                "section_id": section_id,
+                "bform_crms_no": bform_crms_no,
+                "first_name": first_name,
+                "last_name": last_name,
+                "dob": dob,
+                "gender": gender,
+                "place_of_birth": place_of_birth,
+                "nationality": nationality,
+                "mother_tongue": mother_tongue,
+                "previous_class_id": previous_class_id,
+                "previous_school": previous_school,
+                "mobile_no": mobile_no,
+                "email": email,
+                "admission_date": admission_date,
+                "blood_group": blood_group,
+                "height": height,
+                "weight": weight,
+                "as_on_date": as_on_date,
+                "fee_discount": fee_discount,
+                "religion": religion,
+                "religion_type": religion_type,
+                "religion_type_other": religion_type_other,
+                "siblings_in_mpa": siblings_in_mpa,
+                "no_of_siblings": no_of_siblings,
+                "student_vaccinated": student_vaccinated,
 
-                "father_cnic"                 :  father_cnic.replace("-", ""),
-                "father_salary"               :  father_salary,
-                "father_email"                :  father_email,
-                "father_name"                 :  father_name,
-                "father_phone"                :  father_phone.replace("-", ""),
-                "father_occupation"           :  father_occupation,
-                "father_company_name"         :  father_company_name,
-                "father_vaccinated"           :  father_vaccinated,
+                "father_cnic": father_cnic.replace("-", ""),
+                "father_salary": father_salary,
+                "father_email": father_email,
+                "father_name": father_name,
+                "father_phone": father_phone.replace("-", ""),
+                "father_occupation": father_occupation,
+                "father_company_name": father_company_name,
+                "father_vaccinated": father_vaccinated,
 
-                "mother_cnic"                 :  mother_cnic.replace("-", ""),
-                "mother_salary"               :  mother_salary,
-                "mother_email"                :  mother_email,
-                "mother_name"                 :  mother_name,
-                "mother_phone"                :  mother_phone.replace("-", ""),
-                "mother_occupation"           :  mother_occupation,
-                "mother_company_name"         :  mother_company_name,
-                "mother_vaccinated"           :  mother_vaccinated,
+                "mother_cnic": mother_cnic.replace("-", ""),
+                "mother_salary": mother_salary,
+                "mother_email": mother_email,
+                "mother_name": mother_name,
+                "mother_phone": mother_phone.replace("-", ""),
+                "mother_occupation": mother_occupation,
+                "mother_company_name": mother_company_name,
+                "mother_vaccinated": mother_vaccinated,
 
-                "guardian_cnic"               :  guardian_cnic.replace("-", ""),
-                "guardian_name"               :  guardian_name,
-                "guardian_phone"              :  guardian_phone.replace("-", ""),
-                "guardian_relation"           :  guardian_relation,
-                "guardian_relation_other"     :  guardian_relation_other,
-                "first_person_call"           :  first_person_call,
+                "guardian_cnic": guardian_cnic.replace("-", ""),
+                "guardian_name": guardian_name,
+                "guardian_phone": guardian_phone.replace("-", ""),
+                "guardian_relation": guardian_relation,
+                "guardian_relation_other": guardian_relation_other,
+                "first_person_call": first_person_call,
 
-                "current_house_no"            :  current_house_no,
-                "current_block_no"            :  current_block_no,
-                "current_building_name_no"    :  current_building_name_no,
-                "current_area_id"             :  current_area_id,
-                "current_city_id"             :  current_city_id,
+                "current_house_no": current_house_no,
+                "current_block_no": current_block_no,
+                "current_building_name_no": current_building_name_no,
+                "current_area_id": current_area_id,
+                "current_city_id": current_city_id,
 
-                "same_as_current"             :  same_as_current,
-                
-                "permanent_house_no"          :  permanent_house_no,
-                "permanent_block_no"          :  permanent_block_no,
-                "permanent_building_name_no"  :  permanent_building_name_no,
-                "permanent_area_id"           :  permanent_area_id,
-                "permanent_city_id"           :  permanent_city_id,
+                "same_as_current": same_as_current,
 
-                "pick_and_drop"               :  pick_and_drop,
+                "permanent_house_no": permanent_house_no,
+                "permanent_block_no": permanent_block_no,
+                "permanent_building_name_no": permanent_building_name_no,
+                "permanent_area_id": permanent_area_id,
+                "permanent_city_id": permanent_city_id,
+
+                "pick_and_drop": pick_and_drop,
                 // "vehicle_no"                  :  vehicle_no,
                 // "driver_name"                 :  driver_name,
                 // "driver_phone"                :  driver_phone
-                
+
             };
 
             // if($('#same-as-current').is(':checked') == true){
 
             // }
 
-            if(pick_and_drop == 'by_ride'){
+            if (pick_and_drop == 'by_ride') {
 
                 formData.vehicle_no = vehicle_no;
             }
-            
-            if(pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van') {
-                
+
+            if (pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van') {
+
                 formData.vehicle_id = vehicle_id;
 
             }
@@ -523,29 +523,29 @@ $(document).ready(function () {
     // End data store script
 
     $(document).on('change', '#pick-and-drop', function (e) {
-        
+
         e.preventDefault();
         $("#pick-drop-details-row").remove();
         var pick_and_drop = $('#pick-and-drop').val();
-        
-        if(pick_and_drop == 'by_ride'){
-                
+
+        if (pick_and_drop == 'by_ride') {
+
             var html = `<div class="form-row" id="pick-drop-details-row">
                             <div class="form-group col-md-12 mb-0">
                                 <label class="form-label tx-semibold">Vehicle No</label>
                                 <input type="text" class="form-control" name="vehicle_no" id="vehicle-no">
                             </div>
-                        </div>`; 
-            $(this).parent().parent().after(html);            
+                        </div>`;
+            $(this).parent().parent().after(html);
         }
 
-        if(pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van') {
+        if (pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van') {
 
             $.ajax({
                 url: baseUrl + '/vehicle/listing-by-type',
                 type: "GET",
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                data: { pick_and_drop : pick_and_drop},
+                data: { pick_and_drop: pick_and_drop },
                 dataType: "json",
                 success: function (response) {
                     console.log(response.status);
@@ -567,23 +567,23 @@ $(document).ready(function () {
                                                     <select class="form-control select2" name="vehicle_id" id="vehicle-id">
                                                         <option value="">Select Vehicle</option>`;
                         console.log(response.vehicles);
-                        $.each(response.vehicles,function(key, value){
-                            html += `<option value="`+value.id+`">`+value.number+` [ `+value.maker+` ] </option>`;
+                        $.each(response.vehicles, function (key, value) {
+                            html += `<option value="` + value.id + `">` + value.number + ` [ ` + value.maker + ` ] </option>`;
                         });
 
-                        html +=`                    </select>
+                        html += `                    </select>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>`;
 
                         $('#pick-and-drop').parent().parent().after(html);
-                        $("#vehicle-id").select2();        
+                        $("#vehicle-id").select2();
                     }
                 }
             });
-        } 
-        
+        }
+
     });
 
     // Start data update script
@@ -827,7 +827,7 @@ $(document).ready(function () {
             $("#category-id").siblings("span").after("<span class='error'>This field is required.</span>");
             flag = false;
         }
-        
+
         console.log(flag);
 
         if (flag) {
@@ -904,26 +904,26 @@ $(document).ready(function () {
                 "school_house_id": school_house_id,
 
 
-                "current_house_no"            :  current_house_no,
-                "current_block_no"            :  current_block_no,
-                "current_building_name_no"    :  current_building_name_no,
-                "current_city"                :  current_city,
-                "current_area_id"             :  current_area_id,
-                "same_as_current"             :  same_as_current,
-                "permanent_house_no"          :  permanent_house_no,
-                "permanent_block_no"          :  permanent_block_no,
-                "permanent_building_name_no"  :   permanent_building_name_no,
-                "permanent_city"              :  permanent_city,
-                "permanent_area_id"           :  permanent_area_id,
+                "current_house_no": current_house_no,
+                "current_block_no": current_block_no,
+                "current_building_name_no": current_building_name_no,
+                "current_city": current_city,
+                "current_area_id": current_area_id,
+                "same_as_current": same_as_current,
+                "permanent_house_no": permanent_house_no,
+                "permanent_block_no": permanent_block_no,
+                "permanent_building_name_no": permanent_building_name_no,
+                "permanent_city": permanent_city,
+                "permanent_area_id": permanent_area_id,
 
-                "pick_and_drop"               :  pick_and_drop,
-                "ride_vehicle_no"             :  ride_vehicle_no,
-                "school_driver_name"          :  school_driver_name,
-                "school_driver_phone"         :  school_driver_phone,
-                "school_vehicle_no"           :  school_vehicle_no,
-                "private_driver_name"         :  private_driver_name,
-                "private_driver_phone"        :  private_driver_phone,
-                "private_vehicle_no"          :  private_vehicle_no
+                "pick_and_drop": pick_and_drop,
+                "ride_vehicle_no": ride_vehicle_no,
+                "school_driver_name": school_driver_name,
+                "school_driver_phone": school_driver_phone,
+                "school_vehicle_no": school_vehicle_no,
+                "private_driver_name": private_driver_name,
+                "private_driver_phone": private_driver_phone,
+                "private_vehicle_no": private_vehicle_no
             };
 
 
@@ -988,56 +988,56 @@ $(document).ready(function () {
         }
     });
 
-    $(document).on('change',"#same-as-current", function() {
-        
-        if($('#same-as-current').is(':checked')){
-            $("#permanent-house-no, #permanent-block-no, #permanent-building-name-no, #permanent-city, #permanent-area-id, #permanent-city-id").prop('disabled',true);
+    $(document).on('change', "#same-as-current", function () {
+
+        if ($('#same-as-current').is(':checked')) {
+            $("#permanent-house-no, #permanent-block-no, #permanent-building-name-no, #permanent-city, #permanent-area-id, #permanent-city-id").prop('disabled', true);
             $("#permanent-house-no, #permanent-block-no, #permanent-building-name-no, #permanent-city, #permanent-area-id, #permanent-city-id").val('');
         } else {
-            $("#permanent-house-no, #permanent-block-no, #permanent-building-name-no, #permanent-city, #permanent-area-id, #permanent-city-id").prop('disabled',false);
+            $("#permanent-house-no, #permanent-block-no, #permanent-building-name-no, #permanent-city, #permanent-area-id, #permanent-city-id").prop('disabled', false);
             $("#permanent-house-no, #permanent-block-no, #permanent-building-name-no, #permanent-city, #permanent-area-id, #permanent-city-id").val('');
         }
     });
     // End data update script
-    
+
     $(document).on('change', '#campus-id', function (e) {
-        
+
         e.preventDefault();
 
         $("#campus-id").siblings("span").find(".select2-selection--single").removeClass("has-error");
         $("#campus-id").siblings('span.error').remove();
 
         $('#system-id, #class-id, #group-id').html('<option value="">Select</option>');
-        $('#system-id, #class-id, #group-id').prop('disabled',true);
+        $('#system-id, #class-id, #group-id').prop('disabled', true);
 
         var campus_id = $('#campus-id').val();
-        
-        if(campus_id !== "" && campus_id > "0"){
+
+        if (campus_id !== "" && campus_id > "0") {
 
             $.ajax({
                 url: baseUrl + '/campus/school-system',
                 type: "GET",
                 data: { campus_id: campus_id },
                 success: function (response) {
-                    
-                    if(response.status === true){
 
-                        var campusSchoolSystems = response.campusSchoolSystems                        
+                    if (response.status === true) {
+
+                        var campusSchoolSystems = response.campusSchoolSystems
                         var schoolSystems = `<option value="">Select</option>`;
-                        
-                        if(campusSchoolSystems.length){
-                            $(campusSchoolSystems).each(function(key, value){
-                                schoolSystems += `<option value="`+value.id+`" >`+value.system+`</option>`;
+
+                        if (campusSchoolSystems.length) {
+                            $(campusSchoolSystems).each(function (key, value) {
+                                schoolSystems += `<option value="` + value.id + `" >` + value.system + `</option>`;
                             });
                         }
-                        
-                        $('#system-id').prop('disabled',false);
+
+                        $('#system-id').prop('disabled', false);
                         $('#system-id').html(schoolSystems);
                     } else {
-                        
+
                         $("#campus-id").siblings("span").find(".select2-selection--single").addClass("has-error");
                         $("#campus-id").siblings("span").after("<span class='error'>" + response.error.campus_id.toString().split(/[,]+/).join("<br/>") + "</span>");
-           
+
                     }
                 }
             });
@@ -1045,34 +1045,34 @@ $(document).ready(function () {
     });
 
     $(document).on('change', '#system-id', function (e) {
-        
-        e.preventDefault();
-        
-        $('#class-id, #group-id').html('<option value="">Select</option>');
-        $('#class-id, #group-id').prop('disabled',true);
 
-        var campus_id  =  $('#campus-id').val();
-        var system_id   =  $('#system-id').val();
-  
-        if( (campus_id !== "" && campus_id > "0") && (system_id !== "" && system_id > "0") ){
+        e.preventDefault();
+
+        $('#class-id, #group-id').html('<option value="">Select</option>');
+        $('#class-id, #group-id').prop('disabled', true);
+
+        var campus_id = $('#campus-id').val();
+        var system_id = $('#system-id').val();
+
+        if ((campus_id !== "" && campus_id > "0") && (system_id !== "" && system_id > "0")) {
             $.ajax({
                 url: baseUrl + '/campus/classes',
                 type: "GET",
                 data: { campus_id: campus_id, system_id: system_id },
                 success: function (response) {
-                    
-                    if(response.status === true){
-                        
-                        var campusClasses  =  response.campusClasses;
-                        var classes  =  `<option value="">Select</option>`;
 
-                        if(campusClasses.length){
-                            $(campusClasses).each(function(key, value){
-                                classes += `<option value="`+value.id+`" >`+value.class+`</option>`;
+                    if (response.status === true) {
+
+                        var campusClasses = response.campusClasses;
+                        var classes = `<option value="">Select</option>`;
+
+                        if (campusClasses.length) {
+                            $(campusClasses).each(function (key, value) {
+                                classes += `<option value="` + value.id + `" >` + value.class + `</option>`;
                             });
                         }
 
-                        $('#class-id').prop('disabled',false);
+                        $('#class-id').prop('disabled', false);
                         $('#class-id').html(classes);
                     }
                 }
@@ -1083,37 +1083,37 @@ $(document).ready(function () {
     $(document).on('change', '#class-id', function (e) {
         e.preventDefault();
 
-        var campus_id  =  $('#campus-id').val();
-        var system_id  =  $('#system-id').val();
-        var class_id   =  $('#class-id').val();
+        var campus_id = $('#campus-id').val();
+        var system_id = $('#system-id').val();
+        var class_id = $('#class-id').val();
 
         $('#group-id').html('<option value="">Select</option>');
-        $('#group-id').prop('disabled',true);
-  
-        if((campus_id !== "" && campus_id > "0") && (system_id !== "" && system_id > "0") && (class_id !== "" && class_id > "0")){
+        $('#group-id').prop('disabled', true);
+
+        if ((campus_id !== "" && campus_id > "0") && (system_id !== "" && system_id > "0") && (class_id !== "" && class_id > "0")) {
             $.ajax({
                 url: baseUrl + '/campus/class-groups-and-sections',
                 type: "GET",
-                data: { campus_id: campus_id, system_id: system_id, class_id: class_id  },
+                data: { campus_id: campus_id, system_id: system_id, class_id: class_id },
                 success: function (response) {
 
                     console.log(response);
                     console.log(response.classGroups);
 
-                    if(response.status === true){
-                        
-                        var classGroup  =  response.classGroups;
-                        var groups      =  `<option value="">Select</option>`;
+                    if (response.status === true) {
+
+                        var classGroup = response.classGroups;
+                        var groups = `<option value="">Select</option>`;
 
                         // var classSection  =  response.classSections;
                         // var sections      =  `<option value="">Select</option>`;
 
-                        if(classGroup.length){
-                            $(classGroup).each(function(key, value){
-                                groups += `<option value="`+value.id+`" >`+value.group+`</option>`;
+                        if (classGroup.length) {
+                            $(classGroup).each(function (key, value) {
+                                groups += `<option value="` + value.id + `" >` + value.group + `</option>`;
                             });
 
-                            $('#group-id').prop('disabled',false);
+                            $('#group-id').prop('disabled', false);
                             $('#group-id').html(groups);
                         }
 
@@ -1138,10 +1138,10 @@ $(document).ready(function () {
         var religion_type = $('#religion-type').val();
 
         if (religion_type == "other") {
-            $('#religion-type-other').prop('disabled',false);
+            $('#religion-type-other').prop('disabled', false);
         }
         else {
-            $('#religion-type-other').prop('disabled',true);
+            $('#religion-type-other').prop('disabled', true);
         }
     });
 
@@ -1152,35 +1152,35 @@ $(document).ready(function () {
         var guardian_relation = $('#guardian-relation').val();
 
         if (guardian_relation == "other") {
-            $('#guardian-relation-other').prop('disabled',false);
+            $('#guardian-relation-other').prop('disabled', false);
         }
         else {
             $("#guardian-relation-other").removeClass("has-error");
             $("#guardian-relation-other").siblings('span.error').remove();
             $('#guardian-relation-other').val('');
-            $('#guardian-relation-other').prop('disabled',true);
+            $('#guardian-relation-other').prop('disabled', true);
         }
     });
 
     // Get Pick / Drop Details
     $(document).on('change', '#pick-and-drop-old', function (e) {
-        
+
         e.preventDefault();
         $("#pick-drop-details-row").remove();
         var pick_and_drop = $('#pick-and-drop').val();
         var html = '<div class="form-row" id="pick-drop-details-row">';
 
-        if(pick_and_drop == 'by_ride' || pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van'){
-                
-            html +=    `<div class="form-group col-md-4 mb-0">
+        if (pick_and_drop == 'by_ride' || pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van') {
+
+            html += `<div class="form-group col-md-4 mb-0">
                             <label class="form-label tx-semibold">Vehicle No</label>
                             <input type="text" class="form-control" name="vehicle_no" id="vehicle-no">
-                        </div>`; 
-            
-        } 
-        if(pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van') {
-            
-            html +=    `<div class="form-group col-md-4 mb-0" > 
+                        </div>`;
+
+        }
+        if (pick_and_drop == 'by_school_van' || pick_and_drop == 'by_private_van') {
+
+            html += `<div class="form-group col-md-4 mb-0" > 
                             <label class="form-label tx-semibold">Driver Name</label> 
                             <input type="text" class="form-control" name="driver_name" id="driver-name"> 
                         </div>
@@ -1188,20 +1188,20 @@ $(document).ready(function () {
                             <label class="form-label tx-semibold">Driver Phone</label> 
                             <input type="number" class="form-control" name="driver_phone" id="driver-phone" placeholder="03##-#######"> 
                         </div>`;
-        } 
-        html +=    `</div>`;
+        }
+        html += `</div>`;
         $(this).parent().parent().after(html);
 
         // if (pick_and_drop == 'by_ride') {
-            
+
         //     html +=     `<label class="form-label tx-semibold">Vehicle No</label>
         //                 <input type="text" class="form-control" name="ride_vehicle_no" id="ride-vehicle-no">
         //             </div>`;        
-            
+
         //     $(this).parent().parent().after(html);
-        
+
         // } else if (pick_and_drop == 'by_school_van') {
-            
+
         //     html +=    `<div class="form-row"> 
         //                     <div class="form-group col-md-4 mb-0" > 
         //                         <label class="form-label tx-semibold">School Driver Name</label> 
@@ -1222,7 +1222,7 @@ $(document).ready(function () {
         //     $(this).parent().parent().after(html);
 
         // } else if (pick_and_drop == 'by_private_van') {
-            
+
         //     html +=    `<div class="form-row"> 
         //                     <div class="form-group col-md-4 mb-0">
         //                         <label class="form-label tx-semibold">Private Driver Name</label> 
@@ -1233,7 +1233,7 @@ $(document).ready(function () {
         //                         <label class="form-label tx-semibold">Private Driver Phone</label> 
         //                         <input type="number" class="form-control" name="private_driver_phone" id="private-driver-phone" placeholder="03##-#######"> 
         //                     </div>
-                            
+
         //                     <div class="form-group col-md-4 mb-0"> 
         //                         <label class="form-label tx-semibold">School Vehicle No</label> 
         //                         <input type="text" class="form-control" name="private_vehicle_no" id="private-vehicle-no"> 
@@ -1302,7 +1302,7 @@ $(document).ready(function () {
             data: { student_id: student_id },
             dataType: "json",
             success: function (response) {
-
+                console.log(response);
             },
             error: function () {
                 message = `<div class="alert alert-danger alert-dismissible">
@@ -1311,6 +1311,7 @@ $(document).ready(function () {
                             </div>`;
             },
             complete: function () {
+                // 
             }
         });
 
