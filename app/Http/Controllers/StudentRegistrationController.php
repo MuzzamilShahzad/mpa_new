@@ -16,10 +16,11 @@ use App\Models\TestInterviewGroup;
 class StudentRegistrationController extends Controller
 {
 
-    public function listing() {
+    public function listing()
+    {
 
         $classes        =  Classes::get();
-        $campuses       =  Campus::where('is_active',1)->where('is_delete',0)->get();
+        $campuses       =  Campus::where('is_active', 1)->where('is_delete', 0)->get();
         $sessions       =  Session::get();
         $areas          =  Area::get();
         $cities         =  City::get();
@@ -57,12 +58,11 @@ class StudentRegistrationController extends Controller
         if ($validator->fails()) {
 
             $response = array(
-                'status'  =>  false, 
+                'status'  =>  false,
                 'error'   =>  $validator->errors()
             );
-            
+
             return response()->json($response);
-            
         } else {
 
             $registration = Registration::findOrFail($request->id);
@@ -71,14 +71,12 @@ class StudentRegistrationController extends Controller
                 "status" => true,
                 "registration" => $registration
             ]);
-
         }
-
-        
     }
 
-    public function add(){
-        
+    public function add()
+    {
+
         $campus   =  Campus::get();
         $session  =  Session::get();
         $area     =  Area::get();
@@ -107,7 +105,7 @@ class StudentRegistrationController extends Controller
             'class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
             'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
             'class_group_id'            =>  'numeric|gt:0|digits_between:1,11',
-            'form_no'                   =>  'nullable|alpha_num',         
+            'form_no'                   =>  'nullable|alpha_num',
             'first_name'                =>  'required|alpha|max:30',
             'last_name'                 =>  'required|alpha|max:30',
             'dob'                       =>  'nullable|date',
@@ -140,12 +138,11 @@ class StudentRegistrationController extends Controller
         if ($validator->errors()->all()) {
 
             $response = array(
-                'status'  =>  false, 
+                'status'  =>  false,
                 'error'   =>  $validator->errors()->toArray()
             );
-            
-            return response()->json($response);
 
+            return response()->json($response);
         } else {
 
             $father_details = json_encode([
@@ -184,45 +181,43 @@ class StudentRegistrationController extends Controller
             $registration->test_group_id       =  $request->test_group;
             $registration->interview_group_id  =  $request->interview_group;
             $registration->hear_about_us       =  $request->hear_about_us;
-            
-            if($request->hear_about_us == "other")  {
+
+            if ($request->hear_about_us == "other") {
                 $registration->hear_about_us_other =  $request->hear_about_us_other;
             }
 
-            if($request->test_group_chkbox) {
-                if($request->test_group_id) {
+            if ($request->test_group_chkbox) {
+                if ($request->test_group_id) {
                     $registration->test_group_id = $request->test_group_id;
-                }else {
+                } else {
                     $testGroup = new TestInterviewGroup;
                     $testGroup->session_id = $request->session_id;
                     $testGroup->name = $request->test_name;
                     $testGroup->type = "test";
                     $testGroup->date = date("Y-m-d", strtotime($request->test_date));
                     $testGroup->time = $request->test_time;
-        
+
                     $testQuery = $testGroup->save();
 
                     $registration->test_group_id = $testGroup->id;
                 }
-
             }
-            if($request->interview_group_chkbox) {
+            if ($request->interview_group_chkbox) {
 
-                if($request->interview_group_id) {
+                if ($request->interview_group_id) {
                     $registration->interview_group_id = $request->interview_group_id;
-                }else {
+                } else {
                     $interviewGroup = new TestInterviewGroup;
                     $interviewGroup->session_id = $request->session_id;
                     $interviewGroup->name = $request->interview_name;
                     $interviewGroup->type = "interview";
                     $interviewGroup->date = date("Y-m-d", strtotime($request->interview_date));
                     $interviewGroup->time = $request->interview_time;
-        
+
                     $interviewQuery = $interviewGroup->save();
 
                     $registration->interview_group_id = $interviewGroup->id;
                 }
-
             }
 
             $query = $registration->save();
@@ -230,16 +225,15 @@ class StudentRegistrationController extends Controller
             if ($query) {
 
                 $response = array(
-                    'status'   =>  true, 
+                    'status'   =>  true,
                     'message'  =>  "Student has been registered successfully with registeration id $registration->registration_id."
                 );
 
                 return response()->json($response);
-
             } else {
 
                 $response = array(
-                    'status'   =>  false, 
+                    'status'   =>  false,
                     'message'  =>  'Some thing went worng please try again letter'
                 );
 
@@ -257,7 +251,7 @@ class StudentRegistrationController extends Controller
             'class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
             'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
             'class_group_id'            =>  'numeric|gt:0|digits_between:1,11',
-            'form_no'                   =>  'nullable|alpha_num',         
+            'form_no'                   =>  'nullable|alpha_num',
             'first_name'                =>  'required|alpha|max:30',
             'last_name'                 =>  'required|alpha|max:30',
             'dob'                       =>  'nullable|date',
@@ -290,12 +284,11 @@ class StudentRegistrationController extends Controller
         if ($validator->errors()->all()) {
 
             $response = array(
-                'status'  =>  false, 
+                'status'  =>  false,
                 'error'   =>  $validator->errors()->toArray()
             );
-            
-            return response()->json($response);
 
+            return response()->json($response);
         } else {
             $registration = Registration::findOrFail($request->id);
 
@@ -332,28 +325,26 @@ class StudentRegistrationController extends Controller
             $registration->test_group_id        = $request->test_group_id;
             $registration->interview_group_id   = $request->interview_group_id;
             $registration->hear_about_us        = $request->hear_about_us;
-            
+
             $query = $registration->save();
 
             if ($query) {
 
                 $response = array(
-                    'status'   =>  true, 
+                    'status'   =>  true,
                     'message'  =>  "Record has been updated successfully."
                 );
 
                 return response()->json($response);
-
             } else {
 
                 $response = array(
-                    'status'   =>  false, 
+                    'status'   =>  false,
                     'message'  =>  'Some thing went worng please try again letter'
                 );
 
                 return response()->json($response);
             }
-
         }
     }
 
@@ -371,12 +362,11 @@ class StudentRegistrationController extends Controller
         if ($validator->fails()) {
 
             $response = array(
-                'status'  =>  false, 
+                'status'  =>  false,
                 'error'   =>  $validator->errors()
             );
-            
+
             return response()->json($response);
-            
         } else {
 
 
@@ -388,41 +378,55 @@ class StudentRegistrationController extends Controller
                 "class_group_id"        => $request->class_group_id,
             ]);
 
-            if($query) {
+            if ($query) {
 
                 $response = array(
-                    'status'   =>  true, 
+                    'status'   =>  true,
                     'message'  =>  "Students promoted successfully."
                 );
                 return response()->json($response);
-
-            }else {
+            } else {
 
                 $response = array(
-                    'status'   =>  false, 
+                    'status'   =>  false,
                     'message'  =>  'Some thing went worng please try again letter'
                 );
                 return response()->json($response);
-
             }
-
         }
     }
 
     public function studentForward($id)
     {
-       
+
         $registeration = Registration::where('registration_id', $id)->first();
 
-        if($registeration) {
+        if ($registeration) {
 
             $session  =  Session::get();
-            $campus   =  Campus::where('is_active',1)->where('is_delete',0)->get();
+            $campus   =  Campus::where('is_active', 1)->where('is_delete', 0)->get();
             $section  =  Section::get();
             $area     =  Area::get();
             $city     =  City::get();
             $class    =  Classes::get();
-    
+
+            $schoolSystems = Campus::select('systems.*')
+                ->join('campus_details', 'campus_details.campus_id', '=', 'campuses.id')
+                ->join('systems', 'systems.id', '=', 'campus_details.system_id')
+                ->where('campuses.id', $registeration->campus_id)
+                ->where('campuses.is_active', 1)
+                ->where('campuses.is_delete', 0)
+                ->get();
+
+            $campusClasses = Classes::select('classes.id', 'classes.class')
+                ->join('campus_classes', 'campus_classes.class_id', '=', 'classes.id')
+                ->join('campus_details', 'campus_details.id', '=', 'campus_classes.campus_detail_id')
+                ->where('campus_details.campus_id', $registeration->campus_id)
+                ->where('campus_details.system_id', $registeration->system_id)
+                ->where('classes.is_active', 1)
+                ->where('classes.is_delete', 0)
+                ->get();
+
             $data = array(
                 'session'       =>  $session,
                 'campus'        =>  $campus,
@@ -431,22 +435,22 @@ class StudentRegistrationController extends Controller
                 'area'          =>  $area,
                 'city'          =>  $city,
                 'registeration' =>  $registeration,
+                'campusClasses' =>  $campusClasses,
+                'schoolSystems' =>  $schoolSystems,
+                'father_details'    =>  json_decode($registeration->father_details),
                 'page'          =>  'Admission',
                 'menu'          =>  'Add Admission'
             );
-    
-            return view('student.admission.add', compact('data'));
 
-        }else {
+            return view('student.admission.forward', compact('data'));
+        } else {
 
             $response = array(
-                'status'   =>  false, 
+                'status'   =>  false,
                 'message'  =>  'Some thing went worng please try again later'
             );
             return redirect()->back()->with($response);
-
         }
-       
     }
 
     public function getStudentFormNumberByCampusIdAndSystemIdAndSessionId(Request $request)
@@ -460,14 +464,13 @@ class StudentRegistrationController extends Controller
         if ($validator->fails()) {
 
             $response = array(
-                'status'  =>  false, 
+                'status'  =>  false,
                 'error'   =>  $validator->errors()
             );
-            
+
             return response()->json($response);
-            
         } else {
-            
+
             $registration = Registration::where("campus_id", $request->campus_id)->where("session_id", $request->session_id)->where("system_id", $request->system_id)->orderBy('id', 'DESC')->limit(1)->first();
             $session = explode("-", $registration->session->session);
             $campus_details = $registration->campusDetails;
@@ -479,5 +482,4 @@ class StudentRegistrationController extends Controller
             return response()->json(["status" => true, "formNumber" => $student_form_number]);
         }
     }
-    
 }

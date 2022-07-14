@@ -391,7 +391,7 @@ $(document).ready(function () {
                 "no_of_siblings": no_of_siblings,
                 "student_vaccinated": student_vaccinated,
 
-                "father_cnic": father_cnic.replace("-", ""),
+                "father_cnic": father_cnic.replace(new RegExp('-', 'g'),""),
                 "father_salary": father_salary,
                 "father_email": father_email,
                 "father_name": father_name,
@@ -400,7 +400,7 @@ $(document).ready(function () {
                 "father_company_name": father_company_name,
                 "father_vaccinated": father_vaccinated,
 
-                "mother_cnic": mother_cnic.replace("-", ""),
+                "mother_cnic": mother_cnic.replace(new RegExp('-', 'g'),""),
                 "mother_salary": mother_salary,
                 "mother_email": mother_email,
                 "mother_name": mother_name,
@@ -409,7 +409,7 @@ $(document).ready(function () {
                 "mother_company_name": mother_company_name,
                 "mother_vaccinated": mother_vaccinated,
 
-                "guardian_cnic": guardian_cnic.replace("-", ""),
+                "guardian_cnic": guardian_cnic.replace(new RegExp('-', 'g'),""),
                 "guardian_name": guardian_name,
                 "guardian_phone": guardian_phone.replace("-", ""),
                 "guardian_relation": guardian_relation,
@@ -479,7 +479,7 @@ $(document).ready(function () {
                                 });
                             }
                         } else {
-                            message += `<div class="alert alert-danger alert-dismissible">
+                            message += `<div class="alert alert-success alert-dismissible">
                                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                                             <strong> Error!</strong> `+ response.message + `
                                         </div>`;

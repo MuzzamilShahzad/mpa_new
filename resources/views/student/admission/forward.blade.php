@@ -52,7 +52,7 @@
                                                 <select class="form-control select2" name="session_id" id="session-id">
                                                     <option selected value="">Select Session</option>
                                                     @foreach($data['session'] as $session)
-                                                        <option value="{{$session->id}}">{{$session->session}}</option>
+                                                        <option value="{{$session->id}}" {{ ($session->id == $data["registeration"]->session_id) ? 'selected' : '' }} >{{$session->session}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -65,9 +65,10 @@
                                             <label class="form-label tx-semibold">Campus</label>
                                             <div class="pos-relative">
                                                 <select class="form-control select2" name="campus_id" id="campus-id">
-                                                    <option value="">Select Campus</option>
+                                                    <option value="">Select Campus</option>                                                    
+                                                    
                                                     @foreach($data['campus'] as $campus)
-                                                        <option value="{{$campus->id}}">{{$campus->name}}</option>
+                                                        <option value="{{ $campus->id }}" {{ ($campus->id == $data["registeration"]->campus_id) ? 'selected' : '' }}>{{ $campus->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -77,8 +78,11 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">School System</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="system_id" id="system-id" disabled>
+                                                <select class="form-control select2" name="system_id" id="system-id">
                                                     <option value="">Select School System</option>
+                                                    @foreach($data['schoolSystems'] as $system)
+                                                        <option value="{{ $system->id }}" {{ ($system->id == $data["registeration"]->system_id) ? 'selected' : '' }}>{{ $system->system }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -87,8 +91,11 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Class</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="class_id" id="class-id" disabled>
+                                                <select class="form-control select2" name="class_id" id="class-id">
                                                     <option value="">Select</option>
+                                                    @foreach($data['campusClasses'] as $class)
+                                                    <option value="{{ $class->id }}" {{ ($class->id == $data["registeration"]->class_id) ? 'selected' : '' }}> {{ $class->class }} </option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -97,7 +104,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Class Group</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="group_id" id="group-id" disabled>
+                                                <select class="form-control select2" name="group_id" id="group-id">
                                                 </select>
                                             </div>
                                         </div>
@@ -126,13 +133,13 @@
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">First Name</label>
-                                            <input type="text" class="form-control" name="first_name" id="first-name">
+                                            <input type="text" class="form-control" name="first_name" value="{{ ($data['registeration']->first_name) ? $data['registeration']->first_name : ''  }}" id="first-name">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Last Name</label>
-                                            <input type="text" class="form-control" name="last_name" id="last-name">
+                                            <input type="text" class="form-control" name="last_name" value="{{ ($data['registeration']->last_name) ? $data['registeration']->last_name : ''  }}" id="last-name">
                                         </div>
                                     </div>
                                 </div>
@@ -140,7 +147,7 @@
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold date-picker">Date of Birth</label>
-                                            <input class="form-control date-picker bg-transparent" name="dob" id="dob" placeholder="DD-MM-YYYY" type="text" readonly>
+                                            <input class="form-control date-picker bg-transparent" name="dob" id="dob" value="{{ $data['registeration']->dob }}" placeholder="DD-MM-YYYY" type="text" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
@@ -149,8 +156,8 @@
                                             <div class="pos-relative">
                                                 <select class="form-control select2" name="gender" id="gender">
                                                     <option selected value="">Select Gender</option>
-                                                    <option value="male">Male</option>
-                                                    <option value="female">Female</option>
+                                                    <option value="male" {{ ($data["registeration"]->gender == "male") ? "selected" : "" }}>Male</option>
+                                                    <option value="female" {{ ($data["registeration"]->gender == "female") ? "selected" : "" }}>Female</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -182,7 +189,7 @@
                                                 <select class="form-control select2" name="previous_class_id" id="previous-class-id">
                                                     <option value="">Select</option>
                                                     @foreach($data['class'] as $class)
-                                                        <option value="{{$class->id}}">{{$class->name}}</option>
+                                                        <option value="{{$class->id}}" {{ ($data["registeration"]->previous_class_id == $class->id) ? 'selected' : '' }} >{{$class->class}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -191,20 +198,10 @@
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Previous School</label>
-                                            <input type="text" class="form-control" name="previous_school"  id="previous-school">
+                                            <input type="text" class="form-control" name="previous_school" value="{{ $data['registeration']->previous_school }}"  id="previous-school">
                                         </div>
                                         
                                     </div>
-                                    <!-- <div class="form-group col-md-3 mb-0">
-                                        <div class="form-group">
-                                            <label class="form-label tx-semibold">Category</label>
-                                            <div class="pos-relative">
-                                                <select class="form-control select2" name="category_id" id="category-id">
-                                                    <option selected value="">Select Category</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div> -->
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Mobile Number</label>
@@ -251,16 +248,6 @@
                                     </div>
                                 </div>
                                 <div class="form-row">
-                                    <!-- <div class="form-group col-md-3 mb-0">
-                                        <div class="form-group">
-                                            <label class="form-label tx-semibold">School House</label>
-                                            <div class="pos-relative">
-                                                <select class="form-control select2" name="school_house_id" id="school-house-id">
-                                                    <option selected value="">Select School House</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div> -->
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Weight</label>
@@ -314,8 +301,8 @@
                                             <div class="pos-relative">
                                                 <select class="form-control select2" name="siblings_in_mpa" id="siblings-in-mpa">
                                                     <option selected value="">Select</option>
-                                                    <option value="yes">Yes</option>
-                                                    <option value="no">No</option>
+                                                    <option value="yes" {{ ("yes" == $data["registeration"]->siblings_in_mpa) ? 'selected' : '' }} >Yes</option>
+                                                    <option value="no" {{ ("no" == $data["registeration"]->siblings_in_mpa) ? 'selected' : '' }} >No</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -324,7 +311,7 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">No. of Siblings</label>
-                                            <input type="number" class="form-control" name="no_of_siblings"  id="no-of-siblings">
+                                            <input type="number" class="form-control" name="no_of_siblings"  value="{{ $data['registeration']->no_of_siblings }}" id="no-of-siblings">
                                         </div>
                                     </div>
 
@@ -351,26 +338,26 @@
                                 <div class="form-row">
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
-                                            <label class="form-label tx-semibold">Father CNIC Number</label>
-                                            <input type="text" class="form-control" name="father_cnic" id="father-cnic" data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X">
+                                            <label class="form-label tx-semibold">Father CNIC Number </label>
+                                            <input type="text" class="form-control" name="father_cnic" id="father-cnic"  value="{{ $data['father_details']->father_cnic }}" data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Father Salary</label>
-                                            <input type="number" class="form-control" name="father_salary" id="father-salary">
+                                            <input type="number" class="form-control" name="father_salary" value="{{ $data['father_details']->father_salary }}" id="father-salary">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Father Email</label>
-                                            <input type="text" class="form-control" name="father_email" id="father-email">
+                                            <input type="text" class="form-control" name="father_email" value="{{ $data['father_details']->father_email }}" id="father-email">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Father Name</label>
-                                            <input type="text" class="form-control" name="father_name" id="father-name">
+                                            <input type="text" class="form-control" name="father_name" value="{{ $data['father_details']->father_name }}" id="father-name">
                                         </div>
                                     </div>
                                 </div>
@@ -378,19 +365,19 @@
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Father Phone No</label>
-                                            <input type="text" class="form-control" name="father_phone"  id="father-phone" data-inputmask="'mask': '03##-#######'" placeholder="03##-#######">
+                                            <input type="text" class="form-control" name="father_phone"  id="father-phone" value="{{ $data['father_details']->father_phone }}" data-inputmask="'mask': '03##-#######'" placeholder="03##-#######">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Father Occupation</label>
-                                            <input type="text" class="form-control" name="father_occupation"  id="father-occupation">
+                                            <input type="text" class="form-control" name="father_occupation" value="{{ $data['father_details']->father_occupation }}"  id="father-occupation">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Company Name</label>
-                                            <input type="text" class="form-control" name="father_company_name" id="father-company-name">
+                                            <input type="text" class="form-control" name="father_company_name" value="{{ $data['father_details']->father_company_name }}" id="father-company-name">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
@@ -545,13 +532,13 @@
                                     <div class="form-group col-md-6 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">House / Apartment Number</label>
-                                            <input type="text" class="form-control" name="current_house_no" id="current-house-no">
+                                            <input type="text" class="form-control" name="current_house_no" value="{{ $data['registeration']->house_no }}" id="current-house-no">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Block Number</label>
-                                            <input type="text" class="form-control" name="current_block_no" id="current-block-no">
+                                            <input type="text" class="form-control" name="current_block_no" value="{{ $data['registeration']->block_no }}" id="current-block-no">
                                         </div>
                                     </div>
                                 </div>
@@ -559,7 +546,7 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Building Name/Number (If ANY)</label>
-                                            <input type="text" class="form-control" name="current_building_name_no"  id="current-building-name-no">
+                                            <input type="text" class="form-control" name="current_building_name_no" value="{{ $data['registeration']->building_no }}" id="current-building-name-no">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-4 mb-0">
@@ -569,7 +556,7 @@
                                                 <select class="form-control select2" name="current_area_id " id="current-area-id">
                                                     <option selected value="">Select Area</option>
                                                     @foreach($data['area'] as $area)
-                                                        <option value="{{$area->id}}">{{$area->area}}</option>
+                                                        <option value="{{$area->id}}" {{ ($area->id == $data["registeration"]->area_id) ? 'selected' : '' }}>{{$area->area}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -582,7 +569,7 @@
                                                 <select class="form-control select2" name="current_city_id " id="current-city-id">
                                                     <option value="">Select City</option>
                                                     @foreach($data['city'] as $city)
-                                                        <option value="{{$city->id}}">{{$city->city}}</option>
+                                                        <option value="{{$city->id}}" {{ ($city->id == $data["registeration"]->city_id) ? 'selected' : '' }} >{{$city->city}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
