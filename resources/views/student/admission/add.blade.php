@@ -42,7 +42,7 @@
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Roll Number</label>
-                                            <input type="text" class="form-control" name="roll_no"  id="roll-no">
+                                            <input type="text" class="form-control" name="roll_no" id="roll-no">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
@@ -127,13 +127,13 @@
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">First Name</label>
-                                            <input type="text" class="form-control" name="first_name"  id="first-name">
+                                            <input type="text" class="form-control" name="first_name" value="{{ ($data['registeration']->first_name) ? $data['registeration']->first_name : ''  }}" id="first-name">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Last Name</label>
-                                            <input type="text" class="form-control" name="last_name"  id="last-name">
+                                            <input type="text" class="form-control" name="last_name" value="{{ ($data['registeration']->last_name) ? $data['registeration']->last_name : ''  }}" id="last-name">
                                         </div>
                                     </div>
                                 </div>

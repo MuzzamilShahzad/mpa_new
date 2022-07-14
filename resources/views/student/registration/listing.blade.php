@@ -41,7 +41,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Session</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="session_id" id="session-id">
+                                                <select class="form-control sessionSelect2" name="session_id" id="session-id">
                                                     <option value="">Select Session</option>
                                                     @foreach($data['sessions'] as $session)
                                                     <option value="{{$session->id}}">{{$session->session}}</option>
@@ -55,7 +55,7 @@
                                             <label class="form-label tx-semibold">Campus</label>
                                             <div class="pos-relative">
                                                 <select class="form-control select2" name="campus_id" id="campus-id">
-                                                    <option value="">Select Student</option>
+                                                    <option value="">Select Campus</option>
                                                     @foreach($data['campuses'] as $campus)
                                                     <option value="{{$campus->id}}">{{$campus->name}}</option>
                                                     @endforeach
@@ -87,21 +87,8 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Class Group</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="group_id" id="group-id">
+                                                <select class="form-control select2" name="class_group_id" id="class-group-id">
                                                     <option value="">Select Class Group</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-3 mb-0">
-                                        <div class="form-group">
-                                            <label class="form-label tx-semibold">Section</label>
-                                            <div class="pos-relative">
-                                                <select class="form-control select2" name="section_id" id="section-id">
-                                                    <option selected value="">Select Section</option>
-                                                    @foreach($data['sections'] as $section)
-                                                    <option value="{{$section->id}}">{{$section->section}}</option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -153,15 +140,16 @@
 
                                             <td>{{ $key + 1 }}</td>
                                             <td>
-                                                <a data-bs-target="#student-details-modal" data-bs-toggle="modal" href="{{$student->id}}" style="color: black" data-id="{{$student->id}}" id="btn-student-details">{{$student->first_name}}</a>
+                                                <a data-bs-target="#student-details-modal" data-bs-toggle="modal" href="{{ $student->id }}" style="color: black" data-id="{{ $student->id }}" id="btn-student-details">{{$student->first_name}}</a>
                                             </td>
                                             <td>{{ $student->last_name }}</td>
                                             <td>{{ $student->gender }}</td>
                                             <td>{{ date('d/m/Y', strtotime($student->created_at)) }}</td>
                                             <td>
+                                                <a href="{{ route('student.registration.forward', $student->registration_id) }}"> <button id="btn-forward" class="btn btn-success btn-sm action-btn"> <i class="fa fa-forward"></i> </button> </a>
                                                 <button data-bs-target="#student-details-modal" data-bs-toggle="modal" href="{{ $student->id }}" data-id="{{ $student->id }}" id="btn-student-details" class="btn btn-info btn-sm action-btn"> Details </button>
                                                 <button data-bs-target="#student-details-modal" data-bs-toggle="modal" href="{{ $student->id }}" data-id="{{ $student->id }}" id="btn-edit" class="btn btn-primary btn-sm action-btn"> Edit </button> </a>
-                                                <button data-id="{{$student->id}}" id="btn-delete-admission" class="btn btn-danger btn-sm action-btn"> Delete </button>
+                                                <button data-id="{{ $student->id }}" id="btn-delete-admission" class="btn btn-danger btn-sm action-btn"> Delete </button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -174,7 +162,6 @@
             </div>
             <!-- End Row -->
 
-
             <!-- Details Modal -->
             <div class="modal fade" id="student-details-modal" tabindex="-1" aria-labelledby="registrationDetails" aria-hidden="true">
                 <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
@@ -184,16 +171,26 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form action="{{ route('student.registration.update') }}" method="POST">
+                            <form action="{{ route('student.registration.update') }}" method="POST" id="edit-detail-form">
                                 <div class="row">
 
                                     <h4 class="main-content-label mb-3"> <strong>Student</strong></h4>
-
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="session-id" class="form-label tx-semibold">Session</label>
+                                            <select name="session_id" id="session-id" class="form-control sessionSelect2" disabled>
+                                                <option selected value="">Select Session</option>
+                                                @foreach($data['sessions'] as $session)
+                                                <option value="{{$session->id}}">{{$session->session}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
                                     <div class="col-3">
                                         <div class="form-group">
                                             <label for="campus-id" class="form-label tx-semibold">Campus</label>
                                             <input type="hidden" name="id" id="record-id" class="form-control" />
-                                            <select name="campus_id" id="campus-id" class="form-control select2" disabled>
+                                            <select name="campus_id" id="campus-id" class="form-control campusSelect2" disabled>
                                                 <option selected value="">Select Campus</option>
                                                 @foreach($data['campuses'] as $campus)
                                                 <option value="{{$campus->id}}">{{$campus->name}}</option>
@@ -203,8 +200,8 @@
                                     </div>
                                     <div class="col-3">
                                         <div class="form-group">
-                                            <label for="school-system" class="form-label tx-semibold">School System</label>
-                                            <select name="school_system" id="school-system" class="form-control select2" disabled>
+                                            <label for="school-id" class="form-label tx-semibold">School System</label>
+                                            <select name="system_id" id="system-id" class="form-control systemSelect2" disabled>
                                                 <option value=""></option>
                                             </select>
                                         </div>
@@ -212,32 +209,19 @@
                                     <div class="col-3">
                                         <div class="form-group">
                                             <label for="class-id" class="form-label tx-semibold">Class</label>
-                                            <select name="class_id" id="class-id" class="form-control select2" disabled>
+                                            <select name="class_id" id="class-id" class="form-control classSelect2" disabled>
                                                 <option selected value="">Select Class</option>
-                                                @foreach($data['studentClasses'] as $class)
-                                                <option value="{{$class->id}}">{{$class->class}}</option>
-                                                @endforeach
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-3">
-                                        <div class="form-group">
-                                            <label for="class-group" class="form-label tx-semibold">Class Group</label>
-                                            <select name="class_group" id="class-group" class="form-control select2" disabled>
-                                                <option value=""></option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-3">
                                         <div class="form-group">
-                                            <label for="session-id" class="form-label tx-semibold">Session</label>
-                                            <select name="session_id" id="session-id" class="form-control select2" disabled>
-                                                <option selected value="">Select Session</option>
-                                                @foreach($data['sessions'] as $session)
-                                                <option value="{{$session->id}}">{{$session->session}}</option>
-                                                @endforeach
+                                            <label for="class-group-id" class="form-label tx-semibold">Class Group</label>
+                                            <select name="class_group_id" id="class-group-id" class="form-control classGroupSelect2" disabled>
+                                                <option value=""></option>
                                             </select>
                                         </div>
                                     </div>
@@ -482,9 +466,85 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Promote Student Modal -->
+            <div class="modal fade" id="promote-student-modal" tabindex="-1" aria-labelledby="promoteStudent" aria-hidden="true">
+                <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="promoteStudent">Promotion Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="{{ route('student.registration.promote') }}" method="POST" id="promotion-form">
+                                <div class="row">
+
+                                    <h4 class="main-content-label mb-3"> <strong>Student</strong></h4>
+
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="session-id" class="form-label tx-semibold">Session</label>
+                                            <select name="session_id" id="session-id-updated2" class="form-control sessionSelect2">
+                                                <option selected value="">Select Session</option>
+                                                @foreach($data['sessions'] as $session)
+                                                <option value="{{$session->id}}">{{$session->session}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="campus-id" class="form-label tx-semibold">Campus</label>
+                                            <input type="hidden" name="id" id="record-id" class="form-control" />
+                                            <select name="campus_id" id="campus-id" class="form-control select2">
+                                                <option value="">Select Campus</option>
+                                                @foreach($data['campuses'] as $campus)
+                                                <option value="{{$campus->id}}">{{$campus->name}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="school-id" class="form-label tx-semibold">School System</label>
+                                            <select name="system_id" id="system-id" class="form-control select2">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="class-id" class="form-label tx-semibold">Class</label>
+                                            <select name="class_id" id="class-id" class="form-control select2">
+                                                <option value="">Select Class</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="class-group-id" class="form-label tx-semibold">Class Group</label>
+                                            <select name="class_group" id="class-group-id" class="form-control select2">
+                                                <option value=""></option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal"> Close </button>
+                            <button type="button" class="btn btn-primary" id="btn-save-promotion"> Save Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
-    <script src="{{ url('backend/assets/js/student/registration.js') }}"></script>
+<script src="{{ url('backend/assets/js/student/registration.js') }}"></script>
 
-    @endsection
+@endsection

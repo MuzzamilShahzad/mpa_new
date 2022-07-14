@@ -44,6 +44,8 @@ Route::controller(CampusController::class)->group(function () {
 
 //Registeration routes
 Route::controller(StudentRegistrationController::class)->group(function () {
+    Route::put('/student/promotion', 'studentPromotion')->name('student.registration.promote');
+    Route::get('/student/forward/{id}', 'studentForward')->name('student.registration.forward');
     Route::get('/student/registration', 'listing')->name('student.registration.listing');
     Route::get('/student/registration/add', 'add')->name('student.registration.create');
     Route::get('/student/registration/details', 'registrationDetails')->name('student.registration.details');

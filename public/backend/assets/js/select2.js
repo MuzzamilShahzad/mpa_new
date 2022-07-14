@@ -15,12 +15,22 @@ jQuery(function () {
 		searchInputPlaceholder: 'Search',
 		width: '100%'
 	});
+	$('.systemSelect2').select2({
+		placeholder: 'Select Class',
+		searchInputPlaceholder: 'Search',
+		width: '100%'
+	});
 	$('.classSelect2').select2({
 		placeholder: 'Select Class',
 		searchInputPlaceholder: 'Search',
 		width: '100%'
 	});
 	$('.sectionSelect2').select2({
+		placeholder: 'Select Section',
+		searchInputPlaceholder: 'Search',
+		width: '100%'
+	});
+	$('.classGroupSelect2').select2({
 		placeholder: 'Select Section',
 		searchInputPlaceholder: 'Search',
 		width: '100%'
