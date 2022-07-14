@@ -17,6 +17,9 @@ return new class extends Migration
             
             $table->increments('id');
             
+            $table->unsignedInteger('regitration_id')->nullable();
+            $table->foreign('regitration_id')->references('id')->on('regitrations')->onDelete('cascade');
+
             $table->string('temporary_gr',10)->unique();
             $table->string('gr',20)->unique();
             $table->string('roll_no',10)->nullable();

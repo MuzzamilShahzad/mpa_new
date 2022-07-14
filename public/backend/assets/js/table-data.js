@@ -198,7 +198,7 @@ $(function(e) {
                     complete: function () {
 
 						admissingListing();
-						
+
                         Swal.fire({
                             icon: message.icon,
                             title: message.title,
@@ -209,6 +209,7 @@ $(function(e) {
             }
         });
     });
+	
 	$('#modal-datatable').DataTable( {
         responsive: {
             details: {
