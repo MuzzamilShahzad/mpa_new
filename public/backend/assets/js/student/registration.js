@@ -68,6 +68,11 @@ $(document).ready(function () {
             $("#session-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
+        if (class_group_id == "" || class_group_id == "0") {
+            $("#class-group-id").find(".select2-selection--single").addClass("has-error");
+            $("#class-group-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+            flag = false;
+        }
         if (reg_no == "") {
             $("#reg-no").addClass("has-error");
             flag = false;
@@ -87,10 +92,15 @@ $(document).ready(function () {
             $("#gender").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
-
+        
+        if (siblings_in_mpa == "") {
+            $("#siblings-in-mpa").addClass("has-error");
+            $("#siblings-in-mpa").after("<span class='error text-danger'>This field is required.</span>");
+            flag = false;
+        }
         if (siblings_in_mpa == "Yes" && no_of_siblings == "") {
-            $("#no_of_siblings").addClass("has-error");
-            $("#no_of_siblings").after("<span class='error text-danger'>This field is required.</span>");
+            $("#no-of-siblings").addClass("has-error");
+            $("#no-of-siblings").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
         if (house_no == "") {
@@ -168,10 +178,12 @@ $(document).ready(function () {
                 }
 
             } else {
-
-                $("#test-group-id:not([disabled]").siblings("span").find(".select2-selection--single").addClass("has-error");
-                $("#test-group-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-                flag = false;
+                
+                if ($("#test-group-id").val() == "") {
+                    $("#test-group-id:not([disabled]").siblings("span").find(".select2-selection--single").addClass("has-error");
+                    $("#test-group-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+                    flag = false;
+                }
 
             }
 
@@ -200,12 +212,12 @@ $(document).ready(function () {
                     flag = false;
                 }
 
-
             } else {
-
-                $("#interview-group-id:not([disabled]").siblings("span").find(".select2-selection--single").addClass("has-error");
-                $("#interview-group-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-                flag = false;
+                if ($("#interview-group-id").val() == "") {
+                    $("#interview-group-id:not([disabled]").siblings("span").find(".select2-selection--single").addClass("has-error");
+                    $("#interview-group-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+                    flag = false;
+                }
             }
         }
 
@@ -275,7 +287,6 @@ $(document).ready(function () {
 
                         if (response.error) {
                             if (Object.keys(response.error).length > 0) {
-
                                 var input_fields = ['form_no', 'first_name', 'last_name', 'dob', 'no_of_siblings', 'previous_school', 'father_cnic', 'father_name', 'father_occupation', 'father_phone',
                                     'father_salary', 'father_email', 'father_company_name', 'test_name', 'test_date', 'test_time', 'interview_name', 'interview_date', 'interview_time'];
                                 $.each(response.error, function (key, value) {
@@ -284,7 +295,6 @@ $(document).ready(function () {
                                         $("input[name='" + key + "']").addClass("has-error");
                                         $("input[name='" + key + "']").after("<span class='error text-danger'>" + value.toString().split(/[,]+/).join("<br/>") + "</span>");
                                     } else {
-
                                         $("select[name='" + key + "']").siblings("span").find(".select2-selection--single").addClass("has-error");
                                         $("select[name='" + key + "']").siblings("span").after("<span class='error text-danger'>" + value.toString().split(/[,]+/).join("<br/>") + "</span>");
                                     }

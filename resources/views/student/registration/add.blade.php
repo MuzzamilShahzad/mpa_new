@@ -42,7 +42,7 @@
                                                 <select class="form-control select2" name="campus_id" id="campus-id">
                                                     <option value="">Select</option>
                                                     @foreach($data['campus'] as $campus)
-                                                        <option value="{{$campus->id}}">{{$campus->campus}}</option>
+                                                    <option value="{{$campus->id}}">{{$campus->campus}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -83,11 +83,11 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <div class="pos-relative">
-                                            <label class="form-label tx-semibold">Session</label>
+                                                <label class="form-label tx-semibold">Session</label>
                                                 <select class="form-control select2" name="session_id" id="session-id">
                                                     <option value="">Select</option>
                                                     @foreach($data['session'] as $session)
-                                                        <option value="{{$session->id}}">{{$session->session}}</option>
+                                                    <option value="{{$session->id}}">{{$session->session}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -105,13 +105,13 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">First Name</label>
-                                            <input type="text" class="form-control" name="first_name"  id="first-name">
+                                            <input type="text" class="form-control" name="first_name" id="first-name">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Last Name</label>
-                                            <input type="text" class="form-control" name="last_name"  id="last-name">
+                                            <input type="text" class="form-control" name="last_name" id="last-name">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-4 mb-0">
@@ -149,7 +149,7 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">No. of Siblings</label>
-                                            <input type="text" class="form-control" name="no_of_siblings"  id="no-of-siblings">
+                                            <input type="text" class="form-control" name="no_of_siblings" id="no-of-siblings">
                                         </div>
                                     </div>
                                 </div>
@@ -161,7 +161,7 @@
                                                 <select class="form-control select2" name="previous_class" id="previous-class">
                                                     <option value="">Select</option>
                                                     @foreach($data['class'] as $class)
-                                                        <option value="{{$class->id}}">{{$class->class}}</option>
+                                                    <option value="{{$class->id}}">{{$class->class}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -170,7 +170,7 @@
                                     <div class="form-group col-md-6 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Previous School (IF ANY)</label>
-                                            <input type="text" class="form-control" name="previous_school"  id="previous-school">
+                                            <input type="text" class="form-control" name="previous_school" id="previous-school">
                                         </div>
                                     </div>
                                 </div>
@@ -196,7 +196,7 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Building Name/Number (If ANY)</label>
-                                            <input type="text" class="form-control" name="building_no"  id="building-no">
+                                            <input type="text" class="form-control" name="building_no" id="building-no">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-4 mb-0">
@@ -206,7 +206,7 @@
                                                 <select class="form-control select2" name="area_id " id="area-id">
                                                     <option value="">Select</option>
                                                     @foreach($data['area'] as $area)
-                                                        <option value="{{$area->id}}">{{$area->area}}</option>
+                                                    <option value="{{$area->id}}">{{$area->area}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -219,7 +219,7 @@
                                                 <select class="form-control select2" name="city_id" id="city-id">
                                                     <option value="">Select</option>
                                                     @foreach($data['city'] as $city)
-                                                        <option value="{{$city->id}}">{{$city->city}}</option>
+                                                    <option value="{{$city->id}}">{{$city->city}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -246,7 +246,7 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Father Occupation</label>
-                                            <input type="text" class="form-control" name="father_occupation"  id="father-occupation">
+                                            <input type="text" class="form-control" name="father_occupation" id="father-occupation">
                                         </div>
                                     </div>
                                 </div>
@@ -278,36 +278,19 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Father Phone No</label>
-                                            <input type="text" class="form-control" name="father_phone"  id="father-phone" data-inputmask="'mask': '03##-#######'" placeholder="03##-#######">
+                                            <input type="text" class="form-control" name="father_phone" id="father-phone" data-inputmask="'mask': '03##-#######'" placeholder="03##-#######">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
-                                                <label class="form-label tx-semibold">How did you hear about us?</label>
-                                                <div class="pos-relative">
-                                                    <select class="form-control select2" name="hear_about_us " id="hear-about-us">
-                                                        <option value="">Select</option>
-                                                        <option value="social_media">Social Media</option>
-                                                        <option value="electronic_media">Electronic Media</option>
-                                                        <option value="print_media">Print Media</option>
-                                                        <option value="other">Other</option>
-                                                    </select>
-                                                </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-body">
-                                <h4 class="main-content-label"> 
-                                    <input type="checkbox" name="test_group_chkbox" value="1" id="test-group-chkbox">
-                                    <strong>Test Group</strong> 
-                                </h4>
-                                <br>
-                                <div class="form-row" id="test-group-row">
-                                    <div class="form-group col-md-6 mb-0">
-                                        <div class="form-group">
-                                           <div class="pos-relative">
-                                                <select class="form-control select2" name="test_group_id" id="test-group-id" disabled>
+                                            <label class="form-label tx-semibold">How did you hear about us?</label>
+                                            <div class="pos-relative">
+                                                <select class="form-control select2" name="hear_about_us " id="hear-about-us">
+                                                    <option value="">Select</option>
+                                                    <option value="social_media">Social Media</option>
+                                                    <option value="electronic_media">Electronic Media</option>
+                                                    <option value="print_media">Print Media</option>
+                                                    <option value="other">Other</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -315,17 +298,42 @@
                                 </div>
                             </div>
                             <div class="card-body">
-                                <h4 class="main-content-label"> 
-                                    <input type="checkbox" name="interview_group_chkbox" value="1" id="interview-group-chkbox"/>
-                                    <strong>Interview Group</strong> 
+                                <h4 class="main-content-label">
+                                    <input type="checkbox" name="test_group_chkbox" id="test-group-chkbox">
+                                    <strong>Test Group</strong>
+                                </h4>
+                                <br>
+                                <div class="form-row" id="test-group-row">
+                                    <div class="form-group col-md-6 mb-0">
+                                        <div class="form-group">
+                                            <div class="pos-relative">
+                                                <select class="form-control select2" name="test_group_id" id="test-group-id" disabled>
+                                                    <option value="">Select Test</option>
+
+                                                    @foreach($data["tests"] as $test)
+                                                    <option value="{{ $test->id }}"> {{ $test->name }} </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="main-content-label">
+                                    <input type="checkbox" name="interview_group_chkbox" id="interview-group-chkbox" />
+                                    <strong>Interview Group</strong>
                                 </h4>
                                 <br>
                                 <div class="form-row" id="interview-group-row">
                                     <div class="form-group col-md-6 mb-0">
                                         <div class="form-group">
-                                           <div class="pos-relative">
+                                            <div class="pos-relative">
                                                 <select class="form-control select2" name="interview_group_id" id="interview-group-id" disabled>
                                                     <option value="">Select Interview</option>
+                                                    @foreach($data["interviews"] as $interview)
+                                                    <option value="{{ $interview->id }}"> {{ $interview->name }} </option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>

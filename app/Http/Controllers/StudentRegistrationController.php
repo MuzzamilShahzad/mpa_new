@@ -77,20 +77,24 @@ class StudentRegistrationController extends Controller
     public function add()
     {
 
-        $campus   =  Campus::get();
-        $session  =  Session::get();
-        $area     =  Area::get();
-        $city     =  City::get();
-        $class    =  Classes::get();
+        $campus         =  Campus::get();
+        $session        =  Session::get();
+        $area           =  Area::get();
+        $city           =  City::get();
+        $class          =  Classes::get();
+        $tests          =  TestInterviewGroup::where('type', 'test')->get();
+        $interviews     =  TestInterviewGroup::where('type', 'interview')->get();
 
         $data = array(
-            'campus'   =>  $campus,
-            'session'  =>  $session,
-            'class'    =>  $class,
-            'area'     =>  $area,
-            'city'     =>  $city,
-            'page'     =>  'Student Registration',
-            'menu'     =>  'Add Student Registration'
+            'campus'        =>  $campus,
+            'session'       =>  $session,
+            'class'         =>  $class,
+            'area'          =>  $area,
+            'city'          =>  $city,
+            'tests'         =>  $tests,
+            'interviews'    =>  $interviews,
+            'page'          =>  'Student Registration',
+            'menu'          =>  'Add Student Registration'
         );
 
         return view('student.registration.add', compact('data'));
@@ -185,7 +189,7 @@ class StudentRegistrationController extends Controller
             if ($request->hear_about_us == "other") {
                 $registration->hear_about_us_other =  $request->hear_about_us_other;
             }
-
+            
             if ($request->test_group_chkbox) {
                 if ($request->test_group_id) {
                     $registration->test_group_id = $request->test_group_id;
@@ -202,7 +206,7 @@ class StudentRegistrationController extends Controller
                     $registration->test_group_id = $testGroup->id;
                 }
             }
-            if ($request->interview_group_chkbox) {
+            if ($request->interview_group_chkbox != "") {
 
                 if ($request->interview_group_id) {
                     $registration->interview_group_id = $request->interview_group_id;
@@ -473,11 +477,18 @@ class StudentRegistrationController extends Controller
 
             $registration = Registration::where("campus_id", $request->campus_id)->where("session_id", $request->session_id)->where("system_id", $request->system_id)->orderBy('id', 'DESC')->limit(1)->first();
             $session = explode("-", $registration->session->session);
-            $campus_details = $registration->campusDetails;
+            $campus_details = $registration->campus->campusDetails;
 
-            $reg_no = $registration->registration_id;
+            if($registration) {
+                $reg_no = $registration->registration_id;
+                $student_form_number = substr($session[0], -2).str_pad(++$reg_no, 4, '0', STR_PAD_LEFT);;
+            }else {
+                $student_form_number = str_pad(1, 4, '0', STR_PAD_LEFT);
+            }
+
+            // $reg_no = $registration->registration_id;
             // $student_form_number = $campus_details->short_name.substr($session[0], -2)."000".++$reg_no;
-            $student_form_number = ++$reg_no;
+            // $student_form_number = ++$reg_no;
 
             return response()->json(["status" => true, "formNumber" => $student_form_number]);
         }
