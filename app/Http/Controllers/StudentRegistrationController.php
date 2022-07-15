@@ -11,7 +11,9 @@ use App\Models\Area;
 use App\Models\City;
 use App\Models\Classes;
 use App\Models\Registration;
+use App\Models\CampusClass;
 use App\Models\TestInterviewGroup;
+use Illuminate\Support\Facades\View;
 
 class StudentRegistrationController extends Controller
 {
@@ -47,48 +49,51 @@ class StudentRegistrationController extends Controller
         return view('student.registration.listing', compact('data'));
     }
 
-    public function getListingBySessionSystemClassGroup(Request $request) {
-        
-        if($request->session_id){
+    public function getListingBySessionSystemClassGroup(Request $request)
+    {
+
+        if ($request->session_id) {
             $where['session_id'] = $request->session_id;
         }
-        if($request->campus_id){
+        if ($request->campus_id) {
             $where['campus_id'] = $request->campus_id;
         }
-        if($request->system_id){
+        if ($request->system_id) {
             $where['system_id'] = $request->system_id;
         }
-        if($request->class_id){
+        if ($request->class_id) {
             $where['class_id'] = $request->class_id;
         }
-        if($request->group_id){
+        if ($request->group_id) {
             $where['group_id'] = $request->group_id;
         }
 
         $where['student_registrations.is_active'] = 1;
         $where['student_registrations.is_delete'] = 0;
 
-        $registration = Registration::select('student_registrations.id',
-                                            'student_registrations.registration_id',
-                                            'student_registrations.first_name',
-                                            'student_registrations.last_name',
-                                            'student_registrations.father_details',
-                                            'campuses.campus',
-                                            'systems.system',
-                                            'classes.class',
-                                            'groups.group')
-                                ->leftJoin('campuses','campuses.id','=','student_registrations.campus_id')
-                                ->leftJoin('systems','systems.id','=','student_registrations.system_id')
-                                ->leftJoin('classes','classes.id','=','student_registrations.class_id')
-                                ->leftJoin('groups','groups.id','=','student_registrations.class_group_id')
-                                ->where($where)
-                                ->get();
+        $registration = Registration::select(
+            'student_registrations.id',
+            'student_registrations.registration_id',
+            'student_registrations.first_name',
+            'student_registrations.last_name',
+            'student_registrations.father_details',
+            'campuses.campus',
+            'systems.system',
+            'classes.class',
+            'groups.group'
+        )
+            ->leftJoin('campuses', 'campuses.id', '=', 'student_registrations.campus_id')
+            ->leftJoin('systems', 'systems.id', '=', 'student_registrations.system_id')
+            ->leftJoin('classes', 'classes.id', '=', 'student_registrations.class_id')
+            ->leftJoin('groups', 'groups.id', '=', 'student_registrations.class_group_id')
+            ->where($where)
+            ->get();
+
         $response = array(
-            'data'         =>  $registration
+            'data'              =>  $registration
         );
 
         return response()->json($response);
-
     }
 
     public function registrationDetails(Request $request)
@@ -108,12 +113,61 @@ class StudentRegistrationController extends Controller
             return response()->json($response);
         } else {
 
-            $registration = Registration::findOrFail($request->id);
+            $classes        =  Classes::get();
+            $campuses       =  Campus::where('is_active', 1)->where('is_delete', 0)->get();
+            $sessions       =  Session::get();
+            $areas          =  Area::get();
+            $cities         =  City::get();
+            $sections       =  Section::get();
+            $tests          =  TestInterviewGroup::where('type', 'test')->get();
+            $interviews     =  TestInterviewGroup::where('type', 'interview')->get();
+            $registration   = Registration::findOrFail($request->id);
 
-            return response()->json([
-                "status" => true,
-                "registration" => $registration
-            ]);
+            $campusSchoolSystems = Campus::select('systems.*')
+                ->join('campus_details', 'campus_details.campus_id', '=', 'campuses.id')
+                ->join('systems', 'systems.id', '=', 'campus_details.system_id')
+                ->where('campuses.id', $registration->campus_id)
+                ->where('campuses.is_active', 1)
+                ->where('campuses.is_delete', 0)
+                ->get();
+
+            $campusClasses = Classes::select('classes.id', 'classes.class')
+                ->join('campus_classes', 'campus_classes.class_id', '=', 'classes.id')
+                ->join('campus_details', 'campus_details.id', '=', 'campus_classes.campus_detail_id')
+                ->where('campus_details.campus_id', $registration->campus_id)
+                ->where('campus_details.system_id', $registration->system_id)
+                ->where('classes.is_active', 1)
+                ->where('classes.is_delete', 0)
+                ->get();
+
+            $classGroups = CampusClass::select('groups.*')
+                ->join('campus_details', 'campus_details.id', '=', 'campus_classes.campus_detail_id')
+                ->join('class_groups', 'class_groups.class_id', '=', 'campus_classes.class_id')
+                ->join('groups', 'groups.id', '=', 'class_groups.group_id')
+                ->where('campus_details.campus_id', $registration->campus_id)
+                ->where('campus_details.system_id', $registration->system_id)
+                ->where('campus_classes.class_id', $registration->class_id)
+                ->get();
+
+
+            $data = array(
+                'campuses'          =>  $campuses,
+                'classes'           =>  $classes,
+                'sessions'          =>  $sessions,
+                'sections'          =>  $sections,
+                'areas'             =>  $areas,
+                'cities'            =>  $cities,
+                'tests'             =>  $tests,
+                'interviews'        =>  $interviews,
+                'systems'           =>  $registration,
+                'registration'      =>  $registration,
+                'classes'           =>  $campusClasses,
+                'systems'           =>  $campusSchoolSystems,
+                'classGroups'       =>  $classGroups
+            );
+
+            $data = (string)View::make('student.registration.modal', compact('data'));
+            return response()->json(["status" => true, "data" => $data]);
         }
     }
 
@@ -203,16 +257,16 @@ class StudentRegistrationController extends Controller
             ]);
 
             $registration = Registration::where("campus_id", $request->campus_id)->where("session_id", $request->session_id)->where("system_id", $request->system_id)->orderBy('id', 'DESC')->limit(1)->first();
-            if($registration) {
+            if ($registration) {
                 $session = explode("-", $registration->session->session);
                 $campus_details = $registration->campus->campusDetails;
                 $reg_no = filter_var($registration->registration_id, FILTER_SANITIZE_NUMBER_INT);
-                $registration_id = $campus_details->short_name.(++$reg_no);
-            }else {
+                $registration_id = $campus_details->short_name . (++$reg_no);
+            } else {
                 $campus_details = Campus::findOrFail($request->campus_id)->campusDetails;
                 $session = Session::findOrFail($request->session_id);
                 $session = explode("-", $session->session);
-                $registration_id = $campus_details->short_name.substr($session[0], -2).str_pad(1, 10-(strlen($campus_details->short_name.substr($session[0], -2))), '0', STR_PAD_LEFT);
+                $registration_id = $campus_details->short_name . substr($session[0], -2) . str_pad(1, 10 - (strlen($campus_details->short_name . substr($session[0], -2))), '0', STR_PAD_LEFT);
             }
 
             $registration = new Registration;
@@ -245,7 +299,7 @@ class StudentRegistrationController extends Controller
             if ($request->hear_about_us == "other") {
                 $registration->hear_about_us_other =  $request->hear_about_us_other;
             }
-            
+
 
             if ($request->test_group_chkbox == "true") {
                 if ($request->test_group_id) {
@@ -354,16 +408,16 @@ class StudentRegistrationController extends Controller
             $registration = Registration::findOrFail($request->id);
 
             $father_details = json_encode([
-                "father_name"           => $request->father_name,
-                "father_cnic"           => $request->father_cnic,
-                "father_phone"          => $request->father_phone,
-                "father_email"          => $request->father_email,
-                "father_company_name"   => $request->father_company_name,
-                "father_occupation"     => $request->father_occupation,
-                "father_salary"         => $request->father_salary,
+                "name"           => $request->father_name,
+                "cnic"           => $request->father_cnic,
+                "phone"          => $request->father_phone,
+                "email"          => $request->father_email,
+                "company_name"   => $request->father_company_name,
+                "occupation"     => $request->father_occupation,
+                "salary"         => $request->father_salary,
             ]);
 
-            // $registration->group_id       = $request->class_group_id;
+            $registration->class_group_id             = $request->class_group_id;
             $registration->campus_id            = $request->campus_id;
             $registration->system_id            = $request->system_id;
             $registration->session_id           = $request->session_id;
@@ -485,17 +539,17 @@ class StudentRegistrationController extends Controller
         } else {
 
             $registration = Registration::where("campus_id", $request->campus_id)->where("session_id", $request->session_id)->where("system_id", $request->system_id)->orderBy('id', 'DESC')->limit(1)->first();
-            
-            if($registration) {
+
+            if ($registration) {
                 $session = explode("-", $registration->session->session);
                 $campus_details = $registration->campus->campusDetails;
                 $reg_no = $registration->registration_id;
-                $student_form_number = $campus_details->short_name.substr($session[0], -2).str_pad(++$reg_no, 10-(strlen($campus_details->short_name.substr($session[0], -2))), '0', STR_PAD_LEFT);;
-            }else {
+                $student_form_number = $campus_details->short_name . substr($session[0], -2) . str_pad(++$reg_no, 10 - (strlen($campus_details->short_name . substr($session[0], -2))), '0', STR_PAD_LEFT);;
+            } else {
                 $campus_details = Campus::findOrFail($request->campus_id)->campusDetails;
                 $session = Session::findOrFail($request->session_id);
                 $session = explode("-", $session->session);
-                $student_form_number = $campus_details->short_name.substr($session[0], -2).str_pad(1, 10-(strlen($campus_details->short_name.substr($session[0], -2))), '0', STR_PAD_LEFT);
+                $student_form_number = $campus_details->short_name . substr($session[0], -2) . str_pad(1, 10 - (strlen($campus_details->short_name . substr($session[0], -2))), '0', STR_PAD_LEFT);
             }
 
             return response()->json(["status" => true, "formNumber" => $student_form_number]);
@@ -523,7 +577,7 @@ class StudentRegistrationController extends Controller
                 'status'  =>  true,
                 'testGroup'   =>  $testGroup
             );
-            
+
             return response()->json($response);
         }
     }
@@ -549,11 +603,11 @@ class StudentRegistrationController extends Controller
                 'status'           =>  true,
                 'interviewGroup'   =>  $interviewGroup
             );
-            
+
             return response()->json($response);
         }
     }
-    
+
     public function registrationDetailsModal()
     {
         $classes        =  Classes::get();

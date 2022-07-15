@@ -299,7 +299,7 @@ $(function (e) {
 					"targets": 7,
 					"render": function (data) {
 						var checkbox = `<i class="fas fa-check" id="btn-view-registration" data-id="` + data.id + `" title="View"></i> |
-										<i class="fas fa-edit" id="btn-edit-registration" data-id="`+ data.id + `" title="Edit"></i> |
+										<i class="fas fa-edit" id="btn-edit-registeration" data-id="`+ data.id + `"  title="Edit"></i> |
 						 				<i class="fas fa-trash" id="btn-delete-registration" data-id="`+ data.id + `" title="Delete"></i>`;
 						return checkbox;
 					}
