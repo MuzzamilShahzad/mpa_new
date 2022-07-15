@@ -19,6 +19,9 @@ class AdmissionController extends Controller
         $session    =  Session::get();
         $campus     =  Campus::where('is_active',1)->where('is_delete',0)->get();
         $section    =  Section::get();
+        $area     =  Area::get();
+        $city     =  City::get();
+        $class    =  Classes::get();
         
         if($request->session_id){
             $where['session_id'] = $request->session_id;
@@ -52,6 +55,9 @@ class AdmissionController extends Controller
             'session'    =>  $session,
             'campus'     =>  $campus,
             'section'    =>  $section,
+            'class'      =>  $class,
+            'area'       =>  $area,
+            'city'       =>  $city,
             'admission'  =>  $admission,
             'page'       =>  'Admission',
             'menu'       =>  'Admissions Listing'
@@ -412,8 +418,7 @@ class AdmissionController extends Controller
         }
     }
 
-    public function studentPromotion(Request $request)
-    {
+    public function studentPromotion(Request $request){
         $validator = Validator::make($request->all(), [
             'campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
             'system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
@@ -454,5 +459,44 @@ class AdmissionController extends Controller
                 return response()->json($response);
             }
         }
+    }
+
+    public function edit(Request $request) {
+
+        $validator = Validator::make($request->all(),[
+            'admission_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
+        ]);
+
+        if($validator->fails()){
+
+            $response = array(
+                'status'  =>  false,
+                'error'   =>  $validator->errors()
+            );
+            
+        } else {
+        
+            $admission  = Admission::select('admissions.*',
+                                            'campuses.campus',
+                                            'systems.system',
+                                            'classes.class',
+                                            'groups.group',
+                                            'sections.section')
+                                    ->leftJoin('campuses','campuses.id','=','admissions.campus_id')
+                                    ->leftJoin('systems','systems.id','=','admissions.system_id')
+                                    ->leftJoin('classes','classes.id','=','admissions.class_id')
+                                    ->leftJoin('groups','groups.id','=','admissions.group_id')
+                                    ->leftJoin('sections','sections.id','=','admissions.section_id')
+                                    ->where('admissions.id', $request->admission_id)
+                                    ->get();
+
+            $response = array(
+                'data'         =>  $admission
+            );
+            
+            return response()->json($response);
+
+        }
+
     }
 }

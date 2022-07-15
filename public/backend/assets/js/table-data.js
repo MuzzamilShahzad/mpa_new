@@ -99,7 +99,7 @@ $(function (e) {
 				{
 					"targets": 8,
 					"render": function (data) {
-						var checkbox = `<i class="fas fa-check" id="btn-view-admission" data-id="` + data.id + `" title="View"></i> |
+						var checkbox = `<i data-bs-target="#admission-details-modal" data-bs-toggle="modal" class="fas fa-check" id="btn-view-admission" data-id="` + data.id + `" title="View"></i> |
 										<i class="fas fa-edit" id="btn-edit-admission" data-id="`+ data.id + `" title="Edit"></i> |
 						 				<i class="fas fa-trash" id="btn-delete-admission" data-id="`+ data.id + `" title="Delete"></i>`;
 						return checkbox;
