@@ -49,7 +49,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Session</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="session_id" id="session-id">
+                                                <select class="form-control session-select2" name="session_id" id="session-id">
                                                     <option value="">Select Session</option>
                                                     @foreach($data['session'] as $session)
                                                         <option value="{{$session->id}}">{{$session->session}}</option>
@@ -62,7 +62,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Campus</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="campus_id" id="campus-id">
+                                                <select class="form-control student-select2" name="campus_id" id="campus-id">
                                                     <option value="">Select Student</option>
                                                     @foreach($data['campus'] as $campus)
                                                         <option value="{{$campus->id}}">{{$campus->campus}}</option>
@@ -75,7 +75,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">System</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="system_id" id="system-id">
+                                                <select class="form-control system-select2" name="system_id" id="system-id">
                                                     <option value="">Select System</option>
                                                 </select>
                                             </div>
@@ -85,7 +85,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Class</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="class_id" id="class-id">
+                                                <select class="form-control class-select2" name="class_id" id="class-id">
                                                     <option value="">Select Class</option>
                                                 </select>
                                             </div>
@@ -95,7 +95,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Class Group</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="group_id" id="group-id">
+                                                <select class="form-control group-select2" name="group_id" id="group-id">
                                                     <option value="">Select Class Group</option>
                                                 </select>
                                             </div>
@@ -105,7 +105,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Section</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="section_id" id="section-id">
+                                                <select class="form-control section-select2" name="section_id" id="section-id">
                                                     <option selected value="">Select Section</option>
                                                     @foreach($data['section'] as $section)
                                                         <option value="{{$section->id}}">{{$section->section}}</option>
@@ -132,7 +132,7 @@
                                 <table class="table table-bordered text-nowrap border-bottom" id="admission-listing-datatable">
                                     <thead>
                                         <tr>
-                                            <th> 
+                                            <th data-orderable="false"> 
                                                 <div class="form-check">
                                                     <input class="form-check-input chkbox-select-all-admission" type="checkbox">
                                                 </div>
@@ -143,9 +143,8 @@
                                             <th>Father Name</th>
                                             <th>Campus (System)</th>
                                             <th>Class (Group)</th>
-                                            <!-- <th>Section</th> -->
                                             <th>Admission Date</th>
-                                            <th>Action</th>
+                                            <th data-orderable="false">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>

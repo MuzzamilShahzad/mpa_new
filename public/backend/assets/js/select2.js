@@ -3,66 +3,86 @@ jQuery(function () {
 		placeholder: 'Select',
 		searchInputPlaceholder: 'Search',
 		width: '100%',
-		allowClear: true
 	});
-	$('.campusSelect2').select2({
+	$('.campus-select2').select2({
 		placeholder: 'Select Campus',
 		searchInputPlaceholder: 'Search',
 		width: '100%'
 	});
-	$('.sessionSelect2').select2({
+	$('.session-select2').select2({
 		placeholder: 'Select Session',
 		searchInputPlaceholder: 'Search',
 		width: '100%'
 	});
-	$('.systemSelect2').select2({
+	$('.system-select2').select2({
 		placeholder: 'Select Class',
 		searchInputPlaceholder: 'Search',
 		width: '100%'
 	});
-	$('.classSelect2').select2({
+	$('.class-select2').select2({
 		placeholder: 'Select Class',
 		searchInputPlaceholder: 'Search',
 		width: '100%'
 	});
-	$('.sectionSelect2').select2({
+	$('.section-select2').select2({
 		placeholder: 'Select Section',
 		searchInputPlaceholder: 'Search',
 		width: '100%'
 	});
-	$('.classGroupSelect2').select2({
+	$('.group-select2').select2({
 		placeholder: 'Select Section',
 		searchInputPlaceholder: 'Search',
 		width: '100%'
 	});
-	$('.genderSelect2').select2({
+	$('.gender-select2').select2({
 		placeholder: 'Select Gender',
 		searchInputPlaceholder: 'Search',
 		width: '100%'
 	});
-	$('.categorySelect2').select2({
-		placeholder: 'Select Category',
-		searchInputPlaceholder: 'Search',
-		width: '100%'
-	});
-	$('.bloodSelect2').select2({
+	$('.blood-select2').select2({
 		placeholder: 'Select Blood Group',
 		searchInputPlaceholder: 'Search',
 		width: '100%'
 	});
-	$('.houseSelect2').select2({
-		placeholder: 'Select School House',
-		searchInputPlaceholder: 'Search',
-		width: '100%'
-	});
-	$('.currentSelect2').select2({
+	$('.current-area-select2').select2({
 		placeholder: 'Select Current Area',
 		searchInputPlaceholder: 'Search',
 		width: '100%'
 	});
 
-	$('.permanentSelect2').select2({
+	$('.permanent-area-select2').select2({
 		placeholder: 'Select permanent Area',
+		searchInputPlaceholder: 'Search',
+		width: '100%'
+	});
+	
+	$('.siblings-in-mpa-select2').select2({
+		placeholder: 'Select Siblings',
+		searchInputPlaceholder: 'Search',
+		width: '100%'
+	});
+	$('.previous-class-id-select2').select2({
+		placeholder: 'Select Previous Class',
+		searchInputPlaceholder: 'Search',
+		width: '100%'
+	});
+	$('.area-select2').select2({
+		placeholder: 'Select Area',
+		searchInputPlaceholder: 'Search',
+		width: '100%'
+	});
+	$('.city-select2').select2({
+		placeholder: 'Select City',
+		searchInputPlaceholder: 'Search',
+		width: '100%'
+	});
+	$('.test-group-select2').select2({
+		placeholder: 'Select Test Group',
+		searchInputPlaceholder: 'Search',
+		width: '100%'
+	});
+	$('.interview-group-us-select2').select2({
+		placeholder: 'Select Interview Group',
 		searchInputPlaceholder: 'Search',
 		width: '100%'
 	});
