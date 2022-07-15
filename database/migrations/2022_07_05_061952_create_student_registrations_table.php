@@ -17,7 +17,7 @@ return new class extends Migration
             
             $table->increments('id');
             
-            $table->unsignedInteger('registration_id')->unique();
+            $table->string('registration_id')->unique();
             
             $table->unsignedInteger('campus_id');
             $table->foreign('campus_id')->references('id')->on('campuses')->onDelete('cascade');
@@ -69,6 +69,7 @@ return new class extends Migration
             $table->foreign('interview_group_id')->references('id')->on('test_interview_groups')->onDelete('cascade');
 
             $table->tinyInteger('is_enroll')->default(0);
+            $table->enum('status',['active','stuck_of'])->default('active');
 
             $table->tinyInteger('is_active')->unsigned()->default(1);
             $table->tinyInteger('is_delete')->unsigned()->default(0);

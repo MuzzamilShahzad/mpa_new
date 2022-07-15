@@ -15,7 +15,6 @@ $(document).ready(function () {
         var class_id = $("#class-id").val();
         var class_group_id = $("#class-group-id").val();
         var session_id = $("#session-id").val();
-        var reg_no = $("#reg-no").val();
         var form_no = $("#form-no").val();
         var first_name = $("#first-name").val();
         var last_name = $("#last-name").val();
@@ -42,8 +41,8 @@ $(document).ready(function () {
         var hear_about_us = $("#hear-about-us").val();
         var hear_about_us_other = $("#hear-about-us-other").val();
 
-        var test_group_chkbox = $("#test-group-chkbox").val();
-        var interview_group_chkbox = $("#interview-group-chkbox").val();
+        var test_group_chkbox = $('#test-group-chkbox').is(':checked');
+        var interview_group_chkbox = $('#interview-group-chkbox').is(':checked');
 
         var test_group = $("#test-group-id").val();
         var interview_group = $("#interview-group-id").val();
@@ -71,10 +70,6 @@ $(document).ready(function () {
         if (class_group_id == "" || class_group_id == "0") {
             $("#class-group-id").find(".select2-selection--single").addClass("has-error");
             $("#class-group-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-        if (reg_no == "") {
-            $("#reg-no").addClass("has-error");
             flag = false;
         }
         if (first_name == "") {
@@ -232,7 +227,6 @@ $(document).ready(function () {
                 "system_id": system_id,
                 "class_id": class_id,
                 "class_group_id": class_group_id,
-                "reg_no": reg_no,
                 "form_no": form_no,
                 "session_id": session_id,
                 "first_name": first_name,
@@ -287,10 +281,9 @@ $(document).ready(function () {
 
                         if (response.error) {
                             if (Object.keys(response.error).length > 0) {
-                                var input_fields = ['form_no', 'first_name', 'last_name', 'dob', 'no_of_siblings', 'previous_school', 'father_cnic', 'father_name', 'father_occupation', 'father_phone',
+                                var input_fields = ['', 'first_name', 'form_no', 'last_name', 'dob', 'no_of_siblings', 'previous_school', 'father_cnic', 'father_name', 'father_occupation', 'father_phone',
                                     'father_salary', 'father_email', 'father_company_name', 'test_name', 'test_date', 'test_time', 'interview_name', 'interview_date', 'interview_time'];
                                 $.each(response.error, function (key, value) {
-
                                     if (input_fields.indexOf(key)) {
                                         $("input[name='" + key + "']").addClass("has-error");
                                         $("input[name='" + key + "']").after("<span class='error text-danger'>" + value.toString().split(/[,]+/).join("<br/>") + "</span>");
@@ -310,7 +303,6 @@ $(document).ready(function () {
                     } else {
 
                         $("#campus-id, #class-id, #session-id, #gender, #siblings-in-mpa, #area-id, #test-group-id, #interview-group-id").val('').change();
-
                         $("#system, #form-no, #computerize-registration, #first-name, #last-name, #dob, #no-of-siblings, #previous-class, #previous-school, #house-no, #block-no, #building-name-no, #city, #father-cnic, #father-name, #father-occupation, #father-company-name, #father-salary, #father-email, #father-phone, #other").val('');
 
                         message += `<div class="alert alert-success alert-dismissible">
@@ -337,6 +329,46 @@ $(document).ready(function () {
             });
         }
     });
+
+    // $('#interview-group-chkbox').change(function (e) {
+
+    //     var session_id = $("#session-id").val();
+
+    //     if (session_id == "" || session_id == "0") {
+    //         $("#session-id").find(".select2-selection--single").addClass("has-error");
+    //         $("#session-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+    //         $("#interview-group-id").siblings("span").after("<span class='error text-danger'>Please select session first.</span>");
+    //         flag = false;
+    //     } else {
+
+    //         if ($("#interview-group-id").prop("disabled", true)) {
+
+    //             $.ajax({
+    //                 url: baseUrl + '/get/interview-group',
+    //                 type: "GET",
+    //                 data: { session_id: session_id },
+    //                 success: function (response) {
+
+    //                     if (response.status === true) {
+    //                         var interviewGroupRecord = response.interviewGroup
+    //                         var interviewGroup = `<option selected value="0">Select </option>`;
+    //                         if (interviewGroupRecord.length) {
+    //                             $(interviewGroupRecord).each(function (key, value) {
+    //                                 console.log(value);
+    //                                 interviewGroup += `<option value="` + value.id + `" >` + value.name + `</option>`;
+    //                             });
+    //                         }
+
+
+    //                         $('#interview-group-id').prop('disabled', false);
+    //                         $('#interview-group-id').html(interviewGroup);
+
+    //                     }
+    //                 }
+    //             });
+    //         }
+    //     }
+    // });
 
     $('#hear-about-us').change(function (e) {
 
@@ -945,34 +977,34 @@ $(document).ready(function () {
 
     });
 
-    $(document).on('change', '#session-id', function (e) {
-        e.preventDefault();
+    // $(document).on('change', '#session-id', function (e) {
+    //     e.preventDefault();
 
-        var campus_id = $('#campus-id').val();
-        var system_id = $('#system-id').val();
-        var session_id = $('#session-id').val();
+    //     var campus_id = $('#campus-id').val();
+    //     var system_id = $('#system-id').val();
+    //     var session_id = $('#session-id').val();
 
-        if ((campus_id !== "" && campus_id > "0") && (system_id !== "" && system_id > "0") && (session_id !== "" && session_id > "0")) {
+    //     if ((campus_id !== "" && campus_id > "0") && (system_id !== "" && system_id > "0") && (session_id !== "" && session_id > "0")) {
 
-            $.ajax({
-                url: baseUrl + '/campus/student/form-id',
-                type: "GET",
-                data: { campus_id: campus_id, system_id: system_id, session_id: session_id },
-                success: function (response) {
-                    if (response.status === true) {
-                        var formNumber = response.formNumber;
-                        $('#reg-no').val(formNumber);
-                    }
-                }
-            })
+    //         $.ajax({
+    //             url: baseUrl + '/campus/student/form-id',
+    //             type: "GET",
+    //             data: { campus_id: campus_id, system_id: system_id, session_id: session_id },
+    //             success: function (response) {
+    //                 if (response.status === true) {
+    //                     var formNumber = response.formNumber;
+    //                     $('#reg-no').val(formNumber);
+    //                 }
+    //             }
+    //         })
 
-        } else {
+    //     } else {
 
-            $('#reg-no').val("");
+    //         $('#reg-no').val("");
 
-        }
+    //     }
 
-    });
+    // });
 
     $(document).on('change', '#class-id', function (e) {
         e.preventDefault();
@@ -1757,17 +1789,53 @@ $(document).ready(function () {
         $("#test-group-details").remove();
 
         if ($('#test-group-chkbox').is(':checked')) {
-            $("#test-group-id").prop('disabled', false);
-            $("#test-group-row").children('div').after(`<div class="form-group col-md-2 mb-0">
-                                                        <img src="`+ baseUrl + `/backend/assets/img/add-icon.png" class="btn-add-img" alt="Add Test" id="btn-add-test">
-                                                    </div>`);
-        } else {
 
+            var session_id = $("#session-id").val();
+
+            if (session_id == "" || session_id == "0") {
+                $("#session-id").find(".select2-selection--single").addClass("has-error");
+                $("#session-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+                $("#test-group-id").siblings("span").after("<span class='error text-danger'>Please select session first.</span>");
+                flag = false;
+            } else {
+
+                $("#test-group-id").prop('disabled', false);
+
+                $("#test-group-row").children('div').after(`<div class="form-group col-md-2 mb-0">
+                    <img src="`+ baseUrl + `/backend/assets/img/add-icon.png" class="btn-add-img" alt="Add Test" id="btn-add-test">
+                </div>`);
+
+                $.ajax({
+                    url: baseUrl + '/get/test-group',
+                    type: "GET",
+                    data: { session_id: session_id },
+                    success: function (response) {
+                        if (response.status === true) {
+                            var testGroupRecord = response.testGroup
+
+                            var testGroup = `<option selected value="0">Select </option>`;
+                            if (testGroupRecord.length) {
+                                $(testGroupRecord).each(function (key, value) {
+                                    testGroup += `<option value="` + value.id + `" >` + value.name + `</option>`;
+                                });
+                            }
+
+                            $('#test-group-id').prop('disabled', false);
+                            $('#test-group-id').html(testGroup);
+
+                        }
+                    }
+                });
+            }
+
+
+        } else {
             $("#test-group-id").val('0').change();
             $("#test-group-id").prop('disabled', true);
 
             $('#test-group-id').siblings("span.error").remove();
             $('#test-group-id').siblings("span").find(".select2-selection--single").removeClass("has-error");
+            $('#session-id').siblings("span.error").remove();
         }
     });
 
@@ -1777,15 +1845,50 @@ $(document).ready(function () {
         $("#interview-group-details").remove();
 
         if ($('#interview-group-chkbox').is(':checked')) {
-            $("#interview-group-id").prop('disabled', false);
-            $("#interview-group-row").children('div').after(`<div class="form-group col-md-2 mb-0">
-                                                        <img src="`+ baseUrl + `/backend/assets/img/add-icon.png" class="btn-add-img" alt="Add interview" id="btn-add-interview">
-                                                    </div>`);
+
+
+            var session_id = $("#session-id").val();
+
+            if (session_id == "" || session_id == "0") {
+                $("#session-id").find(".select2-selection--single").addClass("has-error");
+                $("#session-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+                $("#interview-group-id").siblings("span").after("<span class='error text-danger'>Please select session first.</span>");
+                flag = false;
+            } else {
+
+                $("#interview-group-id").prop('disabled', false);
+                $("#interview-group-row").children('div').after(`<div class="form-group col-md-2 mb-0">
+                                                            <img src="`+ baseUrl + `/backend/assets/img/add-icon.png" class="btn-add-img" alt="Add interview" id="btn-add-interview">
+                                                        </div>`);
+                $.ajax({
+                    url: baseUrl + '/get/interview-group',
+                    type: "GET",
+                    data: { session_id: session_id },
+                    success: function (response) {
+
+                        if (response.status === true) {
+                            var interviewGroupRecord = response.interviewGroup
+                            var interviewGroup = `<option selected value="0">Select </option>`;
+                            if (interviewGroupRecord.length) {
+                                $(interviewGroupRecord).each(function (key, value) {
+                                    interviewGroup += `<option value="` + value.id + `" >` + value.name + `</option>`;
+                                });
+                            }
+
+                            $('#interview-group-id').prop('disabled', false);
+                            $('#interview-group-id').html(interviewGroup);
+
+                        }
+                    }
+                });
+            }
+
         } else {
             $("#interview-group-id").val('0').change();
             $("#interview-group-id").prop('disabled', true);
 
             $('#interview-group-id').siblings("span.error").remove();
+            $('#session-id').siblings("span.error").remove();
             $('#interview-group-id').siblings("span").find(".select2-selection--single").removeClass("has-error");
         }
     });

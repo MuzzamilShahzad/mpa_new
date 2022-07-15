@@ -18,6 +18,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::view('/check', 'check');
+
 //System routes
 Route::controller(SystemController::class)->group(function () {
     Route::get('/system', 'listing')->name('system.view');
@@ -45,6 +48,9 @@ Route::controller(CampusController::class)->group(function () {
 //Registeration routes
 Route::controller(StudentRegistrationController::class)->group(function () {
     Route::get('/student/forward/{id}', 'studentForward')->name('student.registration.forward');
+    Route::get('/get/test-group', 'getTestGroupBySessionId')->name('student.testGroup');
+    Route::get('/get/interview-group', 'getInterviewGroupBySessionId')->name('student.interviewGroup');
+
     Route::get('/student/registration', 'listing')->name('student.registration.listing');
 
     Route::get('/student/registration/listingBySessionSystemClassGroup', 'getListingBySessionSystemClassGroup')->name('student.registration.listingBySessionSystemClassGroup');

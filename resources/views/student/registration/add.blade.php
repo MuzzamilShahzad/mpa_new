@@ -97,7 +97,6 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Form Number</label>
                                             <input type="text" class="form-control" name="form_no" id="form-no">
-                                            <input type="hidden" class="form-control" name="reg_no" id="reg-no" value="">
                                         </div>
                                     </div>
                                 </div>
@@ -149,7 +148,7 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">No. of Siblings</label>
-                                            <input type="text" class="form-control" name="no_of_siblings" id="no-of-siblings">
+                                            <input type="number" class="form-control" name="no_of_siblings" id="no-of-siblings">
                                         </div>
                                     </div>
                                 </div>
@@ -309,10 +308,6 @@
                                             <div class="pos-relative">
                                                 <select class="form-control select2" name="test_group_id" id="test-group-id" disabled>
                                                     <option value="">Select Test</option>
-
-                                                    @foreach($data["tests"] as $test)
-                                                    <option value="{{ $test->id }}"> {{ $test->name }} </option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -331,9 +326,6 @@
                                             <div class="pos-relative">
                                                 <select class="form-control select2" name="interview_group_id" id="interview-group-id" disabled>
                                                     <option value="">Select Interview</option>
-                                                    @foreach($data["interviews"] as $interview)
-                                                    <option value="{{ $interview->id }}"> {{ $interview->name }} </option>
-                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>

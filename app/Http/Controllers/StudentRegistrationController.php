@@ -152,7 +152,7 @@ class StudentRegistrationController extends Controller
             'class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
             'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
             'class_group_id'            =>  'numeric|gt:0|digits_between:1,11',
-            'form_no'                   =>  'nullable|alpha_num',
+            'form_no'                   =>  'nullable|alpha_dash|max:20',
             'first_name'                =>  'required|alpha|max:30',
             'last_name'                 =>  'required|alpha|max:30',
             'dob'                       =>  'nullable|date',
@@ -193,18 +193,31 @@ class StudentRegistrationController extends Controller
         } else {
 
             $father_details = json_encode([
-                "father_name"           => $request->father_name,
-                "father_cnic"           => $request->father_cnic,
-                "father_phone"          => $request->father_phone,
-                "father_email"          => $request->father_email,
-                "father_company_name"   => $request->father_company_name,
-                "father_occupation"     => $request->father_occupation,
-                "father_salary"         => $request->father_salary,
+                "name"           => $request->father_name,
+                "cnic"           => $request->father_cnic,
+                "phone"          => $request->father_phone,
+                "email"          => $request->father_email,
+                "company_name"   => $request->father_company_name,
+                "occupation"     => $request->father_occupation,
+                "salary"         => $request->father_salary,
             ]);
+
+            $registration = Registration::where("campus_id", $request->campus_id)->where("session_id", $request->session_id)->where("system_id", $request->system_id)->orderBy('id', 'DESC')->limit(1)->first();
+            if($registration) {
+                $session = explode("-", $registration->session->session);
+                $campus_details = $registration->campus->campusDetails;
+                $reg_no = filter_var($registration->registration_id, FILTER_SANITIZE_NUMBER_INT);
+                $registration_id = $campus_details->short_name.(++$reg_no);
+            }else {
+                $campus_details = Campus::findOrFail($request->campus_id)->campusDetails;
+                $session = Session::findOrFail($request->session_id);
+                $session = explode("-", $session->session);
+                $registration_id = $campus_details->short_name.substr($session[0], -2).str_pad(1, 10-(strlen($campus_details->short_name.substr($session[0], -2))), '0', STR_PAD_LEFT);
+            }
 
             $registration = new Registration;
 
-            $registration->registration_id     =  $request->reg_no;
+            $registration->registration_id     =  $registration_id;
             $registration->campus_id           =  $request->campus_id;
             $registration->system_id           =  $request->system_id;
             $registration->class_id            =  $request->class_id;
@@ -233,7 +246,8 @@ class StudentRegistrationController extends Controller
                 $registration->hear_about_us_other =  $request->hear_about_us_other;
             }
             
-            if ($request->test_group_chkbox) {
+
+            if ($request->test_group_chkbox == "true") {
                 if ($request->test_group_id) {
                     $registration->test_group_id = $request->test_group_id;
                 } else {
@@ -249,7 +263,7 @@ class StudentRegistrationController extends Controller
                     $registration->test_group_id = $testGroup->id;
                 }
             }
-            if ($request->interview_group_chkbox != "") {
+            if ($request->interview_group_chkbox == "true") {
 
                 if ($request->interview_group_id) {
                     $registration->interview_group_id = $request->interview_group_id;
@@ -471,21 +485,72 @@ class StudentRegistrationController extends Controller
         } else {
 
             $registration = Registration::where("campus_id", $request->campus_id)->where("session_id", $request->session_id)->where("system_id", $request->system_id)->orderBy('id', 'DESC')->limit(1)->first();
-            $session = explode("-", $registration->session->session);
-            $campus_details = $registration->campus->campusDetails;
-
+            
             if($registration) {
+                $session = explode("-", $registration->session->session);
+                $campus_details = $registration->campus->campusDetails;
                 $reg_no = $registration->registration_id;
-                $student_form_number = substr($session[0], -2).str_pad(++$reg_no, 4, '0', STR_PAD_LEFT);;
+                $student_form_number = $campus_details->short_name.substr($session[0], -2).str_pad(++$reg_no, 10-(strlen($campus_details->short_name.substr($session[0], -2))), '0', STR_PAD_LEFT);;
             }else {
-                $student_form_number = str_pad(1, 4, '0', STR_PAD_LEFT);
+                $campus_details = Campus::findOrFail($request->campus_id)->campusDetails;
+                $session = Session::findOrFail($request->session_id);
+                $session = explode("-", $session->session);
+                $student_form_number = $campus_details->short_name.substr($session[0], -2).str_pad(1, 10-(strlen($campus_details->short_name.substr($session[0], -2))), '0', STR_PAD_LEFT);
             }
 
-            // $reg_no = $registration->registration_id;
-            // $student_form_number = $campus_details->short_name.substr($session[0], -2)."000".++$reg_no;
-            // $student_form_number = ++$reg_no;
-
             return response()->json(["status" => true, "formNumber" => $student_form_number]);
+        }
+    }
+
+    public function getTestGroupBySessionId(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'session_id'      =>  'required|numeric|gt:0|digits_between:1,11'
+        ]);
+
+        if ($validator->fails()) {
+
+            $response = array(
+                'status'  =>  false,
+                'error'   =>  $validator->errors()
+            );
+
+            return response()->json($response);
+        } else {
+            $testGroup = TestInterviewGroup::where("type", "test")->get();
+
+            $response = array(
+                'status'  =>  true,
+                'testGroup'   =>  $testGroup
+            );
+            
+            return response()->json($response);
+        }
+    }
+
+    public function getInterviewGroupBySessionId(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'session_id'      =>  'required|numeric|gt:0|digits_between:1,11'
+        ]);
+
+        if ($validator->fails()) {
+
+            $response = array(
+                'status'  =>  false,
+                'error'   =>  $validator->errors()
+            );
+
+            return response()->json($response);
+        } else {
+            $interviewGroup = TestInterviewGroup::where("type", "interview")->get();
+
+            $response = array(
+                'status'           =>  true,
+                'interviewGroup'   =>  $interviewGroup
+            );
+            
+            return response()->json($response);
         }
     }
 }
