@@ -165,7 +165,7 @@ class AdmissionController extends Controller
             'email'                     =>  'nullable|email|max:30',
             'admission_date'            =>  'nullable|date',
             'blood_group'               =>  'nullable|min:2|max:3',
-            'height'                    =>  'nullable|gt:0|between:0,7.12',
+            // 'height'                    =>  'nullable|gt:0|between:0,7.12',
             'weight'                    =>  'nullable|gt:0',
             'as_on_date'                =>  'nullable|date',
             'fees_discount'             =>  'nullable|min:0|digits_between:1,3',
@@ -205,8 +205,6 @@ class AdmissionController extends Controller
             'pick_and_drop'             =>  'required|in:by_walk,by_ride,by_private_van,by_school_van',
             'vehicle_no'                =>  'nullable|required_if:pick_and_drop,by_ride|max:20',
             'vehicle_id'                =>  'nullable|required_if:pick_and_drop,by_school_van|required_if:pick_and_drop,by_private_van|digits_between:1,11',
-            // 'vehicle_id'                =>  'nullable|required_if:pick_and_drop,in:by_school_van,by_private_van|digits_between:1,11',
-
         ]);
 
         if ($validator->errors()->all()) {
@@ -411,6 +409,50 @@ class AdmissionController extends Controller
                 );
             }
             return response()->json($response); 
+        }
+    }
+
+    public function studentPromotion(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
+            'system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
+            'class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
+            'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
+            'group_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
+            'registeration_ids'         =>  'required|array'
+        ]);
+
+        if ($validator->fails()) {
+
+            $response = array(
+                'status'  =>  false,
+                'error'   =>  $validator->errors()
+            );
+
+            return response()->json($response);
+        } else {
+            $query = Admission::whereIn('id', $request->registeration_ids)->update([
+                "campus_id"             => $request->campus_id,
+                "system_id"             => $request->system_id,
+                "class_id"              => $request->class_id,
+                "session_id"            => $request->session_id,
+                "group_id"              => $request->group_id,
+            ]);
+
+            if ($query) {
+                $response = array(
+                    'status'   =>  true,
+                    'message'  =>  "Students promoted successfully."
+                );
+                return response()->json($response);
+            } else {
+                $response = array(
+                    'status'   =>  false,
+                    'message'  =>  'Some thing went worng please try again letter'
+                );
+                return response()->json($response);
+            }
         }
     }
 }

@@ -92,7 +92,7 @@ $(document).ready(function () {
             $("#gender").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
-        
+
         if (siblings_in_mpa == "") {
             $("#siblings-in-mpa").addClass("has-error");
             $("#siblings-in-mpa").after("<span class='error text-danger'>This field is required.</span>");
@@ -178,7 +178,7 @@ $(document).ready(function () {
                 }
 
             } else {
-                
+
                 if ($("#test-group-id").val() == "") {
                     $("#test-group-id:not([disabled]").siblings("span").find(".select2-selection--single").addClass("has-error");
                     $("#test-group-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
@@ -1707,8 +1707,6 @@ $(document).ready(function () {
 
     });
 
-
-
     // $(document).on('change', '#session-id', function (e) {
     //     e.preventDefault();
 
@@ -1797,7 +1795,7 @@ $(document).ready(function () {
         showOtherMonths: true,
         selectOtherMonths: true
     });
-    
+
     // $('.date-time-picker').datetimepicker({
     // 	format: "dd-mm-yyyy HH:ii P",
     //     timepicker:true,

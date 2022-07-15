@@ -182,7 +182,7 @@
                                                 <select class="form-control select2" name="previous_class_id" id="previous-class-id">
                                                     <option value="">Select</option>
                                                     @foreach($data['class'] as $class)
-                                                        <option value="{{$class->id}}">{{$class->name}}</option>
+                                                        <option value="{{$class->id}}">{{$class->class}}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -195,16 +195,6 @@
                                         </div>
                                         
                                     </div>
-                                    <!-- <div class="form-group col-md-3 mb-0">
-                                        <div class="form-group">
-                                            <label class="form-label tx-semibold">Category</label>
-                                            <div class="pos-relative">
-                                                <select class="form-control select2" name="category_id" id="category-id">
-                                                    <option selected value="">Select Category</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div> -->
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Mobile Number</label>

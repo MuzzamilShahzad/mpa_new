@@ -44,7 +44,6 @@ Route::controller(CampusController::class)->group(function () {
 
 //Registeration routes
 Route::controller(StudentRegistrationController::class)->group(function () {
-    Route::put('/student/promotion', 'studentPromotion')->name('student.registration.promote');
     Route::get('/student/forward/{id}', 'studentForward')->name('student.registration.forward');
     Route::get('/student/registration', 'listing')->name('student.registration.listing');
     Route::get('/student/registration/add', 'add')->name('student.registration.create');
@@ -106,7 +105,7 @@ Route::controller(SectionController::class)->group(function () {
 
 //Admission routes
 Route::controller(AdmissionController::class)->group(function () {
-    
+    Route::put('/admission/promotion', 'studentPromotion')->name('admission.promote');
     Route::get('/admission/listingBySessionSystemClassGroupSection', 'getListingBySessionSystemClassGroupSection')->name('admission.listingBySessionSystemClassGroupSection');
     Route::get('/admission', 'listing')->name('admission.listing');
     Route::get('/admission/add', 'create')->name('admission.create');
@@ -128,7 +127,6 @@ Route::controller(AdmissionController::class)->group(function () {
 
 //Vehicle routes
 Route::controller(VehicleController::class)->group(function () {
-    
     Route::get('/vehicle/listing-by-type', 'listingByType')->name('vehicle.listingByType');
 });
 

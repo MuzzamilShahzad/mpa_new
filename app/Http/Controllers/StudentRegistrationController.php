@@ -352,54 +352,6 @@ class StudentRegistrationController extends Controller
         }
     }
 
-    public function studentPromotion(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
-            'system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
-            'class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
-            'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
-            'class_group_id'            =>  'required|numeric|gt:0|digits_between:1,11',
-            'registeration_ids'         =>  'required|array'
-        ]);
-
-        if ($validator->fails()) {
-
-            $response = array(
-                'status'  =>  false,
-                'error'   =>  $validator->errors()
-            );
-
-            return response()->json($response);
-        } else {
-
-
-            $query = Registration::whereIn('registration_id', $request->registeration_ids)->update([
-                "campus_id"             => $request->campus_id,
-                "system_id"             => $request->system_id,
-                "class_id"              => $request->class_id,
-                "session_id"            => $request->session_id,
-                "class_group_id"        => $request->class_group_id,
-            ]);
-
-            if ($query) {
-
-                $response = array(
-                    'status'   =>  true,
-                    'message'  =>  "Students promoted successfully."
-                );
-                return response()->json($response);
-            } else {
-
-                $response = array(
-                    'status'   =>  false,
-                    'message'  =>  'Some thing went worng please try again letter'
-                );
-                return response()->json($response);
-            }
-        }
-    }
-
     public function studentForward($id)
     {
 
