@@ -70,6 +70,9 @@ return new class extends Migration
 
             $table->tinyInteger('is_enroll')->default(0);
 
+            $table->tinyInteger('is_active')->unsigned()->default(1);
+            $table->tinyInteger('is_delete')->unsigned()->default(0);
+
             $table->timestamps();
         });
     }
