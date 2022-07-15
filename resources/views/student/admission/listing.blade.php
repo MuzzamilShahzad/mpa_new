@@ -3,7 +3,7 @@
 @section('page_title', 'Manage Admission')
 
 <style>
-    .checkBoxAll {
+    .chkbox-select-all-admission {
         width: 20px; 
         height: 20px;
     }
@@ -134,7 +134,7 @@
                                         <tr>
                                             <th> 
                                                 <div class="form-check">
-                                                    <input class="form-check-input checkBoxAll" type="checkbox">
+                                                    <input class="form-check-input chkbox-select-all-admission" type="checkbox">
                                                 </div>
                                             </th>
                                             <th>Temp Gr / Gr.No</th>
