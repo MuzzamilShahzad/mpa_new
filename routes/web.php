@@ -60,6 +60,8 @@ Route::controller(StudentRegistrationController::class)->group(function () {
     Route::post('/student/registration/store', 'store')->name('student.registration.store');
     Route::put('/student/registration/update', 'update')->name('student.registration.update');
     Route::get('/campus/student/form-id', 'getStudentFormNumberByCampusIdAndSystemIdAndSessionId')->name('campus.studentFormNumberByCampusIdAndSystemIdAndSessionId');
+    
+    Route::get('/student/registration/detailsModal', 'registrationDetailsModal')->name('campus.registrationDetailsModal');
 });
 
 //Area routes

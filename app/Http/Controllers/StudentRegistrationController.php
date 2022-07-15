@@ -553,4 +553,35 @@ class StudentRegistrationController extends Controller
             return response()->json($response);
         }
     }
+    
+    public function registrationDetailsModal()
+    {
+        $classes        =  Classes::get();
+        $campuses       =  Campus::where('is_active', 1)->where('is_delete', 0)->get();
+        $sessions       =  Session::get();
+        $areas          =  Area::get();
+        $cities         =  City::get();
+        $studentClasses =  Classes::get();
+        $sections       =  Section::get();
+        $students       =  Registration::get();
+        $tests          =  TestInterviewGroup::where('type', 'test')->get();
+        $interviews     =  TestInterviewGroup::where('type', 'interview')->get();
+
+        $data = array(
+            'campuses'        =>  $campuses,
+            'classes'         =>  $classes,
+            'sessions'        =>  $sessions,
+            'studentClasses'  =>  $studentClasses,
+            'sections'        =>  $sections,
+            'areas'           =>  $areas,
+            'cities'          =>  $cities,
+            'students'        =>  $students,
+            'tests'           =>  $tests,
+            'interviews'      =>  $interviews,
+            'page'            =>  'Registeration',
+            'menu'            =>  'Manage Registeration'
+        );
+
+        return view('student.registration.registration-details', compact('data'));
+    }
 }

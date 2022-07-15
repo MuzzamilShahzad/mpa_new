@@ -7,6 +7,15 @@
         width: 20px; 
         height: 20px;
     }
+    .fa-check{
+        color: #19b159;
+    }
+    .fa-edit{
+        color: #4d65d9;
+    }
+    .fa-trash{
+        color: #ff334d;
+    }
 </style>
 
 <div class="main-content side-content pt-0">
@@ -41,7 +50,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Session</label>
                                             <div class="pos-relative">
-                                                <select class="form-control sessionSelect2" name="session_id" id="session-id">
+                                                <select class="form-control session-select2" name="session_id" id="session-id">
                                                     <option value="">Select Session</option>
                                                     @foreach($data['sessions'] as $session)
                                                     <option value="{{$session->id}}">{{$session->session}}</option>
@@ -54,7 +63,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Campus</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="campus_id" id="campus-id">
+                                                <select class="form-control campus-select2" name="campus_id" id="campus-id">
                                                     <option value="">Select Campus</option>
                                                     @foreach($data['campuses'] as $campus)
                                                     <option value="{{$campus->id}}">{{$campus->campus}}</option>
@@ -67,7 +76,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">System</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="system_id" id="system-id">
+                                                <select class="form-control system-select2" name="system_id" id="system-id">
                                                     <option value="">Select System</option>
                                                 </select>
                                             </div>
@@ -77,7 +86,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Class</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="class_id" id="class-id">
+                                                <select class="form-control class-select2" name="class_id" id="class-id">
                                                     <option value="">Select Class</option>
                                                 </select>
                                             </div>
@@ -87,7 +96,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Class Group</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="class_group_id" id="class-group-id">
+                                                <select class="form-control group-select2" name="group_id" id="group-id">
                                                     <option value="">Select Class Group</option>
                                                 </select>
                                             </div>
@@ -102,13 +111,10 @@
                                     </div>
                                 </div>
                             </form>
-
                             <hr style="border: 1px solid black;">
-
                             <div class="d-flex">
                                 <h1 class="main-content-label table-heading">{{ $data['menu'] }} </h1>
                             </div>
-
                             <br>
                             <!-- <div class="table-responsive" id="notifications">
                                 <table class="table table-bordered text-nowrap border-bottom" id="responsive-datatable">
@@ -159,7 +165,7 @@
                                 <table class="table table-bordered text-nowrap border-bottom" id="registraion-listing-datatable">
                                     <thead>
                                         <tr>
-                                            <th> 
+                                            <th data-orderable="false"> 
                                                 <div class="form-check">
                                                     <input class="form-check-input chkbox-select-all-registration" type="checkbox">
                                                 </div>
@@ -170,7 +176,7 @@
                                             <th>Father Name</th>
                                             <th>Campus (System)</th>
                                             <th>Class (Group)</th>
-                                            <th>Action</th>
+                                            <th data-orderable="false">Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -199,7 +205,7 @@
                                     <div class="col-3">
                                         <div class="form-group">
                                             <label for="session-id" class="form-label tx-semibold">Session</label>
-                                            <select name="session_id" id="session-id" class="form-control sessionSelect2" disabled>
+                                            <select name="session_id" id="session-id" class="form-control student-detail-session-select2" disabled>
                                                 <option selected value="">Select Session</option>
                                                 @foreach($data['sessions'] as $session)
                                                 <option value="{{$session->id}}">{{$session->session}}</option>
@@ -211,7 +217,7 @@
                                         <div class="form-group">
                                             <label for="campus-id" class="form-label tx-semibold">Campus</label>
                                             <input type="hidden" name="id" id="record-id" class="form-control" />
-                                            <select name="campus_id" id="campus-id" class="form-control campusSelect2" disabled>
+                                            <select name="campus_id" id="campus-id" class="form-control campus-select2" disabled>
                                                 <option selected value="">Select Campus</option>
                                                 @foreach($data['campuses'] as $campus)
                                                 <option value="{{$campus->id}}">{{$campus->campus}}</option>
@@ -222,7 +228,7 @@
                                     <div class="col-3">
                                         <div class="form-group">
                                             <label for="school-id" class="form-label tx-semibold">School System</label>
-                                            <select name="system_id" id="system-id" class="form-control systemSelect2" disabled>
+                                            <select name="system_id" id="system-id" class="form-control system-select2" disabled>
                                                 <option value=""></option>
                                             </select>
                                         </div>
@@ -230,7 +236,7 @@
                                     <div class="col-3">
                                         <div class="form-group">
                                             <label for="class-id" class="form-label tx-semibold">Class</label>
-                                            <select name="class_id" id="class-id" class="form-control classSelect2" disabled>
+                                            <select name="class_id" id="class-id" class="form-control class-select2" disabled>
                                                 <option selected value="">Select Class</option>
                                             </select>
                                         </div>
@@ -240,8 +246,8 @@
                                 <div class="row mt-3">
                                     <div class="col-3">
                                         <div class="form-group">
-                                            <label for="class-group-id" class="form-label tx-semibold">Class Group</label>
-                                            <select name="class_group_id" id="class-group-id" class="form-control classGroupSelect2" disabled>
+                                            <label for="group-id" class="form-label tx-semibold">Class Group</label>
+                                            <select name="group_id" id="group-id" class="form-control group-select2" disabled>
                                                 <option value=""></option>
                                             </select>
                                         </div>
@@ -282,7 +288,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Gender</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="gender" id="gender" disabled>
+                                                <select class="form-control gender-select2" name="gender" id="gender" disabled>
                                                     <option selected value="">Select Gender</option>
                                                     <option value="Male">Male</option>
                                                     <option value="Female">Female</option>
@@ -294,7 +300,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Any sibling currently studying in MPA ?</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="siblings_in_mpa" id="siblings-in-mpa" disabled>
+                                                <select class="form-control siblings-in-mpa-select2" name="siblings_in_mpa" id="siblings-in-mpa" disabled>
                                                     <option value="">Select If Any</option>
                                                     <option value="Yes">Yes</option>
                                                     <option value="No">No</option>
@@ -314,7 +320,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Previous Class (IF ANY)</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="previous_class_id" id="previous-class-id" disabled>
+                                                <select class="form-control previous-class-id-select2" name="previous_class_id" id="previous-class-id" disabled>
                                                     <option value="">Select</option>
                                                     @foreach($data['classes'] as $class)
                                                     <option value="{{$class->id}}">{{$class->class}}</option>
@@ -362,7 +368,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Area</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="area_id" id="area-id" disabled>
+                                                <select class="form-control area-select2" name="area_id" id="area-id" disabled>
                                                     <option selected value="">Select Area</option>
                                                     @foreach($data['areas'] as $area)
                                                     <option value="{{$area->id}}">{{$area->area}}</option>
@@ -375,7 +381,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">City</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="city_id" id="city-id" disabled>
+                                                <select class="form-control city-select2" name="city_id" id="city-id" disabled>
                                                     <option selected value="">Select City</option>
                                                     @foreach($data['cities'] as $city)
                                                     <option value="{{$city->id}}">{{$city->city}}</option>
@@ -438,7 +444,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">How did you hear about us?</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="hear_about_us" id="hear-about-us-update" disabled>
+                                                <select class="form-control hear-about-us-select2" name="hear_about_us" id="hear-about-us" disabled>
                                                     <option value="">Select</option>
                                                     <option value="social_media">Social Media</option>
                                                     <option value="electronic_media">Electronic Media</option>
@@ -454,7 +460,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Select Test Group</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="test_group_id" id="test-group-id" disabled>
+                                                <select class="form-control test-group-select2" name="test_group_id" id="test-group-id" disabled>
                                                     <option value="">Select Test</option>
                                                     @foreach($data['tests'] as $test)
                                                     <option value="{{$test->id}}">{{$test->name}}</option>
@@ -467,7 +473,7 @@
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Select Interview Group</label>
                                             <div class="pos-relative">
-                                                <select class="form-control select2" name="interview_group_id" id="interview-group-id" disabled>
+                                                <select class="form-control interview-group-select2" name="interview_group_id" id="interview-group-id" disabled>
                                                     <option value="">Select Interview</option>
                                                     @foreach($data['interviews'] as $interview)
                                                     <option value="{{$interview->id}}">{{$interview->name}}</option>
