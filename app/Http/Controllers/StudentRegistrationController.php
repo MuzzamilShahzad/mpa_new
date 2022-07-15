@@ -65,30 +65,26 @@ class StudentRegistrationController extends Controller
             $where['group_id'] = $request->group_id;
         }
 
-        $where['resgistrations.is_active'] = 1;
-        $where['resgistrations.is_delete'] = 0;
+        $where['student_registrations.is_active'] = 1;
+        $where['student_registrations.is_delete'] = 0;
 
-        $admission = Registration::select('resgistration.registration_id',
-                                        'admissions.registration_id ',
-                                        'admissions.gr',
-                                        'admissions.first_name',
-                                        'admissions.last_name',
-                                        'admissions.father_details',
-                                        'admissions.admission_date',
-                                        'campuses.campus',
-                                        'systems.system',
-                                        'classes.class',
-                                        'groups.group',
-                                        'sections.section')
-                                ->leftJoin('campuses','campuses.id','=','admissions.campus_id')
-                                ->leftJoin('systems','systems.id','=','admissions.system_id')
-                                ->leftJoin('classes','classes.id','=','admissions.class_id')
-                                ->leftJoin('groups','groups.id','=','admissions.group_id')
-                                ->leftJoin('sections','sections.id','=','admissions.section_id')
+        $registration = Registration::select('student_registrations.id',
+                                            'student_registrations.registration_id',
+                                            'student_registrations.first_name',
+                                            'student_registrations.last_name',
+                                            'student_registrations.father_details',
+                                            'campuses.campus',
+                                            'systems.system',
+                                            'classes.class',
+                                            'groups.group')
+                                ->leftJoin('campuses','campuses.id','=','student_registrations.campus_id')
+                                ->leftJoin('systems','systems.id','=','student_registrations.system_id')
+                                ->leftJoin('classes','classes.id','=','student_registrations.class_id')
+                                ->leftJoin('groups','groups.id','=','student_registrations.class_group_id')
                                 ->where($where)
                                 ->get();
         $response = array(
-            'data'         =>  $admission
+            'data'         =>  $registration
         );
 
         return response()->json($response);

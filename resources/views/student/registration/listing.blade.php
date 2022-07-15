@@ -3,8 +3,8 @@
 @section('page_title', 'Manage Registeration')
 
 <style>
-    .checkBox {
-        width: 20px;
+    .chkbox-select-all-registration {
+        width: 20px; 
         height: 20px;
     }
 </style>
@@ -35,7 +35,7 @@
                             </div>
 
                             <br>
-                            <form action="" method="post">
+                            <form>
                                 <div class="form-row">
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
@@ -95,7 +95,7 @@
                                     </div>
                                     <div class="form-group col-md-2 mt-4">
                                         <div class="form-group">
-                                            <button class="btn btn-primary" type="submit" id="btn-registeration-search">
+                                            <button class="btn btn-primary" type="button" id="btn-registration-search">
                                                 <i class="fas fa-search"></i>
                                             </button>
                                         </div>
@@ -110,8 +110,7 @@
                             </div>
 
                             <br>
-
-                            <div class="table-responsive" id="notifications">
+                            <!-- <div class="table-responsive" id="notifications">
                                 <table class="table table-bordered text-nowrap border-bottom" id="responsive-datatable">
                                     <thead>
                                         <tr>
@@ -153,6 +152,28 @@
                                             </td>
                                         </tr>
                                         @endforeach
+                                    </tbody>
+                                </table>
+                            </div> -->
+                            <div class="table-responsive">
+                                <table class="table table-bordered text-nowrap border-bottom" id="registraion-listing-datatable">
+                                    <thead>
+                                        <tr>
+                                            <th> 
+                                                <div class="form-check">
+                                                    <input class="form-check-input chkbox-select-all-registration" type="checkbox">
+                                                </div>
+                                            </th>
+                                            <th>Registration No.</th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Father Name</th>
+                                            <th>Campus (System)</th>
+                                            <th>Class (Group)</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
                                     </tbody>
                                 </table>
                             </div>

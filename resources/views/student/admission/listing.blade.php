@@ -137,7 +137,7 @@
                                                     <input class="form-check-input chkbox-select-all-admission" type="checkbox">
                                                 </div>
                                             </th>
-                                            <th>Temp Gr / Gr.No</th>
+                                            <th>Temp Gr / Gr No.</th>
                                             <th>First Name</th>
                                             <th>Last Name</th>
                                             <th>Father Name</th>

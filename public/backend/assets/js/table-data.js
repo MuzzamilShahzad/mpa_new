@@ -209,7 +209,7 @@ $(function(e) {
         });
     });
 
-	// registrationListing();
+	registrationListing();
 
 	$("#btn-registration-search").on("click",function(e){
 
@@ -219,47 +219,45 @@ $(function(e) {
 	});
 
 	function registrationListing(){
-		
+
 		var session_id  =  $("#session-id").val();
 		var campus_id   =  $("#campus-id").val();
 		var system_id   =  $("#system-id").val();
 		var class_id    =  $("#class-id").val();
 		var group_id    =  $("#group-id").val();
-		var section_id  =  $("#section-id").val();
 		
-		$('#admission-listing-datatable').DataTable({
+		$('#registraion-listing-datatable').DataTable({
 			destroy: true,
 			searchable: false,
 			ajax: {
-				url: baseUrl+'/admission/listingBySessionSystemClassGroupSection',
+				url: baseUrl+'/student/registration/listingBySessionSystemClassGroup',
 				data: {
 					session_id  :  session_id,
 					campus_id   :  campus_id,
 					system_id   :  system_id,
 					class_id    :  class_id,
 					group_id    :  group_id,
-					section_id  :  section_id,
 				},
 			},
 			columnDefs: [
-				{	orderable: false, 
-					targets: [0,8] 
-				},
+				// {	orderable: false, 
+				// 	targets: [0,8] 
+				// },
 				{
 					"targets": 0,
 					"render": function (data) {
 						var checkbox = `<div class="form-check">
-											<input class="form-check-input checkBox" type="checkbox" data-id="`+data.id+`">
+											<input class="form-check-input chkbox-select-admission" type="checkbox" data-id="`+data.id+`">
 										</div>`;
 						return checkbox;
 					}
 				},
-				{
-					"targets": 1,
-					"render": function (data) {
-						return data.temporary_gr+' / '+data.gr;
-					}
-				},
+				// {
+				// 	"targets": 1,
+				// 	"render": function (data) {
+				// 		return data.registration_id;
+				// 	}
+				// },
 				{
 					"targets": 4,
 					"render": function (data) {
@@ -286,11 +284,11 @@ $(function(e) {
 					}
 				},
 				{
-					"targets": 8,
+					"targets": 7,
 					"render": function (data) {
-						var checkbox = `<i class="fas fa-check" id="btn-view-admission" data-id="`+data.id+`" title="View"></i> |
-										<i class="fas fa-edit" id="btn-edit-admission" data-id="`+data.id+`" title="Edit"></i> |
-						 				<i class="fas fa-trash" id="btn-delete-admission" data-id="`+data.id+`" title="Delete"></i>`;
+						var checkbox = `<i class="fas fa-check" id="btn-view-registration" data-id="`+data.id+`" title="View"></i> |
+										<i class="fas fa-edit" id="btn-edit-registration" data-id="`+data.id+`" title="Edit"></i> |
+						 				<i class="fas fa-trash" id="btn-delete-registration" data-id="`+data.id+`" title="Delete"></i>`;
 						return checkbox;
 					}
 				},
@@ -298,14 +296,12 @@ $(function(e) {
 			order: [[1, 'asc']],
 			columns: [
 				{ data: null },
-				{ data: null},
+				{ data: 'registration_id'},
 				{ data: 'first_name' },
 				{ data: 'last_name' },
 				{ data: 'father_details' },
 				{ data: null },
 				{ data: null },
-				// { data: 'section' },
-				{ data: 'admission_date' },
 				{ data: null },
 			],
 		});
