@@ -78,9 +78,10 @@ return new class extends Migration
             $table->text('guardian_details');
             $table->text('address_details');
 
-            $table->enum('pick-and-drop',['by_walk','by_ride','by_school_van','by_private_van']);
+            $table->enum('pick_and_drop',['by_walk','by_ride','by_school_van','by_private_van']);
 
-            // $table->string('vehicle_no',20)->nullable();
+            $table->string('vehicle_no',10)->nullable();
+            
             // $table->string('driver_name',20)->nullable();
             // $table->string('driver_phone',10)->nullable();
 

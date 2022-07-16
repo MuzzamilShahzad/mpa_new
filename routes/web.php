@@ -124,6 +124,8 @@ Route::controller(AdmissionController::class)->group(function () {
 
     Route::get('/admission/edit', 'edit')->name('admission.edit');
     
+    Route::get('/admission/edit/{id}', 'edit')->name('admission.edit');
+    
     Route::put('/admission/update', 'update')->name('admission.update');
     Route::delete('/admission/delete', 'delete')->name('admission.delete');
     Route::get('/admission/student/details/{id}', 'admissionStudentDetails')->name('student.details');

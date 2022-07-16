@@ -1,17 +1,18 @@
 $(document).ready(function () {
 
     var baseUrl = $(".base-url").val();
-
-    $.ajax({
-        url: baseUrl + '/student/registration/detailsModal',
-        type: "GET",
-        success: function (response) {
-            // console.log(response);
-            $("#student-detailssss").html(response);
+    
+    // For modal testing
+    // $.ajax({
+    //     url: baseUrl + '/student/registration/detailsModal',
+    //     type: "GET",
+    //     success: function (response) {
+    //         // console.log(response);
+    //         $("#student-detailssss").html(response);
           
             
-        }
-    });
+    //     }
+    // });
 
 
 

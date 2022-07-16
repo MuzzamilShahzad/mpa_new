@@ -993,9 +993,11 @@ $(document).ready(function () {
         if ($('#same-as-current').is(':checked')) {
             $("#permanent-house-no, #permanent-block-no, #permanent-building-name-no, #permanent-city, #permanent-area-id, #permanent-city-id").prop('disabled', true);
             $("#permanent-house-no, #permanent-block-no, #permanent-building-name-no, #permanent-city, #permanent-area-id, #permanent-city-id").val('');
+            $("#permanent-area-id, #permanent-city-id").val('').change();
         } else {
             $("#permanent-house-no, #permanent-block-no, #permanent-building-name-no, #permanent-city, #permanent-area-id, #permanent-city-id").prop('disabled', false);
             $("#permanent-house-no, #permanent-block-no, #permanent-building-name-no, #permanent-city, #permanent-area-id, #permanent-city-id").val('');
+            $("#permanent-area-id, #permanent-city-id").val('').change();
         }
     });
     // End data update script
