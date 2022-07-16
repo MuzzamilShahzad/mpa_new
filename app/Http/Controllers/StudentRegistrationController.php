@@ -349,6 +349,7 @@ class StudentRegistrationController extends Controller
                 $registration_id = $campus_details->short_name . (++$reg_no);
             } else {
                 $campus_details = Campus::findOrFail($request->campus_id)->campusDetails;
+
                 $session = Session::findOrFail($request->session_id);
                 $session = explode("-", $session->session);
                 $registration_id = $campus_details->short_name . substr($session[0], -2) . str_pad(1, 10 - (strlen($campus_details->short_name . substr($session[0], -2))), '0', STR_PAD_LEFT);

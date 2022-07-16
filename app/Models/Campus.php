@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\campusDetails;
+use App\Models\CampusDetails;
 
 class Campus extends Model
 {
@@ -12,6 +12,6 @@ class Campus extends Model
 
     public function campusDetails()
     {
-        return $this->hasOne(campusDetails::class, 'campus_id', 'id');
+        return $this->hasOne(CampusDetails::class);
     }
 }
