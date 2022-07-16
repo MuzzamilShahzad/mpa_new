@@ -47,7 +47,7 @@
                                 <label for="class-id" class="form-label tx-semibold">Class</label>
                                 <select name="class_id" id="class-id" class="form-control class-select2" disabled>
                                     <option selected value="">Select Class</option>
-                                    @foreach($data['classes'] as $class)
+                                    @foreach($data['campusClasses'] as $class)
                                     <option value="{{$class->id}}" {{ ($data["registration"]->class_id == $class->id) ? 'selected' : '' }}>{{$class->class}}</option>
                                     @endforeach
                                 </select>

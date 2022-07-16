@@ -719,14 +719,14 @@ $(document).ready(function () {
                             $('#promotion-form').find('#class-id, #class-group-id').html('<option value="">Select</option>');
                             $('#promotion-form').find('#class-id, #class-group-id').prop('disabled', true);
                         } else if (std_modal) {
-                            $('#system-id').prop('disabled', false);
-                            $('#system-id').html(schoolSystems);
+                            $('#edit-detail-form').find('#system-id').prop('disabled', false);
+                            $('#edit-detail-form').find('#system-id').html(schoolSystems);
 
-                            $('#class-id, #class-group-id').siblings("span.error").remove();
-                            $('#class-id, #class-group-id').siblings("span").find(".select2-selection--single").removeClass("has-error");
+                            $('#edit-detail-form').find('#class-id, #class-group-id').siblings("span.error").remove();
+                            $('#edit-detail-form').find('#class-id, #class-group-id').siblings("span").find(".select2-selection--single").removeClass("has-error");
 
-                            $('#class-id, #class-group-id').html('<option value="">Select</option>');
-                            $('#class-id, #class-group-id').prop('disabled', true);
+                            $('#edit-detail-form').find('#class-id, #class-group-id').html('<option value="">Select</option>');
+                            $('#edit-detail-form').find('#class-id, #class-group-id').prop('disabled', true);
                         } else {
                             $('#system-id').prop('disabled', false);
                             $('#system-id').html(schoolSystems);
@@ -761,7 +761,7 @@ $(document).ready(function () {
             var campus_id = $('#promotion-form').find('#campus-id').val();
             var system_id = $(this).val();
         } else if (std_modal) {
-            var campus_id = $('#campus-id').val();
+            var campus_id = $('#edit-detail-form').find('#campus-id').val();
             var system_id = $(this).val();
         } else {
             var campus_id = $('#campus-id').val();
@@ -790,14 +790,14 @@ $(document).ready(function () {
 
                         if (std_modal) {
 
-                            $('#class-id').prop('disabled', false);
-                            $('#class-id').html(classes);
+                            $('#edit-detail-form').find('#class-id').prop('disabled', false);
+                            $('#edit-detail-form').find('#class-id').html(classes);
 
-                            $('#class-group-id').siblings("span.error").remove();
-                            $('#class-group-id').siblings("span").find(".select2-selection--single").removeClass("has-error");
+                            $('#edit-detail-form').find('#class-group-id').siblings("span.error").remove();
+                            $('#edit-detail-form').find('#class-group-id').siblings("span").find(".select2-selection--single").removeClass("has-error");
 
-                            $('#class-group-id').html('<option value="">Select</option>');
-                            $('#class-group-id').prop('disabled', true);
+                            $('#edit-detail-form').find('#class-group-id').html('<option value="">Select</option>');
+                            $('#edit-detail-form').find('#class-group-id').prop('disabled', true);
 
                         } else if (promotion_modal) {
 
@@ -874,8 +874,8 @@ $(document).ready(function () {
             var system_id = $('#promotion-form').find('#system-id').val();
             var class_id = $(this).val();
         } else if (std_modal) {
-            var campus_id = $('#campus-id').val();
-            var system_id = $('#system-id').val();
+            var campus_id = $('#edit-detail-form').find('#campus-id').val();
+            var system_id = $('#edit-detail-form').find('#system-id').val();
             var class_id = $(this).val();
         } else {
             var campus_id = $('#campus-id').val();
@@ -901,8 +901,8 @@ $(document).ready(function () {
                                     groups += `<option value="` + value.id + `" >` + value.group + `</option>`;
                                 });
 
-                                $('#class-group-id').prop('disabled', false);
-                                $('#class-group-id').html(groups);
+                                $('#edit-detail-form').find('#class-group-id').prop('disabled', false);
+                                $('#edit-detail-form').find('#class-group-id').html(groups);
                             }
                         } else if (promotion_modal) {
                             if (classGroup.length) {
@@ -966,356 +966,6 @@ $(document).ready(function () {
             complete: function () {
             }
         });
-
-    });
-
-    $(document).on('click', '#btn-save-registration', function (e) {
-
-        e.preventDefault();
-        $("span.error, .alert").remove();
-        $("span, input").removeClass("has-error");
-
-        var flag = true;
-
-        var id = $("#record-id").val();
-        var campus_id = $("#campus-id").val();
-        var system_id = $("#system-id").val();
-        var class_id = $("#class-id").val();
-        var class_group_id = $("#class-group-id").val();
-        var session_id = $("#session-id").val();
-        var form_no = $("#form-number").val();
-        var first_name = $("#first-name").val();
-        var last_name = $("#last-name").val();
-        var dob = $("#dob").val();
-        var gender = $("#gender").val();
-        var siblings_in_mpa = $("#siblings-in-mpa").val();
-        var no_of_siblings = $("#no-of-siblings").val();
-        var previous_class_id = $("#previous-class-id").val();
-        var previous_school = $("#previous-school").val();
-
-        var house_no = $("#house-no").val();
-        var block_no = $("#block-no").val();
-        var building_no = $("#building-no").val();
-        var area_id = $("#area-id").val();
-        var city_id = $("#city-id").val();
-
-        var father_cnic = $("#father-cnic").val();
-        var father_name = $("#father-name").val();
-        var father_occupation = $("#father-occupation").val();
-        var father_company_name = $("#father-company-name").val();
-        var father_salary = $("#father-salary").val();
-        var father_email = $("#father-email").val();
-        var father_phone = $("#father-phone").val();
-
-        var hear_about_us = $("#hear-about-us-update").val();
-        var hear_about_us_other = $("#hear-about-us-other").val();
-
-        var test_group_id = $("#test-group-id").val();
-        var interview_group_id = $("#interview-group-id").val();
-
-        if (campus_id == "" || campus_id == "0") {
-            $("#campus-id").siblings("span").find(".select2-selection--single").addClass("has-error");
-            $("#campus-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-        if (class_group_id == "" || class_group_id == "0") {
-            $("#class-group-id:not([disabled]").find(".select2-selection--single").addClass("has-error");
-            $("#class-group-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-        if (system_id == "" || system_id == "0") {
-            $("#system-id:not([disabled])").find(".select2-selection--single").addClass("has-error");
-            $("#system-id:not([disabled])").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-        if (class_id == "" || class_id == "0") {
-            $("#class-id:not([disabled]").find(".select2-selection--single").addClass("has-error");
-            $("#class-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-        if (session_id == "" || session_id == "0") {
-            $("#session-id").find(".select2-selection--single").addClass("has-error");
-            $("#session-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-
-        if (first_name == "") {
-            $("#first-name").addClass("has-error");
-            $("#first-name ").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-        if (last_name == "") {
-            $("#last-name").addClass("has-error");
-            $("#last-name").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-        if (gender == "") {
-            $("#gender").find(".select2-selection--single").addClass("has-error");
-            $("#gender").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-
-        if (siblings_in_mpa == "Yes" && no_of_siblings == "") {
-            $("#no_of_siblings").addClass("has-error");
-            $("#no_of_siblings").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-        if (house_no == "") {
-            $("#house-no").addClass("has-error");
-            $("#house-no").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-        if (block_no == "") {
-            $("#block-no").addClass("has-error");
-            $("#block-no").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-        if (area_id == "" || area_id == "0") {
-            $("#area-id").siblings("span").addClass("has-error");
-            $("#area-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-        if (city_id == "" || city_id == "0") {
-            $("#city-id").siblings("span").addClass("has-error");
-            $("#city-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-        if (father_name == "") {
-            $("#father-name").addClass("has-error");
-            $("#father-name").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-        if (father_cnic == "") {
-            $("#father-cnic").addClass("has-error");
-            $("#father-cnic").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        } else if ($.isNumeric(father_cnic.replace(/-/g, '')) === false) {
-            $("#father-cnic").addClass("has-error");
-            $("#father-cnic").after("<span class='error text-danger'>This field must be a number.</span>");
-            flag = false;
-        }
-
-        if (father_phone == "") {
-            $("#father-phone").addClass("has-error");
-            $("#father-phone").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        } else if ($.isNumeric(father_phone.replace(/-/g, '')) === false) {
-            $("#father-phone").addClass("has-error");
-            $("#father-phone").after("<span class='error text-danger'>This field must be a number.</span>");
-            flag = false;
-        }
-
-        if (hear_about_us == "other" && hear_about_us_other == "") {
-            $("#hear-about-us-other").addClass("has-error");
-            $("#hear-about-us-other").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-
-        if (test_group_id == "") {
-            $("#test-group-id").addClass("has-error");
-            $("#test-group-id").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-
-        if (interview_group_id == "") {
-            $("#interview-group-id").addClass("has-error");
-            $("#interview-group-id").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-
-        if ($('#test-group-chkbox').is(':checked')) {
-
-            if ($("#test-group-id").prop("disabled")) {
-
-                var test_name = $("#test-name").val();
-                var test_date = $("#test-date").val();
-                var test_time = $("#test-time").val();
-
-                if ($("#test-name").val() == "") {
-                    $("#test-name").addClass("has-error");
-                    $("#test-name").after("<span class='error text-danger'>This field is required.</span>");
-                    flag = false;
-                }
-                if ($("#test-date").val() == "") {
-                    $("#test-date").addClass("has-error");
-                    $("#test-date").after("<span class='error text-danger'>This field is required.</span>");
-                    flag = false;
-                }
-                if ($("#test-time").val() == "") {
-                    $("#test-time").addClass("has-error");
-                    $("#test-time").after("<span class='error text-danger'>This field is required.</span>");
-                    flag = false;
-                }
-
-            } else {
-
-                if ($("#test-group-id").val() == "") {
-                    $("#test-group-id:not([disabled]").siblings("span").find(".select2-selection--single").addClass("has-error");
-                    $("#test-group-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-                    flag = false;
-                }
-
-            }
-
-        }
-        if ($('#interview-group-chkbox').is(':checked')) {
-
-            if ($("#interview-group-id").prop("disabled")) {
-
-                var interview_name = $("#interview-name").val();
-                var interview_date = $("#interview-date").val();
-                var interview_time = $("#interview-time").val();
-
-                if ($("#interview-name").val() == "") {
-                    $("#interview-name").addClass("has-error");
-                    $("#interview-name").after("<span class='error text-danger'>This field is required.</span>");
-                    flag = false;
-                }
-                if ($("#interview-date").val() == "") {
-                    $("#interview-date").addClass("has-error");
-                    $("#interview-date").after("<span class='error text-danger'>This field is required.</span>");
-                    flag = false;
-                }
-                if ($("#interview-time").val() == "") {
-                    $("#interview-time").addClass("has-error");
-                    $("#interview-time").after("<span class='error text-danger'>This field is required.</span>");
-                    flag = false;
-                }
-
-            } else {
-                if ($("#interview-group-id").val() == "") {
-                    $("#interview-group-id:not([disabled]").siblings("span").find(".select2-selection--single").addClass("has-error");
-                    $("#interview-group-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-                    flag = false;
-                }
-            }
-        }
-
-        if (flag) {
-
-            $("#btn-save-registration").addClass('disabled');
-            $("#btn-save-registration").html('. . . . .');
-
-            var message = '';
-            var formData = {
-                "id": id,
-                "campus_id": campus_id,
-                "system_id": system_id,
-                "class_id": class_id,
-                "class_group_id": class_group_id,
-                "form_no": form_no,
-                "session_id": session_id,
-                "first_name": first_name,
-                "last_name": last_name,
-                "dob": dob,
-                "gender": gender,
-                "siblings_in_mpa": siblings_in_mpa,
-                "no_of_siblings": no_of_siblings,
-                "previous_class_id": previous_class_id,
-                "previous_school": previous_school,
-
-                "house_no": house_no,
-                "block_no": block_no,
-                "building_no": building_no,
-                "area_id": area_id,
-                "city_id": city_id,
-
-                "father_salary": father_salary,
-                "father_name": father_name,
-                "father_cnic": father_cnic.replace(/-/g, ''),
-                "father_email": father_email,
-                "father_occupation": father_occupation,
-                "father_company_name": father_company_name,
-                "father_phone": father_phone.replace("-", ""),
-                "hear_about_us": hear_about_us,
-                "hear_about_us_other": hear_about_us_other,
-
-                "test_group_id": test_group_id,
-                "interview_group_id": interview_group_id,
-
-                "test_name": test_name,
-                "test_date": test_date,
-                "test_time": test_time,
-
-                "interview_name": interview_name,
-                "interview_date": interview_date,
-                "interview_time": interview_time,
-            };
-
-            $.ajax({
-                url: baseUrl + '/student/registration/update',
-                type: "PUT",
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
-                data: formData,
-                dataType: "json",
-                success: function (response) {
-                    if (response.status === false) {
-
-                        if (response.error) {
-
-                            $("#btn-save-registration").html('Save Details');
-                            $("#btn-save-registration").removeClass('disabled');
-
-                            if (Object.keys(response.error).length > 0) {
-
-                                var input_fields = ['registration_number', 'form_no', 'first_name', 'last_name', 'dob', 'no_of_siblings', 'previous_school', 'father_cnic', 'father_name', 'father_occupation', 'father_phone',
-                                    'father_salary', 'father_email', 'father_company_name', 'test_group_id', 'interview_group_id'];
-                                $.each(response.error, function (key, value) {
-
-                                    if (input_fields.indexOf(key)) {
-                                        $("input[name='" + key + "']").addClass("has-error");
-                                        $("input[name='" + key + "']").after("<span class='error text-danger'>" + value.toString().split(/[,]+/).join("<br/>") + "</span>");
-                                    } else {
-
-                                        $("select[name='" + key + "']").siblings("span").find(".select2-selection--single").addClass("has-error");
-                                        $("select[name='" + key + "']").siblings("span").after("<span class='error text-danger'>" + value.toString().split(/[,]+/).join("<br/>") + "</span>");
-                                    }
-
-                                });
-                            }
-                        } else {
-                            message += `<div class="alert alert-danger alert-dismissible">
-                                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                            <strong> Success!</strong> `+ response.message + `
-                                        </div>`;
-                        }
-
-                    } else {
-
-                        $("#btn-save-registration").html('Save Details');
-                        $("#btn-save-registration").removeClass('disabled');
-
-                        message += `<div class="alert alert-success alert-dismissible">
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                        <strong> Success!</strong> `+ response.message + `
-                                    </div>`;
-
-                        location.reload();
-
-                    }
-                },
-                error: function () {
-
-                    $("#btn-save-registration").html('Save Details');
-                    $("#btn-save-registration").removeClass('disabled');
-
-                    message = `<div class="alert alert-danger alert-dismissible">
-                                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                    <strong> Whoops !</strong> Something went wrong please contact to admintrator.
-                                </div>`;
-                },
-                complete: function () {
-
-                    if (message !== '') {
-                        $("form").prepend(message);
-                    }
-
-                    $("#btn-add-registration").removeClass('disabled');
-                    $("#btn-add-registration").html('Submit');
-
-                }
-            });
-        }
 
     });
 

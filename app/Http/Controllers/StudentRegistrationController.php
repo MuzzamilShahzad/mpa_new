@@ -161,7 +161,7 @@ class StudentRegistrationController extends Controller
                 'interviews'        =>  $interviews,
                 'systems'           =>  $registration,
                 'registration'      =>  $registration,
-                'classes'           =>  $campusClasses,
+                'campusClasses'           =>  $campusClasses,
                 'systems'           =>  $campusSchoolSystems,
                 'classGroups'       =>  $classGroups
             );
@@ -451,7 +451,7 @@ class StudentRegistrationController extends Controller
             'class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
             'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
             'class_group_id'            =>  'numeric|gt:0|digits_between:1,11',
-            'form_no'                   =>  'nullable|alpha_num',
+            'form_no'                   =>  'nullable|alpha_dash',
             'first_name'                =>  'required|alpha|max:30',
             'last_name'                 =>  'required|alpha|max:30',
             'dob'                       =>  'nullable|date',
@@ -477,8 +477,8 @@ class StudentRegistrationController extends Controller
             'hear_about_us'             =>  'nullable|string|max:20',
             'hear_about_us_other'       =>  'required_if:hear_about_us,other|string|max:20',
             // TEST-INTERVIEW GROUP
-            'test_group_id'             =>  'numeric|gt:0|digits_between:1,11',
-            'interview_group_id'        =>  'numeric|gt:0|digits_between:1,11'
+            'test_group_id'             =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'interview_group_id'        =>  'nullable|numeric|gt:0|digits_between:1,11'
         ]);
 
         if ($validator->errors()->all()) {
@@ -525,6 +525,40 @@ class StudentRegistrationController extends Controller
             $registration->test_group_id        = $request->test_group_id;
             $registration->interview_group_id   = $request->interview_group_id;
             $registration->hear_about_us        = $request->hear_about_us;
+
+            if ($request->test_group_chkbox == "true") {
+                if ($request->test_group_id) {
+                    $registration->test_group_id = $request->test_group_id;
+                } else {
+                    $testGroup = new TestInterviewGroup;
+                    $testGroup->session_id = $request->session_id;
+                    $testGroup->name = $request->test_name;
+                    $testGroup->type = "test";
+                    $testGroup->date = date("Y-m-d", strtotime($request->test_date));
+                    $testGroup->time = $request->test_time;
+
+                    $testQuery = $testGroup->save();
+
+                    $registration->test_group_id = $testGroup->id;
+                }
+            }
+            if ($request->interview_group_chkbox == "true") {
+
+                if ($request->interview_group_id) {
+                    $registration->interview_group_id = $request->interview_group_id;
+                } else {
+                    $interviewGroup = new TestInterviewGroup;
+                    $interviewGroup->session_id = $request->session_id;
+                    $interviewGroup->name = $request->interview_name;
+                    $interviewGroup->type = "interview";
+                    $interviewGroup->date = date("Y-m-d", strtotime($request->interview_date));
+                    $interviewGroup->time = $request->interview_time;
+
+                    $interviewQuery = $interviewGroup->save();
+
+                    $registration->interview_group_id = $interviewGroup->id;
+                }
+            }
 
             $query = $registration->save();
 

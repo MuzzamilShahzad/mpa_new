@@ -30,7 +30,7 @@
                         <div class="card-header d-flex">
                             <h6 class="main-content-label">{{ $data['menu'] }}</h6>
                         </div>
-                        <form action="{{ route('student.registration.store') }}" method="post">
+                        <form>
                             <input type="hidden" name="record_id" id="record-id" value="{{ (isset($data["registration"]) && !empty($data["registration"])) ? (isset($data["registration"]->id)) ? $data["registration"]->id : 'No Data' : '' }}">
                             <div class="card-body">
                                 <h4 class="main-content-label"> <strong>Student</strong></h4>
