@@ -532,11 +532,12 @@ class AdmissionController extends Controller
             if($admission){
                 
                 if($admission->vehicle_id){
-                    $pick_and_drop = $admission->pick_and_drop;
-                    $vehicle = Vehicle::where('type',pick_and_drop)->get();
+                    $pick_and_drop = str_replace('by_','',$admission->pick_and_drop);
+                    $vehicle = Vehicle::where('vehicle_type',$pick_and_drop)->get();
                     $data['vehicle']     =  $vehicle;
                 }
-
+                // dd($admission->vehicle_id);
+                // dd($data['vehicle']);
                 if($admission->campus_id) {
 
                     $system = Campus::select('systems.*')
