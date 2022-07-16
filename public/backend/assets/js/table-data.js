@@ -298,8 +298,12 @@ $(function (e) {
 				{
 					"targets": 7,
 					"render": function (data) {
-						var checkbox = `<i class="fas fa-check" id="btn-view-registration" data-id="` + data.id + `" title="View"></i> |
-										<i class="fas fa-edit" id="btn-edit-registeration" data-id="`+ data.id + `"  title="Edit"></i> |
+						var editUrl = baseUrl + '/student/registration/edit/' + data.id;
+						var forwardUrl = baseUrl + '/student/forward/' + data.id;
+
+						var checkbox = `<a href="` + forwardUrl + `"><i class="fas fa-forward" data-id="` + data.id + `" title="View"></i></a> |
+										<i class="fas fa-check" id="btn-view-registration" data-id="` + data.id + `" title="View"></i> |
+										<a href="`+ editUrl + `"><i class="fas fa-edit" data-id="` + data.id + `"  title="Edit"></i></a> |
 						 				<i class="fas fa-trash" id="btn-delete-registration" data-id="`+ data.id + `" title="Delete"></i>`;
 						return checkbox;
 					}

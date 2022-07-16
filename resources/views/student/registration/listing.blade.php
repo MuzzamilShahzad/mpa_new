@@ -8,7 +8,12 @@
         height: 20px;
     }
 
+    .fa-trash {
+        color: #0dcaf0;
+    }
+
     .fa-check {
+        cursor: pointer;
         color: #19b159;
     }
 
@@ -35,6 +40,23 @@
                 </div>
             </div>
             <!-- End Page Header -->
+            <div class="row">
+                <div class="col-12">
+                    @if (session('error'))
+                        @if(isset(session('error')['id']))
+                            @foreach(session('error')['id'] as $error)
+                                <div class="alert alert-danger">
+                                    <strong>Error: </strong> {{ $error }}
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="alert alert-danger">
+                                <strong>Error: </strong> {{ session('error') }}
+                            </div>
+                        @endif
+                    @endif
+                </div>
+            </div>
 
             <!-- Row -->
             <div class="row row-sm">
@@ -119,51 +141,7 @@
                                 <h1 class="main-content-label table-heading">{{ $data['menu'] }} </h1>
                             </div>
                             <br>
-                            <!-- <div class="table-responsive" id="notifications">
-                                <table class="table table-bordered text-nowrap border-bottom" id="responsive-datatable">
-                                    <thead>
-                                        <tr>
-                                            <th width="5px">
-                                                <div class="form-check">
-                                                    <input class="form-check-input checkBox" type="checkbox" value="" id="select-all">
-                                                </div>
-                                            </th>
-
-                                            <th width="5px">S.NO</th>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Gender</th>
-                                            <th>Admission Date</th>
-                                            <th width="20px">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach($data['students'] as $key => $student)
-                                        <tr>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input class="form-check-input reg-checkbox" type="checkbox" value="{{ $student->registration_id }}" id="reg-{{ $student->registration_id }}">
-                                                </div>
-                                            </td>
-
-                                            <td>{{ $key + 1 }}</td>
-                                            <td>
-                                                <a data-bs-target="#student-details-modal" data-bs-toggle="modal" href="{{ $student->id }}" style="color: black" data-id="{{ $student->id }}" id="btn-student-details">{{$student->first_name}}</a>
-                                            </td>
-                                            <td>{{ $student->last_name }}</td>
-                                            <td>{{ $student->gender }}</td>
-                                            <td>{{ date('d/m/Y', strtotime($student->created_at)) }}</td>
-                                            <td>
-                                                <a href="{{ route('student.registration.forward', $student->registration_id) }}"> <button id="btn-forward" class="btn btn-success btn-sm action-btn"> <i class="fa fa-forward"></i> </button> </a>
-                                                <button data-bs-target="#student-details-modal" data-bs-toggle="modal" href="{{ $student->id }}" data-id="{{ $student->id }}" id="btn-student-details" class="btn btn-info btn-sm action-btn"> Details </button>
-                                                <button data-bs-target="#student-details-modal" data-bs-toggle="modal" href="{{ $student->id }}" data-id="{{ $student->id }}" id="btn-edit" class="btn btn-primary btn-sm action-btn"> Edit </button> </a>
-                                                <button data-id="{{ $student->id }}" id="btn-delete-admission" class="btn btn-danger btn-sm action-btn"> Delete </button>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
-                            </div> -->
+                            
                             <div class="table-responsive">
                                 <table class="table table-bordered text-nowrap border-bottom" id="registraion-listing-datatable">
                                     <thead>

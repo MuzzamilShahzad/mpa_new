@@ -50,17 +50,14 @@ Route::controller(StudentRegistrationController::class)->group(function () {
     Route::get('/student/forward/{id}', 'studentForward')->name('student.registration.forward');
     Route::get('/get/test-group', 'getTestGroupBySessionId')->name('student.testGroup');
     Route::get('/get/interview-group', 'getInterviewGroupBySessionId')->name('student.interviewGroup');
-
     Route::get('/student/registration', 'listing')->name('student.registration.listing');
-
     Route::get('/student/registration/listingBySessionSystemClassGroup', 'getListingBySessionSystemClassGroup')->name('student.registration.listingBySessionSystemClassGroup');
-    
     Route::get('/student/registration/add', 'add')->name('student.registration.create');
+    Route::get('/student/registration/edit/{id}', 'edit')->name('student.registration.edit');
     Route::get('/student/registration/details', 'registrationDetails')->name('student.registration.details');
     Route::post('/student/registration/store', 'store')->name('student.registration.store');
     Route::put('/student/registration/update', 'update')->name('student.registration.update');
     Route::get('/campus/student/form-id', 'getStudentFormNumberByCampusIdAndSystemIdAndSessionId')->name('campus.studentFormNumberByCampusIdAndSystemIdAndSessionId');
-    
     Route::get('/student/registration/detailsModal', 'registrationDetailsModal')->name('campus.registrationDetailsModal');
 });
 

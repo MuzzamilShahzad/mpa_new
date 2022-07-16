@@ -171,6 +171,91 @@ class StudentRegistrationController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        $test = ["id" => $id];
+        $validator = Validator::make($test, [
+            'id'        =>  'numeric|gt:0|digits_between:1,11',
+        ]);
+
+        if ($validator->errors()->all()) {
+            return redirect()->route('student.registration.listing')->with('error', $validator->errors()->toArray());
+        }
+        
+        $classes        =   Classes::get();
+        $campuses       =   Campus::where('is_active', 1)->where('is_delete', 0)->get();
+        $sessions       =   Session::get();
+        $areas          =   Area::get();
+        $cities         =   City::get();
+        $sections       =   Section::get();
+        $tests          =   TestInterviewGroup::where('type', 'test')->get();
+        $interviews     =   TestInterviewGroup::where('type', 'interview')->get();
+        $registration   =   Registration::where('id', $id)->first();
+        
+        if(!$registration) {
+            return redirect()->route('student.registration.listing')->with('error', "Registeraion Id: $id not found");
+        }
+       
+        if($registration && isset($registration->campus_id)) {
+            $systems = Campus::select('systems.*')
+            ->join('campus_details', 'campus_details.campus_id', '=', 'campuses.id')
+            ->join('systems', 'systems.id', '=', 'campus_details.system_id')
+            ->where('campuses.id', $registration->campus_id)
+            ->where('campuses.is_active', 1)
+            ->where('campuses.is_delete', 0)
+            ->get();
+        }else {
+            $systems = [];
+        }
+
+        if($registration && isset($registration->campus_id)) {
+            $campusClasses = Classes::select('classes.id', 'classes.class')
+                ->join('campus_classes', 'campus_classes.class_id', '=', 'classes.id')
+                ->join('campus_details', 'campus_details.id', '=', 'campus_classes.campus_detail_id')
+                ->where('campus_details.campus_id', $registration->campus_id)
+                ->where('campus_details.system_id', $registration->system_id)
+                ->where('classes.is_active', 1)
+                ->where('classes.is_delete', 0)
+                ->get();
+        }else {
+            $campusClasses = [];
+        }
+        if($registration && isset($registration->campus_id)) {
+            $classGroups = CampusClass::select('groups.*')
+                ->join('campus_details', 'campus_details.id', '=', 'campus_classes.campus_detail_id')
+                ->join('class_groups', 'class_groups.class_id', '=', 'campus_classes.class_id')
+                ->join('groups', 'groups.id', '=', 'class_groups.group_id')
+                ->where('campus_details.campus_id', $registration->campus_id)
+                ->where('campus_details.system_id', $registration->system_id)
+                ->where('campus_classes.class_id', $registration->class_id)
+                ->get();
+        }else {
+            $classGroups = [];
+        }
+
+        $data = array(
+            'campus'            =>  $campuses,
+            'session'           =>  $sessions,
+            'sections'          =>  $sections,
+            'areas'             =>  $areas,
+            'cities'            =>  $cities,
+            'tests'             =>  $tests,
+            'interviews'        =>  $interviews,
+            'systems'           =>  $registration,
+            'registration'      =>  $registration,
+            'campusClasses'     =>  $campusClasses,
+            'classes'           =>  $classes,
+            'systems'           =>  $systems,
+            'groups'            =>  $classGroups,
+            'father_details'    =>  json_decode($registration->father_details),
+            'page'              =>  'Registeration',
+            'menu'              =>  'Edit Admission'
+        );
+
+        return view('student.registration.edit', compact("data"));
+        
+    }
+
     public function add()
     {
 
@@ -466,7 +551,7 @@ class StudentRegistrationController extends Controller
     public function studentForward($id)
     {
 
-        $registeration = Registration::where('registration_id', $id)->first();
+        $registeration = Registration::where('id', $id)->first();
 
         if ($registeration) {
 
@@ -494,6 +579,15 @@ class StudentRegistrationController extends Controller
                 ->where('classes.is_delete', 0)
                 ->get();
 
+            $classGroups = CampusClass::select('groups.*')
+                ->join('campus_details', 'campus_details.id', '=', 'campus_classes.campus_detail_id')
+                ->join('class_groups', 'class_groups.class_id', '=', 'campus_classes.class_id')
+                ->join('groups', 'groups.id', '=', 'class_groups.group_id')
+                ->where('campus_details.campus_id', $registeration->campus_id)
+                ->where('campus_details.system_id', $registeration->system_id)
+                ->where('campus_classes.class_id', $registeration->class_id)
+                ->get();
+
             $data = array(
                 'session'       =>  $session,
                 'campus'        =>  $campus,
@@ -504,6 +598,7 @@ class StudentRegistrationController extends Controller
                 'registeration' =>  $registeration,
                 'campusClasses' =>  $campusClasses,
                 'schoolSystems' =>  $schoolSystems,
+                'classGroups'   =>  $classGroups,
                 'father_details'    =>  json_decode($registeration->father_details),
                 'page'          =>  'Admission',
                 'menu'          =>  'Add Admission'

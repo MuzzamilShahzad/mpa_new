@@ -17,8 +17,8 @@ return new class extends Migration
             
             $table->increments('id');
             
-            $table->unsignedInteger('regitration_id')->nullable();
-            $table->foreign('regitration_id')->references('id')->on('student_registrations')->onDelete('cascade');
+            $table->unsignedInteger('registration_id')->nullable();
+            $table->foreign('registration_id')->references('id')->on('student_registrations')->onDelete('cascade');
 
             $table->string('temporary_gr',10)->unique();
             $table->string('gr',20)->unique();
@@ -78,11 +78,9 @@ return new class extends Migration
             $table->text('guardian_details');
             $table->text('address_details');
 
-            $table->enum('pick-and-drop',['by_walk','by_ride','by_school_van','by_private_van']);
+            $table->enum('pick_and_drop',['by_walk','by_ride','by_school_van','by_private_van']);
 
-            // $table->string('vehicle_no',20)->nullable();
-            // $table->string('driver_name',20)->nullable();
-            // $table->string('driver_phone',10)->nullable();
+            $table->string('vehicle_no',10)->nullable();
 
             $table->unsignedInteger('vehicle_id')->nullable();
             $table->foreign('vehicle_id')->references('id')->on('vehicles')->onDelete('cascade');

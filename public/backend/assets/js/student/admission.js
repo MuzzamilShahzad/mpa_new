@@ -452,8 +452,6 @@ $(document).ready(function () {
 
             }
 
-            console.log(formData);
-
             $.ajax({
                 url: baseUrl + '/admission/store',
                 type: "POST",
@@ -472,8 +470,12 @@ $(document).ready(function () {
                                         $("input[name='" + key + "']").addClass("has-error");
                                         $("input[name='" + key + "']").after("<span class='error'>" + value.toString().split(/[,]+/).join("<br/>") + "</span>");
                                     } else {
-                                        $("select[name='" + key + "']").siblings("span").find(".select2-selection--single").addClass("has-error");
-                                        $("select[name='" + key + "']").siblings("span").after("<span class='error'>" + value.toString().split(/[,]+/).join("<br/>") + "</span>");
+                                        console.log(key + " - " + value);
+                                        $("input[name='" + key + "']").addClass("has-error");
+                                        $("input[name='" + key + "']").after("<span class='error'>" + value.toString().split(/[,]+/).join("<br/>") + "</span>");
+
+                                        // $("select[name='" + key + "']").siblings("span").find(".select2-selection--single").addClass("has-error");
+                                        // $("select[name='" + key + "']").siblings("span").after("<span class='error'>" + value.toString().split(/[,]+/).join("<br/>") + "</span>");
                                     }
 
                                 });

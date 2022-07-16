@@ -11,6 +11,7 @@ use App\Models\Area;
 use App\Models\City;
 use App\Models\Classes;
 use App\Models\Admission;
+use App\Models\Registration;
 
 class AdmissionController extends Controller
 {
@@ -143,7 +144,7 @@ class AdmissionController extends Controller
     public function store(Request $request) {
 
         $validator = Validator::make($request->all(), [
-            'temporary_gr'              =>  'required|unique:admissions,temporary_gr|digits_between:1,11',
+            'temporary_gr'              =>  'required|unique:admissions,temporary_gr|string|min:1,max:10',  
             'gr'                        =>  'required|unique:admissions,gr|digits_between:1,11',
             'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
             'campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
@@ -165,7 +166,7 @@ class AdmissionController extends Controller
             'email'                     =>  'nullable|email|max:30',
             'admission_date'            =>  'nullable|date',
             'blood_group'               =>  'nullable|min:2|max:3',
-            // 'height'                    =>  'nullable|gt:0|between:0,7.12',
+            'height'                    =>  'nullable|gt:0|between:1,10',
             'weight'                    =>  'nullable|gt:0',
             'as_on_date'                =>  'nullable|date',
             'fees_discount'             =>  'nullable|min:0|digits_between:1,3',
@@ -176,7 +177,7 @@ class AdmissionController extends Controller
             'no_of_siblings'            =>  'nullable|numeric|required_if:siblings_in_mpa,yes|gt:0|digits_between:1,11',
             'student_vaccinated'        =>  'nullable|in:yes,no',
             'father_cnic'               =>  'required|numeric|gt:0|digits:13',
-            'father_salary'             =>  'nullable|numeric|gt:0|digits_between:1,3',
+            'father_salary'             =>  'nullable|numeric|gt:0|digits_between:1,11',
             'father_email'              =>  'nullable|email|max:30',
             'father_name'               =>  'required|max:30',
             'father_phone'              =>  'required|numeric|gt:0|digits:11',
@@ -184,7 +185,7 @@ class AdmissionController extends Controller
             'father_company_name'       =>  'nullable|max:30',
             'father_vaccinated'         =>  'nullable|in:yes,no',
             'mother_cnic'               =>  'required|numeric|gt:0|digits:13',
-            'mother_salary'             =>  'nullable|numeric|gt:0|digits_between:1,3',
+            'mother_salary'             =>  'nullable|numeric|gt:0|digits_between:1,11',
             'mother_email'              =>  'nullable|email|max:30',
             'mother_name'               =>  'required|max:30',
             'mother_phone'              =>  'required|numeric|gt:0|digits:11',
@@ -196,7 +197,7 @@ class AdmissionController extends Controller
             'guardian_phone'            =>  'nullable|numeric|gt:0|digits:11',
             'guardian_relation'         =>  'nullable|in:uncle_aunty,grandfather_grandmother,neighbours,other',
             'guardian_relation_other'   =>  'nullable|required_if:guardian_relation,other|max:20',
-            'first_person_call'         =>  'required|in:father,mother,gueardian',
+            'first_person_call'         =>  'required|in:father,mother,guardian',
             'current_house_no'          =>  'required|max:60',
             'current_block_no'          =>  'required|max:60',
             'current_building_name_no'  =>  'nullable|max:60',
@@ -222,10 +223,13 @@ class AdmissionController extends Controller
             try {
                 
                 $formData =  $request->all();
-                // dd($formData);
 
                 $student  = new Admission();
                
+                if(isset($request->temporary_gr) && !empty($request->temporary_gr)) {
+                    $student->registration_id  = Registration::where('registration_id', $request->temporary_gr)->first()->id;
+                }
+
                 $student->temporary_gr         =  $request->temporary_gr;
                 $student->gr                   =  $request->gr;
                 $student->roll_no              =  $request->roll_no;
@@ -233,7 +237,7 @@ class AdmissionController extends Controller
                 $student->campus_id            =  $request->campus_id;
                 $student->system_id            =  $request->system_id;
                 $student->class_id             =  $request->class_id;
-                $student->group_id             =  $request->class_group_id;
+                $student->group_id             =  $request->group_id;
                 $student->section_id           =  $request->section_id;
                 $student->bform_crms_no        =  $request->bform_crms_no;
                 $student->first_name           =  $request->first_name;
@@ -244,7 +248,7 @@ class AdmissionController extends Controller
                 $student->place_of_birth       =  $request->place_of_birth;
                 $student->nationality          =  $request->nationality;
                 $student->mother_tongue        =  $request->mother_tongue;
-                $student->previous_class_id    =  $request->previous_class;
+                $student->previous_class_id    =  $request->previous_class_id;
                 $student->previous_school      =  $request->previous_school;
 
                 $student->mobile_no            =  $request->mobile_no;
@@ -259,6 +263,14 @@ class AdmissionController extends Controller
                 
                 $student->religion             =  $request->religion;
                 $student->religion_type        =  $request->religion_type;
+                $student->siblings_in_mpa      =  $request->siblings_in_mpa;
+                $student->pick_and_drop        =  $request->pick_and_drop;
+                
+                if($student->pick_and_drop == "by_ride"){
+                    $student->vehicle_no       =  $request->vehicle_no;
+                }else if($student->pick_and_drop == "by_school_van" || $student->pick_and_drop == "by_private_van") {
+                    $student->vehicle_id       =  $request->vehicle_id;
+                }
 
                 if($student->religion_type == "other"){
                     $student->religion_type_other  =  $request->religion_type_other;
@@ -268,7 +280,7 @@ class AdmissionController extends Controller
                     $student->no_of_siblings  =  $request->no_of_siblings;
                 }
 
-                $student->student_vaccinated   =  $request->student_vaccinated;
+                $student->student_vaccinated  =  $request->student_vaccinated;
 
                 $fatherDetails = array(
                     'cnic'          =>  $request->father_cnic,
@@ -355,7 +367,7 @@ class AdmissionController extends Controller
                 if($student->save()){
                     
                     $response = array(
-                        'status'   =>  false, 
+                        'status'   =>  true, 
                         'message'  =>  "Record has been inserted."
                     );
 

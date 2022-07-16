@@ -30,7 +30,7 @@
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Temporary G.R</label>
-                                            <input type="text" class="form-control bg-transparent" name="temporary_gr" id="temporary-gr">
+                                            <input type="text" class="form-control bg-transparent" value="{{ ($data['registeration']->registration_id) ? $data['registeration']->registration_id : '' }}" name="temporary_gr" id="temporary-gr" readonly>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
@@ -68,7 +68,7 @@
                                                     <option value="">Select Campus</option>                                                    
                                                     
                                                     @foreach($data['campus'] as $campus)
-                                                        <option value="{{ $campus->id }}" {{ ($campus->id == $data["registeration"]->campus_id) ? 'selected' : '' }}>{{ $campus->name }}</option>
+                                                        <option value="{{ $campus->id }}" {{ ($campus->id == $data["registeration"]->campus_id) ? 'selected' : '' }}>{{ $campus->campus }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -105,6 +105,9 @@
                                             <label class="form-label tx-semibold">Class Group</label>
                                             <div class="pos-relative">
                                                 <select class="form-control select2" name="group_id" id="group-id">
+                                                @foreach($data['classGroups'] as $group)
+                                                    <option value="{{ $group->id }}" {{ ($group->id == $data["registeration"]->group_id) ? 'selected' : '' }}> {{ $group->group }} </option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -339,25 +342,25 @@
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Father CNIC Number </label>
-                                            <input type="text" class="form-control" name="father_cnic" id="father-cnic"  value="{{ $data['father_details']->father_cnic }}" data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X">
+                                            <input type="text" class="form-control" name="father_cnic" id="father-cnic"  value="{{ $data['father_details']->cnic }}" data-inputmask="'mask': '99999-9999999-9'" placeholder="XXXXX-XXXXXXX-X">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Father Salary</label>
-                                            <input type="number" class="form-control" name="father_salary" value="{{ $data['father_details']->father_salary }}" id="father-salary">
+                                            <input type="number" class="form-control" name="father_salary" value="{{ $data['father_details']->salary }}" id="father-salary">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Father Email</label>
-                                            <input type="text" class="form-control" name="father_email" value="{{ $data['father_details']->father_email }}" id="father-email">
+                                            <input type="text" class="form-control" name="father_email" value="{{ $data['father_details']->email }}" id="father-email">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Father Name</label>
-                                            <input type="text" class="form-control" name="father_name" value="{{ $data['father_details']->father_name }}" id="father-name">
+                                            <input type="text" class="form-control" name="father_name" value="{{ $data['father_details']->name }}" id="father-name">
                                         </div>
                                     </div>
                                 </div>
@@ -365,19 +368,19 @@
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Father Phone No</label>
-                                            <input type="text" class="form-control" name="father_phone"  id="father-phone" value="{{ $data['father_details']->father_phone }}" data-inputmask="'mask': '03##-#######'" placeholder="03##-#######">
+                                            <input type="text" class="form-control" name="father_phone"  id="father-phone" value="{{ $data['father_details']->phone }}" data-inputmask="'mask': '03##-#######'" placeholder="03##-#######">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Father Occupation</label>
-                                            <input type="text" class="form-control" name="father_occupation" value="{{ $data['father_details']->father_occupation }}"  id="father-occupation">
+                                            <input type="text" class="form-control" name="father_occupation" value="{{ $data['father_details']->occupation }}"  id="father-occupation">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Company Name</label>
-                                            <input type="text" class="form-control" name="father_company_name" value="{{ $data['father_details']->father_company_name }}" id="father-company-name">
+                                            <input type="text" class="form-control" name="father_company_name" value="{{ $data['father_details']->company_name }}" id="father-company-name">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
