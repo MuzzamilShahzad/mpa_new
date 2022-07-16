@@ -9,7 +9,6 @@
             <div class="modal-body">
                 <form action="{{ route('student.registration.update') }}" method="POST" id="edit-detail-form">
                     <div class="row">
-
                         <h4 class="main-content-label mb-3"> <strong>Student</strong></h4>
                         <div class="col-3">
                             <div class="form-group">
@@ -50,7 +49,6 @@
                                 </select>
                             </div>
                         </div>
-                        
                     </div>
                     <div class="row mt-3">
                         <div class="col-3">

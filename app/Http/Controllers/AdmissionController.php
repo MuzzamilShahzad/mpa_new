@@ -12,6 +12,8 @@ use App\Models\City;
 use App\Models\Classes;
 use App\Models\Admission;
 use App\Models\Registration;
+use App\Models\CampusClass;
+use App\Models\Vehicle;
 
 class AdmissionController extends Controller
 {
@@ -20,6 +22,9 @@ class AdmissionController extends Controller
         $session    =  Session::get();
         $campus     =  Campus::where('is_active',1)->where('is_delete',0)->get();
         $section    =  Section::get();
+        $area     =  Area::get();
+        $city     =  City::get();
+        $class    =  Classes::get();
         
         if($request->session_id){
             $where['session_id'] = $request->session_id;
@@ -53,6 +58,9 @@ class AdmissionController extends Controller
             'session'    =>  $session,
             'campus'     =>  $campus,
             'section'    =>  $section,
+            'class'      =>  $class,
+            'area'       =>  $area,
+            'city'       =>  $city,
             'admission'  =>  $admission,
             'page'       =>  'Admission',
             'menu'       =>  'Admissions Listing'
@@ -424,8 +432,7 @@ class AdmissionController extends Controller
         }
     }
 
-    public function studentPromotion(Request $request)
-    {
+    public function studentPromotion(Request $request){
         $validator = Validator::make($request->all(), [
             'campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
             'system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
@@ -466,5 +473,131 @@ class AdmissionController extends Controller
                 return response()->json($response);
             }
         }
+    }
+
+    public function edit($id) {
+
+        $request = array(
+            'id' => $id
+        );
+        
+        $validator = Validator::make($request,[
+            'id'  =>  'required|numeric|gt:0|digits_between:1,11',
+        ]);
+
+        if($validator->fails()){
+
+            $response = array(
+                'status'  =>  false,
+                'error'   =>  $validator->errors()
+            );
+
+            return response()->json($response);
+
+        } else {
+
+            $session  =  Session::get();
+            $campus   =  Campus::where('is_active',1)->where('is_delete',0)->get();
+            $section  =  Section::get();
+            $area     =  Area::get();
+            $city     =  City::get();
+            $class    =  Classes::get();
+            $vehicle  =  Vehicle::get();
+    
+            $data = array(
+                'session'  =>  $session,
+                'campus'   =>  $campus,
+                'section'  =>  $section,
+                'class'    =>  $class,
+                'area'     =>  $area,
+                'city'     =>  $city,
+                'page'     =>  'Admission',
+                'menu'     =>  'Edit Admission'
+            );
+        
+            $admission  = Admission::select('admissions.*',
+                                            'campuses.campus',
+                                            'systems.system',
+                                            'classes.class',
+                                            'groups.group',
+                                            'sections.section')
+                                    ->leftJoin('campuses','campuses.id','=','admissions.campus_id')
+                                    ->leftJoin('systems','systems.id','=','admissions.system_id')
+                                    ->leftJoin('classes','classes.id','=','admissions.class_id')
+                                    ->leftJoin('groups','groups.id','=','admissions.group_id')
+                                    ->leftJoin('sections','sections.id','=','admissions.section_id')
+                                    ->where('admissions.id', $request['id'])
+                                    ->first();
+            
+            if($admission){
+                
+                if($admission->vehicle_id){
+                    $pick_and_drop = $admission->pick_and_drop;
+                    $vehicle = Vehicle::where('type',pick_and_drop)->get();
+                    $data['vehicle']     =  $vehicle;
+                }
+
+                if($admission->campus_id) {
+
+                    $system = Campus::select('systems.*')
+                                ->join('campus_details', 'campus_details.campus_id', '=', 'campuses.id')
+                                ->join('systems', 'systems.id', '=', 'campus_details.system_id')
+                                ->where('campuses.id', $admission->campus_id)
+                                ->where('campuses.is_active', 1)
+                                ->where('campuses.is_delete', 0)
+                                ->get();
+
+                } else {
+
+                    $system = System::get();
+                }
+                
+                // dd($system);
+        
+                $campusClass = Classes::select('classes.id', 'classes.class')
+                                        ->join('campus_classes', 'campus_classes.class_id', '=', 'classes.id')
+                                        ->join('campus_details', 'campus_details.id', '=', 'campus_classes.campus_detail_id')
+                                        ->where('campus_details.campus_id', $admission->campus_id)
+                                        ->where('campus_details.system_id', $admission->system_id)
+                                        ->where('classes.is_active', 1)
+                                        ->where('classes.is_delete', 0)
+                                        ->get();
+        
+                $group = CampusClass::select('groups.*')
+                                    ->join('campus_details', 'campus_details.id', '=', 'campus_classes.campus_detail_id')
+                                    ->join('class_groups', 'class_groups.class_id', '=', 'campus_classes.class_id')
+                                    ->join('groups', 'groups.id', '=', 'class_groups.group_id')
+                                    ->where('campus_details.campus_id', $admission->campus_id)
+                                    ->where('campus_details.system_id', $admission->system_id)
+                                    ->where('campus_classes.class_id', $admission->class_id)
+                                    ->get();
+
+                $data['admission']     =  $admission;
+                $data['system']        =  $system;
+                $data['campus_class']  =  $campusClass;
+                $data['group']         =  $group;
+
+                $data['admission']['father_details']    =  json_decode($data['admission']->father_details);
+                $data['admission']['mother_details']    =  json_decode($data['admission']->mother_details);
+                $data['admission']['guardian_details']  =  json_decode($data['admission']->guardian_details);
+                $data['admission']['address_details']   =  json_decode($data['admission']->address_details);
+
+                // dd($data['admission']->address_details->current_address->current_house_no);
+                // dd($data['admission']->guardian_details);
+                
+                return view('student.admission.edit', compact('data'));
+                
+                
+            } else {
+
+                $data['admission']  =  $admission;
+                return redirect()->view('student.admission.edit', compact('data'));
+            }
+
+            
+            
+        }
+        
+
     }
 }
