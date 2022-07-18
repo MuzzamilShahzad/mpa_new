@@ -183,6 +183,12 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         /*
+         * Excell Package...
+         */
+        Maatwebsite\Excel\ExcelServiceProvider::class,
+
+
+        /*
          * Package Service Providers...
          */
 
@@ -210,6 +216,12 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+
+        /*
+         * Excel package...
+         */
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+
     ])->toArray(),
 
 ];

@@ -14,6 +14,8 @@ use App\Models\Admission;
 use App\Models\Registration;
 use App\Models\CampusClass;
 use App\Models\Vehicle;
+use App\Imports\StudentAdmissionImport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdmissionController extends Controller
 {
@@ -600,5 +602,63 @@ class AdmissionController extends Controller
         }
         
 
+    }
+
+    public function import(){
+        $campuses        =  Campus::get();
+        $sessions        =  Session::get();
+        $sections        =  Section::get();
+        $areas           =  Area::get();
+
+        $data = array(
+            'campus'        =>  $campuses,
+            'session'        =>  $sessions,
+            'section'        =>  $sections,
+            'areas'           =>  $areas,
+            'page'            =>  'Admission',
+            'menu'            =>  'Import Student Admission Data'
+        );
+        
+        return view('student.admission.import',compact('data'));
+    }
+
+    public function importStore(Request $request){
+
+        $validator = Validator::make($request->all(),[
+            'session_id'        =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'section_id'        =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'campus_id'         =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'system_id'         =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'class_id'          =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'group_id'          =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'import_file'       =>  'required|mimes:xlsx, csv'
+        ]);
+       
+        if($validator->fails()) {
+
+            $response = array(
+                'status'  =>  false,
+                'error'   =>  $validator->errors()
+            );
+
+            return response()->json($response);
+
+        } else {
+     
+            $data = [
+                "session_id"    => $request->session_id,
+                "section_id"    => $request->section_id,
+                "campus_id"     => $request->campus_id,
+                "system_id"     => $request->system_id,
+                "class_id"      => $request->class_id,
+                "group_id"      => $request->group_id
+            ];
+
+            $query = Excel::import(new StudentAdmissionImport($data), request()->file('import_file'));
+            if ($query) {
+                return redirect()->back()->with('success', 'File has been Imported successfully.');
+            }
+
+        }
     }
 }
