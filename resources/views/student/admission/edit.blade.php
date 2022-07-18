@@ -24,8 +24,8 @@
                         <div class="card-header d-flex">
                             <h6 class="main-content-label">{{ $data['menu'] }}</h6>
                         </div>
-                        <form action="{{ route('admission.store') }}" method="post">
-                            <input type="hidden" id="registration-id" value="{{ isset($data['admission']) && !empty($data['admission']) ? ( isset($data['admission']->id) ? $data['admission']->id: '') : ''}}">
+                        <form action="{{ route('admission.update') }}" method="post">
+                            <input type="hidden" id="id" name="id" value="{{ isset($data['admission']) && !empty($data['admission']) ? ( isset($data['admission']->id) ? $data['admission']->id: '') : ''}}">
                             <div class="card-body" id="after-form-store-msg">
                                 <div class="form-row">
                                     <div class="form-group col-md-3 mb-0">
@@ -183,7 +183,7 @@
                                     <div class="form-group col-md-3 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">Mother Tongue</label>
-                                            <input type="text" class="form-control" name="mother_tongue"  id="mother-tongue"  value="{{ isset($data['admission']) && !empty($data['admission']) ? ( isset($data['admission']->mother_details->tongue) ? $data['admission']->mother_details->tongue : '') : ''}}">
+                                            <input type="text" class="form-control" name="mother_tongue"  id="mother-tongue"  value="{{ isset($data['admission']) && !empty($data['admission']) ? ($data['admission']->mother_tongue) ? $data['admission']->mother_tongue : '' : '' }}">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-3 mb-0">
@@ -517,9 +517,9 @@
                                             <div class="pos-relative">
                                                 <select class="form-control select2" name="first_person_call" id="first-person-call">
                                                     <option selected value="">Select Person To Call</option>
-                                                    <option value="father"   {{ isset($data['admission']) && !empty($data['admission']) ? ( isset($data['admission']->guardian_relation->first_person_call) && $data['admission']->guardian_relation->first_person_call == 'father'    ? 'selected' : '') : ''}}>Father</option>
-                                                    <option value="mother"   {{ isset($data['admission']) && !empty($data['admission']) ? ( isset($data['admission']->guardian_relation->first_person_call) && $data['admission']->guardian_relation->first_person_call == 'mother'    ? 'selected' : '') : ''}}>Mother</option>
-                                                    <option value="guardian" {{ isset($data['admission']) && !empty($data['admission']) ? ( isset($data['admission']->guardian_relation->first_person_call) && $data['admission']->guardian_relation->first_person_call == 'guardian'  ? 'selected' : '') : ''}}>Guardian</option>
+                                                    <option value="father"   {{ isset($data['admission']) && !empty($data['admission']) ? ( isset($data['admission']->guardian_details->first_person_call) && $data['admission']->guardian_details->first_person_call == 'father'    ? 'selected' : '') : ''}}>Father</option>
+                                                    <option value="mother"   {{ isset($data['admission']) && !empty($data['admission']) ? ( isset($data['admission']->guardian_details->first_person_call) && $data['admission']->guardian_details->first_person_call == 'mother'    ? 'selected' : '') : ''}}>Mother</option>
+                                                    <option value="guardian" {{ isset($data['admission']) && !empty($data['admission']) ? ( isset($data['admission']->guardian_details->first_person_call) && $data['admission']->guardian_details->first_person_call == 'guardian'  ? 'selected' : '') : ''}}>Guardian</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -691,7 +691,7 @@
                                     </div>
                                 @endif
                                 <div class="form-footer mt-2">
-                                    <button type="submit" class="btn btn-primary" id="btn-add-admission">Save</button>
+                                    <button type="submit" class="btn btn-primary" id="btn-edit-admission">Save</button>
                                     <a href="{{ route('admission.listing') }}" class="btn btn-danger">Back</a>
                                 </div>
                             </div>
