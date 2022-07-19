@@ -32,16 +32,22 @@
                 </div>
             </div>
             <!-- End Page Header -->
+
             
             <div class="row">
                 <div class="col-12">
-                    @if ($errors->any())
-                        @foreach ($errors->all() as $error)
+                    @if (isset($errors))
+                        @foreach ($errors as $error)
+                        @foreach ($error as $err)
+                        @foreach ($err as $er)
+
                         <div class="alert alert-danger d-flex align-items-center alert-dismissible fade show" role="alert">
                             <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                            <div>{{ $error }}</div>
+                            <div>{{ $er }}</div>
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
+                        @endforeach
+                        @endforeach
                         @endforeach
                     @endif
                 </div>

@@ -143,7 +143,9 @@
                             <br>
                             
                             <div class="table-responsive">
-                                <table class="table table-bordered text-nowrap border-bottom" id="registraion-listing-datatable">
+                                <table class="table table-bordered text-nowrap  key-buttons border-bottom" id="registraion-listing-datatable">
+                                <!-- <table id="file-datatable" class="table table-bordered text-nowrap key-buttons border-bottom"> -->
+
                                     <thead>
                                         <tr>
                                             <th data-orderable="false">

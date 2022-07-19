@@ -15,10 +15,17 @@ use App\Models\Registration;
 use App\Models\CampusClass;
 use App\Models\Vehicle;
 use App\Imports\StudentAdmissionImport;
+use App\Exports\StudentAdmissionExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AdmissionController extends Controller
 {
+
+    public function __construct()
+    {
+        date_default_timezone_set("Asia/Karachi");
+    }
+
     public function listing(Request $request) {
         
         $session    =  Session::get();
@@ -854,18 +861,19 @@ class AdmissionController extends Controller
     }
 
     public function import(){
+
         $campuses        =  Campus::get();
         $sessions        =  Session::get();
         $sections        =  Section::get();
         $areas           =  Area::get();
 
         $data = array(
-            'campus'        =>  $campuses,
+            'campus'         =>  $campuses,
             'session'        =>  $sessions,
             'section'        =>  $sections,
-            'areas'           =>  $areas,
-            'page'            =>  'Admission',
-            'menu'            =>  'Import Student Admission Data'
+            'areas'          =>  $areas,
+            'page'           =>  'Admission',
+            'menu'           =>  'Import Student Admission Data'
         );
         
         return view('student.admission.import',compact('data'));
@@ -893,7 +901,6 @@ class AdmissionController extends Controller
             return response()->json($response);
 
         } else {
-     
             $data = [
                 "session_id"    => $request->session_id,
                 "section_id"    => $request->section_id,
@@ -903,11 +910,73 @@ class AdmissionController extends Controller
                 "group_id"      => $request->group_id
             ];
 
-            $query = Excel::import(new StudentAdmissionImport($data), request()->file('import_file'));
-            if ($query) {
-                return redirect()->back()->with('success', 'File has been Imported successfully.');
+            $import = new StudentAdmissionImport($data);
+            $dataForExport = [];
+            $errorsForReurnToBladeFile = [];
+
+
+            try {
+                $import->import(request()->file('import_file'));
+
+                foreach ($import->failures() as $failure) {
+                    $failure->row();        // row that went wrong
+                    $failure->attribute();  // either heading key (if using heading row concern) or column index
+                    $failure->errors();     // Actual error messages from Laravel validator
+                    $failure->values();     // The values of the row that has failed.
+
+                    if($failure->row()) {
+                        $errorsForReurnToBladeFile [$failure->row()][$failure->attribute()] = $failure->errors();
+                        $dataForExport [$failure->row()] = $failure->values();    
+                    }
+               }
+
+                ksort($dataForExport);
+                $file_name = date('Y-m-d_H-i-s');          
+
+                Excel::store(new StudentAdmissionExport($dataForExport, $failure->errors()), 'uploads/student/admissions/student-admission-'.$file_name.'.xlsx');
+
+                
+                return redirect()->back()->with('errors', $errorsForReurnToBladeFile);
+            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+                $failures = $e->failures();
+
+                foreach ($failures as $failure) {
+                    $failure->row();        // row that went wrong
+                    $failure->attribute();  // either heading key (if using heading row concern) or column index
+                    $failure->errors();     // Actual error messages from Laravel validator
+                    $failure->values();     // The values of the row that has failed.
+
+                    if($failure->row()) {
+                        $errorsForReurnToBladeFile [$failure->row()][$failure->attribute()] = $failure->errors();
+                        $dataForExport [$failure->row()] = $failure->values();    
+                    }
+               }
+
+                ksort($dataForExport);
+                $file_name = date('Y-m-d_H-i-s');          
+
+                Excel::store(new StudentAdmissionExport($dataForExport), 'uploads/student/admissions/student-admission-'.$file_name.'.xlsx');
+
+                // foreach ($failures as $key => $failure) {
+                //     echo "<pre>";
+                //     print_r($failure->row());    
+                //     echo "<br />";                
+                //     // if($failure->row()) {
+                //     //     $dataForExport [$failure->row()] = $failure->values();
+                //     //     // $dataForExport [$failure->row()][$failure->attribute()] = $failure->errors();
+                //     // }
+
+                //     // $errorsForReurnToBladeFile [$failure->row()][$failure->attribute()] = $failure->errors();                   
+                //     $errorsForReurnToBladeFile [$failure->row()]["values"] = $failure->values();                   
+                // }
+
+                // dd("as");
+
+
             }
 
+            return redirect()->back()->with('errors', $errorsForReurnToBladeFile);
         }
     }
+
 }

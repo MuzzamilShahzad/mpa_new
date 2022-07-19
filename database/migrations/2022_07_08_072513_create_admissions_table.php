@@ -68,9 +68,10 @@ return new class extends Migration
             $table->enum('religion_type',['sunni','asna_ashri','other']);
             $table->string('religion_type_other',20)->nullable();
 
+            $table->tinyInteger('total_no_of_siblings')->nullable();
             $table->enum('siblings_in_mpa',['yes','no'])->default('no');
-            $table->tinyInteger('no_of_siblings')->nullable();
-                
+            $table->tinyInteger('no_of_siblings_in_mpa')->nullable();
+
             $table->enum('student_vaccinated',['yes','no'])->default('no');
 
             $table->text('father_details');
