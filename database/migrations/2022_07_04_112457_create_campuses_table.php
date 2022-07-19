@@ -16,14 +16,10 @@ return new class extends Migration
         Schema::create('campuses', function (Blueprint $table) {
             
             $table->increments('id');
-
-            $table->string('campus',20)->unique();
-            
+            $table->string('campus',30)->unique();
             $table->string('address',60);
-            $table->string('phone',15);
-            $table->string('email',30);
-            
-            $table->tinyInteger('active_session');
+            $table->string('phone',20);
+            $table->string('email',30)->nullable();
             $table->string('logo',100)->nullable();
             $table->tinyInteger('is_active')->default(1);
             $table->tinyInteger('is_delete')->default(0);

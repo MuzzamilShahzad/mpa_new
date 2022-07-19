@@ -72,10 +72,11 @@
                 </div>
                 <div class="main-header-center">
                     <div class="responsive-logo">
-                        <a href="index.html"><img src="{{ url('backend/assets/img/brand/logo.png') }}" class="mobile-logo"
+                    <h3 class="text-center header-brand-img desktop-logo-dark">IVEM</h3>
+                        <!-- <a href="index.html"><img src="{{ url('backend/assets/img/brand/logo.png') }}" class="mobile-logo"
                                 alt="logo"></a>
                         <a href="index.html"><img src="{{ url('backend/assets/img/brand/logo-light.png') }}"
-                                class="mobile-logo-dark" alt="logo"></a>
+                                class="mobile-logo-dark" alt="logo"></a> -->
                     </div>
                     <!-- <div class="input-group">
                         <input type="search" class="form-control rounded-0" placeholder="Search for anything...">

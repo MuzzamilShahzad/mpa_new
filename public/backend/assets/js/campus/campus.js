@@ -2,54 +2,45 @@ $(document).ready(function () {
 
     var baseUrl = $(".base-url").val();
 
+    // $("#add_campus").validate({
+    //     rules: {
+    //         "system_id[]": "required"
+    //     },
+    //     messages: {
+    //         "system_id[]": "Please select category",
+    //     }
+    // });
 
     $('body').on("click", ".btn-add-system", function (e) {
 
-        var systemLength = $('.system option').length;
-        var length = jQuery("div[id='system-details']").length + 1;
+        var system_length;
 
-        // var options = $('.system option');
-        // var values = $.map(options, function (key, value) {
-        //     console.log(key + " - " + value);
-        // });
+        var length        = $('.system-row').find('.row').length;
 
-        $(this).find("select").each(function () {
-            console.log($(this).find('option').text());
-        });
-
-        if (length < systemLength) {
-            $(this).attr("class", "btn-remove-system");
-            $(this).attr("alt", "remove-system");
-            $(this).attr("src", "http://localhost/accounts/public/backend/assets/img/remove-icon.png");
-
-            var system = $('.system').parent('div');
-
-            $('.btn-add-system-row').after(`<div class="form-row" id="system-details">
-                                                <div class="col-5">
-                                                    
-                                                </div>
-                                                <div class="col-5">
-                                                    <div class="form-group">
-                                                        <label class="tx-semibold">Short Name</label>
-                                                        <div class="pos-relative">
-                                                            <input name="short_name" class="form-control" type="text" placeholder="Enter Short Name" maxlength="10" id="short_name">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group col-2">
-                                                    <div class="form-group">
-                                                        <label class="form-label tx-semibold">Add </label>
-                                                        <img class="btn-add-system img" alt="btn-add-system" src="http://localhost/accounts/public/backend/assets/img/add-icon.png">
-                                                    </div>
-                                                </div>
-                                            </div>`);
+        if(length > 1){
+            system_length = $('select[name="system_id[]"] option:first-child').length - 1;
+        } else {
+            system_length = $('select[name="system_id[]"] option').length - 1;
         }
+
+        // if (length < system_length) {
+
+            var add_system_row  =  $('.system-row').find('.row:last-child').html();
+                add_system_row  = '<div class="row">'+add_system_row+'</div>';
+            
+            $(this).removeClass("btn-add-system");
+            $(this).addClass("btn-remove-system");
+            $(this).attr("alt", "remove-system");
+            $(this).attr("src", baseUrl + "/backend/assets/img/remove-icon.png");
+            
+            $('.system-row').append(add_system_row);
+
+        // }
     });
 
     $('body').on("click", ".btn-remove-system", function (e) {
         $(this).parent().parent().parent().remove();
     });
-
 
     // Start data store script
     $("#btn-add-campus").on("click", function (e) {
@@ -59,27 +50,26 @@ $(document).ready(function () {
         $("span, input").removeClass("has-error");
 
         var flag = true;
-        var name = $("#name").val();
+        var campus = $("#campus").val();
         var email = $("#email").val();
         var phone = $("#phone").val();
         var address = $("#address").val();
-        var short_name = $("#short_name").val();
-        var system = $("#system").val();
         var logo = $("#logo").val();
-
-        console.log(logo);
-
         var active_session = $("#active_session").val();
 
-        if (name == "") {
-            $("#name").addClass("has-error");
-            $("#name").after("<span class='error text-danger'>This field is required.</span>");
+        if (campus == "") {
+            $("#campus").addClass("has-error");
+            $("#campus").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
 
         if (email == "") {
             $("#email").addClass("has-error");
             $("#email").after("<span class='error text-danger'>This field is required.</span>");
+            flag = false;
+        } else if( !isEmail(email)) {
+            $("#email").addClass("has-error");
+            $("#email").after("<span class='error text-danger'>This email is not valid.</span>");
             flag = false;
         }
 
@@ -101,40 +91,70 @@ $(document).ready(function () {
             flag = false;
         }
 
-        if (system == "") {
-            $("#system").addClass("has-error");
-            $("#system").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
+        $('.system-row').find('.row').each(function() {
 
-        if (short_name == "") {
-            $("#short_name").addClass("has-error");
-            $("#short_name").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
+            var system_id  = $(this).children().find("select[name='system_id[]']").val();
+            var short_name = $(this).children().find("input[name='short_name[]']").val();
+            
+            if(system_id == ""){
+                $(this).children().find("select[name='system_id[]']").siblings("span").find(".select2-selection--single").addClass("has-error");
+                $(this).children().find("select[name='system_id[]']").siblings("span").after("<span class='error'>This field is required.</span>");
+                flag = false;
+            }
 
+            if(short_name == ""){
+                $(this).children().find("input[name='short_name[]']").addClass("has-error");
+                $(this).children().find("input[name='short_name[]']").after("<span class='error text-danger'>This field is required.</span>");
+                flag = false;
+            }
+
+        });
+       
         if (flag) {
+
+            var systems = $("select[name='system_id[]']").serializeArray();
+            var system_id = [];
+            systems.forEach(function (data) {
+                system_id.push(data.value);
+            });
+            
+            var short_names = $("input[name='short_name[]']").serializeArray();
+            var short_name = [];
+            short_names.forEach(function (data) {
+                short_name.push(data.value);
+            });
 
             $("#btn-add-campus").addClass('disabled');
             $("#btn-add-campus").html('. . . . .');
 
             var message = '';
-            let formData = new FormData(document.getElementById('my-form'));
+            var formData = {
+                "campus"          :  campus,
+                "email"           :  email,
+                "phone"           :  phone,
+                "address"         :  address,
+                "active_session"  :  active_session,
+                "system_id"       :  system_id,
+                "short_name"      :  short_name
+            };
             $('#image-input-error').text('');
 
+            console.log(formData);
+
             $.ajax({
-                type: $(this).parent('form').attr('method'),
                 url: $(this).parent('form').attr('action'),
+                type: $(this).parent('form').attr('method'),
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 data: formData,
-                dataType: "json",
-                cache: false,
-                contentType: false,
-                processData: false,
+                // dataType: "json",
+                // cache: false,
+                // contentType: false,
+                // processData: false,
                 success: function (response) {
 
+                    console.log(response);
+
                     if (response.status === false) {
-                        var a = response.error;
 
                         if (response.error) {
                             if (Object.keys(response.error).length > 0) {
@@ -219,13 +239,12 @@ $(document).ready(function () {
                 success: function (response) {
 
                     if (response.status === false) {
-                        var a = response.error;
-
+                       
                         if (response.error) {
                             if (Object.keys(response.error).length > 0) {
                                 message += `<div class="alert alert-danger">
-                                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-                                        <ul>`;
+                                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                                                <ul>`;
                                 $.each(response.error, function (key, value) {
 
                                     $("#" + key).addClass("has-error");
@@ -344,5 +363,10 @@ $(document).ready(function () {
         });
     });
     // End Delete Data Script
+
+    function isEmail(email) {
+        var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+        return regex.test(email);
+      }
 
 });

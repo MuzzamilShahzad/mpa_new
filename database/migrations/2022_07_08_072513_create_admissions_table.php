@@ -39,7 +39,7 @@ return new class extends Migration
             $table->unsignedInteger('group_id')->nullable();
             $table->foreign('group_id')->references('id')->on('class_groups')->onDelete('cascade');
 
-            $table->unsignedInteger('section_id');
+            $table->unsignedInteger('section_id')->nullable();
             $table->foreign('section_id')->references('id')->on('sections')->onDelete('cascade');
 
             $table->string('bform_crms_no',20)->nullable();
@@ -67,9 +67,10 @@ return new class extends Migration
             $table->string('religion',20);
             $table->enum('religion_type',['sunni','asna_ashri','other']);
             $table->string('religion_type_other',20)->nullable();
-
+            
+            $table->tinyInteger('total_no_of_siblings')->nullable();
             $table->enum('siblings_in_mpa',['yes','no'])->default('no');
-            $table->tinyInteger('no_of_siblings')->nullable();
+            $table->tinyInteger('no_of_siblings_in_mpa')->nullable();
                 
             $table->enum('student_vaccinated',['yes','no'])->default('no');
 

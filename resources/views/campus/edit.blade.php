@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('main-content')
-@section('page_title', 'Edit Campus')
+@section('page_title', $data['page'] .' | '.$data['menu'])
 
 <div class="main-content side-content pt-0">
     <div class="main-container container-fluid">
@@ -32,11 +32,11 @@
                                     <form action="{{ route('campus.update', $data['campus']->id) }}" method="put">
                                     <div class="form-group">
                                             <label class="tx-semibold">Campus Name</label>
-                                            <input name="name" class="form-control" type="text" value="{{ $data['campus']->name }}" id="name">
+                                            <input name="name" class="form-control" type="text" value="{{ $data['campus']->campus }}" id="campus">
                                         </div>
 
                                         <button type="submit" id="btn-update-campus" class="btn ripple btn-primary" >Update</button>
-                                        <a href="{{ route('campus.view') }}" class="btn ripple btn-danger">Back</a>
+                                        <a href="{{ route('campus.listing') }}" class="btn ripple btn-danger">Back</a>
                                     </form>
                                 </div>
                             </div>

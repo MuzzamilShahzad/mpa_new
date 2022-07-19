@@ -18,6 +18,7 @@ return new class extends Migration
             $table->increments('id');
            
             $table->string('short_name',10)->unique();
+            $table->tinyInteger('active_session');
             
             $table->unsignedInteger('campus_id')->nullable();
             $table->foreign('campus_id')->references('id')->on('campuses')->onDelete('cascade');

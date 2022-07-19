@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('main-content')
-@section('page_title', 'Manage Admission')
+@section('page_title', $data['page'] .' | '.$data['menu'])
 
 <style>
     .chkbox-select-all-admission {

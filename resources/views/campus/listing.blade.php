@@ -1,7 +1,14 @@
 @extends('layouts.app')
 @section('main-content')
 @section('page_title', 'Campus')
-
+<style>
+    .fa-edit{
+        color: #4d65d9;
+    }
+    .fa-trash{
+        color: #ff334d;
+    }
+</style>
 <div class="main-content side-content pt-0">
     <div class="main-container container-fluid">
         <div class="inner-body">
@@ -33,27 +40,31 @@
                                     <table class="table table-bordered text-nowrap border-bottom" id="responsive-datatable">
                                     <thead>
                                         <tr>
-                                            <th width="10px">S.No</th>
+                                            <th>S.No</th>
                                             <th>Name</th>
-                                            <th>Status</th>
+                                            <!-- <th>Status</th> -->
                                             <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($data['Campus'] as $sno => $item)
+                                        @foreach($data['campus'] as $key => $campus)
                                         <tr>
-                                            <td>{{ ++$loop->index }}</td>
-                                            <td>{{ $item->name }}</td>
-                                            <td> 
-                                                @if($item->is_active)
+                                            <td>{{ ++$key }}</td>
+                                            <td>{{ $campus->campus }}</td>
+                                            <!-- <td> 
+                                                @if($campus->is_active)
                                                 <button class="btn btn-success btn-sm"> Active </button> 
                                                 @else
                                                 <button class="btn btn-warning btn-sm"> In Active </button> 
                                                 @endif
-                                            </td>
+                                            </td> -->
                                             <td>
-                                                <a href="{{ route('campus.edit',$item->id) }}" class="btn btn-primary btn-sm">Edit</a>
-                                                <button data-id="{{ $item->id }}" id="btn-delete-campus" class="btn btn-danger btn-sm">Delete</button>
+                                                <a href="{{ route('campus.edit',$campus->id) }}">
+                                                    <i class="fas fa-edit" id="btn-edit-campus" data-id="{{ $campus->id }}" title="Edit"></i> 
+                                                </a>
+                                                <!-- <a href="{{ route('campus.edit',$campus->id) }}" class="btn btn-primary btn-sm">Edit</a> -->
+                                                <!-- <button data-id="{{ $campus->id }}" id="btn-delete-campus" class="btn btn-danger btn-sm">Delete</button> -->
+                                                <i class="fas fa-trash" id="btn-delete-campus" data-id="{{ $campus->id }}" title="Delete"></i>
                                             </td>
                                         </tr>
                                         @endforeach

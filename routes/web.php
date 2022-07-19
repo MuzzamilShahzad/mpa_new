@@ -33,7 +33,7 @@ Route::controller(SystemController::class)->group(function () {
 
 //Campus routes
 Route::controller(CampusController::class)->group(function () {
-    Route::get('/campus', 'listing')->name('campus.view');
+    Route::get('/campus', 'listing')->name('campus.listing');
     Route::get('/campus/add', 'add')->name('campus.create');
     Route::post('/campus/store', 'store')->name('campus.store');
     Route::get('/campus/edit/{id}', 'edit')->name('campus.edit');

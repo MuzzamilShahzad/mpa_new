@@ -29,35 +29,35 @@
                         <div class="card-body">
                             <div class="row row-sm">
                                 <div class="col-md-12 col-lg-12 col-xl-12">
-                                    <form action="{{ route('campus.store') }}" method="post" enctype="multipart/form-data" id="my-form">
+                                    <form action="{{ route('campus.store') }}" method="post" enctype="multipart/form-data">
                                         <div class="form-group">
                                             <label class="tx-semibold">Name</label>
-                                            <input name="name" class="form-control" type="text" placeholder="Enter Name" id="name">
+                                            <input name="campus" class="form-control" type="text" placeholder="Enter Name" id="campus">
                                         </div>
-
-                                        <div class="form-row btn-add-system-row">
-                                        
-                                            <div class="col-5">
-                                                <div class="form-group">
-                                                    <label class="tx-semibold">Select System</label>
-                                                    <select name="system[]" id="system" class="system form-control select2">
-                                                        @foreach($data["systems"] as $system)
-                                                            <option value="{{ $system->id }}">{{ $system->system }}</option>
-                                                        @endforeach
-                                                    </select>
+                                        <div class="row system-row">
+                                            <div class="row">
+                                                <div class="form-group col-md-5 mb-0">
+                                                    <div class="form-group">
+                                                        <label class="tx-semibold">Select System</label>
+                                                        <select name="system_id[]" class="form-control">
+                                                            <option value="">Select System</option>
+                                                            @foreach($data["systems"] as $system)
+                                                                <option value="{{ $system->id }}">{{ $system->system }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-5">    
-                                                <div class="form-group">
-                                                    <label class="tx-semibold">Short Name</label>
-                                                    <input name="short_name" class="form-control" type="text" placeholder="Enter Short Name" maxlength="10" id="short_name">
+                                                <div class="form-group col-md-5 mb-0">   
+                                                    <div class="form-group">
+                                                        <label class="tx-semibold">Short Name</label>
+                                                        <input name="short_name[]" class="form-control" type="text" placeholder="Enter Short Name" maxlength="10" id="short_name">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            
-                                            <div class="col-2">
-                                                <div class="form-group">
-                                                    <label class="form-label tx-semibold">Add </label>
-                                                    <img class="btn-add-system mt-2" id="img" alt="add-system" src="http://localhost/accounts/public/backend/assets/img/add-icon.png">
+                                                <div class="form-group col-md-2 mb-0">
+                                                    <div class="form-group">
+                                                        <label class="form-label tx-semibold"> </label>
+                                                        <img class="btn-add-system mt-4" id="img" alt="add-system" src="{{ url('backend/assets/img/add-icon.png') }}">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -99,7 +99,7 @@
                                         </div>
 
                                         <button class="btn ripple btn-primary" id="btn-add-campus" type="submit">Submit</button>
-                                        <a href="{{ route('campus.view') }}" class="btn ripple btn-danger">Back</a>
+                                        <a href="{{ route('campus.listing') }}" class="btn ripple btn-danger">Back</a>
                                     </form>
                                 </div>
                             </div>

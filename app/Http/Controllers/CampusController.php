@@ -168,9 +168,10 @@ class CampusController extends Controller
     }
 
     public function listing(){
-        $Campus = Campus::all();
+        
+        $campus = Campus::all();
         $data = array(
-            'Campus'    =>  $Campus,
+            'campus'    =>  $campus,
             'page'      =>  'Campus',
             'menu'      =>  'Manage Campus'
         );
@@ -180,27 +181,29 @@ class CampusController extends Controller
 
     public function add(){
 
-        $Systems = System::all();
+        $systems = System::all();
         
         $data = array(
             'page'       =>  'Campus',
             'menu'       =>  'Add Campus',
-            'systems'    =>  $Systems
+            'systems'    =>  $systems
         );
 
         return view('campus.add', compact('data'));
     }
 
     public function store(Request $request) {
+        
+        // dd($request->toArray());
 
         $validator = Validator::make($request->all(), [
-            'name'              =>  'required|max:20',
-            'email'             =>  'required',
-            'phone'             =>  'required|max:15',
-            'address'           =>  'required|max:60',
-            'active_session'    =>  'required|numeric',
-            'system'            =>  'required|numeric',
-            'short_name'        =>  'required|max:10',
+            'campus'          =>  'required|max:20',
+            'email'           =>  'required',
+            'phone'           =>  'required|max:15',
+            'address'         =>  'required|max:60',
+            'active_session'  =>  'required|numeric',
+            'system_id.*'     =>  'required|numeric',
+            'short_name.*'    =>  'required|unique:campuses,campus|max:10',
         ]);
 
         if ($validator->errors()->all()) {
@@ -275,8 +278,8 @@ class CampusController extends Controller
         $campus = Campus::find($id);
         $data = array(
             'campus'  =>  $campus,
-            'page'    =>  'System',
-            'menu'    =>  'Edit System'
+            'page'    =>  'Campus',
+            'menu'    =>  'Edit Campus'
         );
 
         return view('campus.edit', compact('data'));
@@ -284,11 +287,7 @@ class CampusController extends Controller
 
     public function update(Request $request, $id) {
         $validator = Validator::make($request->all(), [
-            'name'          =>  'required',
-            'address'       =>  'required',
-            'cnic'          =>  'required',
-            'license_no'    =>  'required',
-            'joining_date'  =>  'required',
+            'campus'          =>  'required|unique:campus,campus|string|min:6,max:20',
         ]);
 
         if ($validator->errors()->all()) {
