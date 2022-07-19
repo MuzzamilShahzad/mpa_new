@@ -60,7 +60,7 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
             $admisssion->session_id             = $this->session_id;
             $admisssion->group_id               = $this->group_id;
             $admisssion->system_id              = $this->system_id;
-            // $admisssion->temporary_gr           = "";
+            $admisssion->temporary_gr           = $row["temporary_gr"];
             $admisssion->gr                     = $row["temporary_gr"];
             $admisssion->bform_crms_no          = $row["bform_crms_no"];
             $admisssion->first_name             = $row["first_name"];
@@ -74,7 +74,7 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
             $admisssion->previous_school        = $row["previous_school"];
             // $admisssion->mobile_no              = $row["mobile_no"];
             // $admisssion->email                  = $row["email"];
-            $admisssion->admission_date         = $row["admission_date"];
+            $admisssion->admission_date         = $row["admission_year"];
             $admisssion->blood_group            = $row["blood_group"];
             $admisssion->height                 = $row["height"];
             $admisssion->weight                 = $row["weight"];
@@ -127,7 +127,7 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
                                                     'current_house_no'            => $row["current_house_no"],
                                                     'current_block_no'            => $row["current_block_no"],
                                                     'current_building_name_no'    => isset($row["current_building_name_no"]) ? $row["current_building_name_no"] : 'N/A',
-                                                    'current_area_id'             => $row["current_area_id"],
+                                                    'current_area_id'             => $row["current_area"],
                                                     'current_city_id'             =>  "1"
                                                 ];
 
@@ -135,7 +135,7 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
                                                     'permanent_house_no'            => $row["current_house_no"],
                                                     'permanent_block_no'            => $row["current_block_no"],
                                                     'permanent_building_name_no'    => isset($row["permanent_building_name_no"]) ? $row["permanent_building_name_no"] : 'N/A',
-                                                    'permanent_area_id'             => $row["current_area_id"],
+                                                    'permanent_area_id'             => $row["current_area"],
                                                     'permanent_city_id'             => "1"
                                                 ];
 
@@ -155,7 +155,7 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
     {
 
         $data['dob']                            = $data['dob']                  ? date("Y-m-d", strtotime($data['dob']))            : '' ;
-        $data['admission_date']                 = $data['admission_date']       ? $data['admission_date']."-08-01"                  : '' ;
+        $data['admission_date']                 = $data['admission_year']       ? $data['admission_year']."-08-01"                  : '' ;
         $data['current_city_id']                = 1;
         $data['temporary_gr']                   = $data['temporary_gr']         ? (string)$data['temporary_gr']                     : '' ;
         $data['gender']                         = $data['gender']               ? strtolower($data['gender'])                       : '' ;
@@ -165,16 +165,19 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
         $data['mother_vaccinated']              = $data['mother_vaccinated']    ? strtolower($data['mother_vaccinated'])            : '' ;
         $data['mother_cnic']                    = $data['mother_cnic']          ? str_replace('-', '', $data['mother_cnic'])        : '' ;       
         $data['mother_phone']                   = $data['mother_phone']         ? str_replace('-', '', $data['mother_phone'])       : '' ;       
-        $data['mother_salary']                  = $data['mother_salary']        ? str_replace('k', '000', $data["mother_salary"])   : '' ;
+        $data['mother_salary']                  = $data['mother_salary']        ? str_replace('k', '000', strtolower($data["mother_salary"]))   : '' ;
         
         $data['father_cnic']                    = $data['father_cnic']          ? str_replace('-', '', $data['father_cnic'])        : '' ;       
         $data['father_vaccinated']              = $data['father_vaccinated']    ? strtolower($data['father_vaccinated'])            : '' ;
         $data['father_phone']                   = $data['father_phone']         ? str_replace('-', '', $data['father_phone'])       : '' ;       
-        $data['father_salary']                  = $data['father_salary']        ? str_replace('k', '000', $data["father_salary"])   : '' ;
+        $data['father_salary']                  = $data['father_salary']        ? str_replace('k', '000', strtolower($data["father_salary"]))   : '' ;
 
         $data['pick_and_drop']                  = $data['pick_and_drop']        ? str_replace(' ', '_', $data["pick_and_drop"])     : '' ;
         $data['pick_and_drop']                  = $data['pick_and_drop']        ? strtolower($data['pick_and_drop'])                : '' ;
 
+        $data['religion_type']   = strtolower(['sunni'] == 'yes') ? 'sunni' : (strtolower(['asna_ashri'] == 'yes') ? 'asna_ashri' : 'other');
+        $data['religion_type_other']   = strtolower(['sunni'] == 'yes') ? '' : (strtolower(['asna_ashri'] == 'yes') ? '' : $data['religion_type']);
+        
         if(isset($data['guardian_relation']) && !empty($data['guardian_relation'])) {
             $guardian_relations                 = ["uncle", "grand_father", "neighbours"];
             $guardian_relation                  = explode("/", $data['guardian_relation']);
@@ -189,25 +192,27 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
             }else if($data['guardian_relation'] == "neighbours") {
                 $data['guardian_relation']      = "neighbours";
             }else {
+                // $data['guardian_relation_other']      = $data['guardian_relation'];
                 $data['guardian_relation']      = "other";
             }
         }
         
-        if(isset($data["area"]) && !empty($data["area"])) {
-            $result                             = Area::where('area', strtolower($data["area"]))->first();
-            if(!$result) {
-                $area                           = new Area;
-                $area->area                     = ucfirst(strtolower($data["area"]));
-                $area->save();
-                $data["current_area_id"]                   = $area->id;
-            }else {
-                $data["current_area_id"]                   = $result->id;
-            }
+        if(isset($data["current_area"]) && !empty($data["current_area"])) {
+            $result                             = Area::where('area', $data["current_area"])->first();
+            // if(!$result) {
+            //     $area                           = new Area;
+            //     $area->area                     = ucfirst($data["current_area"]);
+            //     $area->save();
+            //     $data["current_area_id"]                   = $area->id;
+            // }else {
+            //     $data["current_area_id"]                   = $result->id;
+            // }
+
+            $data["current_area_id"]                   = 1;
         }
         return $data;
 
     }
-
 
     /**
     * @return array
@@ -218,58 +223,67 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
         return [
             
             '*.temporary_gr'              =>  'required|unique:admissions,temporary_gr|string|min:1,max:10',  
-            '*.bform_crms_no'             =>  'nullable|min:5,max;20',
-            '*.first_name'                =>  'required|string|max:30',
-            '*.last_name'                 =>  'required|string|max:30',
+            // '*.campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',  
+            // '*.system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',  
+            // '*.class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',  
+            // '*.section_id'                =>  'required|numeric|gt:0|digits_between:1,11',  
+            '*.campus'                    =>  'required|string|min:8,max:30',  
+            '*.system'                    =>  'required|string|min:6,max:30',  
+            '*.class'                     =>  'required|string|min:4,max:30',  
+            '*.section'                   =>  'required|string|min:1,max:30',  
+            '*.bform_crms_no'             =>  'nullable|min:5,max:20',
             '*.dob'                       =>  'nullable|date',
             '*.gender'                    =>  'required|in:male,female',
             '*.place_of_birth'            =>  'nullable|alpha|max:30',                                      // required => karachi
             '*.nationality'               =>  'required|alpha|max:30',
             '*.mother_tongue'             =>  'required|alpha|max:30',
-            '*.previous_class_id'         =>  'nullable|numeric|gt:0|digits_between:1,11',
+            '*.first_name'                =>  'required|string|max:30',
+            '*.last_name'                 =>  'required|string|max:30',
+            '*.religion'                  =>  'required|in:islam,Islam',                         // issue if asna ok else other
+            '*.religion_type'             =>  'nullable|in:sunni,asna_ashri,other',                         // issue if asna ok else other
+            '*.religion_type_other'       =>  'nullable|required_if:religion_type,other|max:20',            // invalid => n/a
+            '*.admission_year'            =>  'required|max:'.(date('Y')+1),                                              // invalid => 1 aug
+            '*.admission_class'           =>  'nullable|string|max:20',
             '*.previous_school'           =>  'nullable|max:30',
-            '*.mobile_no'                 =>  'nullable|max:20',
-            '*.email'                     =>  'nullable|email|max:30',
-            '*.admission_date'            =>  'required|max:'.(date('Y')+1),                                              // invalid => 1 aug
             '*.blood_group'               =>  'nullable|min:2|max:3',
             '*.height'                    =>  'nullable|gt:0|between:1,10',
             '*.weight'                    =>  'nullable|gt:0',
-            '*.as_on_date'                =>  'nullable|date',
-            '*.fees_discount'             =>  'nullable|min:0|digits_between:1,3',
-            '*.religion_type'             =>  'nullable|in:sunni,asna_ashri,other',                         // issue if asna ok else other
-            '*.religion_type_other'       =>  'nullable|required_if:religion_type,other|max:20',            // invalid => n/a
-            '*.siblings_in_mpa'           =>  'nullable|numeric|gt:0|digits_between:1,11',
-            '*.no_of_siblings'            =>  'nullable|numeric|required_if:siblings_in_mpa,gt:0|gt:0|digits_between:1,11',  // issue
-            '*.total_no_of_siblings'      =>  'nullable|numeric|gt:0|digits_between:1,11', 
             '*.student_vaccinated'        =>  'nullable|in:yes,no',
-            '*.father_cnic'               =>  'required|numeric|gt:0|digits:13',
-            '*.father_salary'             =>  'nullable|numeric|gt:0|digits_between:1,11',
-            '*.father_email'              =>  'nullable|email|max:30',
+            // '*.mobile_no'                 =>  'nullable|max:20',
+            // '*.email'                     =>  'nullable|email|max:30',
+            // '*.as_on_date'                =>  'nullable|date',
+            // '*.fees_discount'             =>  'nullable|min:0|digits_between:1,3',
             '*.father_name'               =>  'required|max:30',
-            '*.father_phone'              =>  'required|numeric|gt:0|digits:11',                
+            '*.father_cnic'               =>  'required|numeric|gt:0|digits:13',
+            '*.father_phone'              =>  'nullable|numeric|gt:0|digits:11',                
+            '*.father_email'              =>  'nullable|email|max:30',
             '*.father_occupation'         =>  'nullable|string|max:30',
             '*.father_company_name'       =>  'nullable|max:40',                                            // 30 -> 40                    
+            '*.father_salary'             =>  'nullable|numeric|gt:0|digits_between:1,11',
             '*.father_vaccinated'         =>  'nullable|in:yes,no',
-            '*.mother_cnic'               =>  'required|numeric|gt:0|digits:13',
-            '*.mother_salary'             =>  'nullable|numeric|gt:0|digits_between:1,11',
-            '*.mother_email'              =>  'nullable|email|max:30',
             '*.mother_name'               =>  'required|max:30',
-            '*.mother_phone'              =>  'required|numeric|gt:0|digits:11',                    
+            '*.mother_cnic'               =>  'required|numeric|gt:0|digits:13',
+            '*.mother_phone'              =>  'nullable|numeric|gt:0|digits:11',                    
+            '*.mother_email'              =>  'nullable|email|max:30',
             '*.mother_occupation'         =>  'nullable|string:30',
             '*.mother_company_name'       =>  'nullable|max:30',
+            '*.mother_salary'             =>  'nullable|numeric|gt:0|digits_between:1,11',
             '*.mother_vaccinated'         =>  'nullable|in:yes,no',
-            '*.guardian_cnic'             =>  'nullable|numeric|gt:0|digits:13',
+            '*.current_house_no'          =>  'required|max:60',
+            '*.current_block_no'          =>  'required|max:60',
+            '*.current_area'              =>  'required|string',
+            // '*.guardian_cnic'             =>  'nullable|numeric|gt:0|digits:13',
             '*.guardian_name'             =>  'nullable|max:30',
             '*.guardian_phone'            =>  'nullable|numeric|gt:0|digits:11',
             '*.guardian_relation'         =>  'nullable|in:uncle_aunty,grandfather_grandmother,neighbours,other',       // invalid
-            '*.guardian_relation_other'   =>  'nullable|required_if:guardian_relation,other|max:20',
+            // '*.guardian_relation_other'   =>  'nullable|required_if:guardian_relation,other|max:20',
             '*.first_person_call'         =>  'required|in:father,mother,guardian',
-            '*.current_house_no'          =>  'required|max:60',
-            '*.current_block_no'          =>  'required|max:60',
-            '*.area'                      =>  'required|string',
             '*.pick_and_drop'             =>  'required|in:by_walk,by_ride,by_private_van,by_school_van',
-            '*.vehicle_no'                =>  'nullable|required_if:pick_and_drop,by_ride|max:20',
-            '*.vehicle_id'                =>  'nullable|required_if:pick_and_drop,by_school_van|required_if:pick_and_drop,by_private_van|digits_between:1,11',
+            '*.total_no_of_siblings'      =>  'nullable|numeric|gt:0|digits_between:1,11', 
+            '*.siblings_in_mpa'           =>  'nullable|numeric|gt:0|digits_between:1,11',
+            // '*.no_of_siblings'            =>  'nullable|numeric|required_if:siblings_in_mpa,gt:0|gt:0|digits_between:1,11',  // issue
+            '*.vehicle_number'                =>  'nullable|required_if:pick_and_drop,by_ride|max:20',
+            // '*.vehicle_id'                =>  'nullable|required_if:pick_and_drop,by_school_van|required_if:pick_and_drop,by_private_van|digits_between:1,11',
             
         ];
     }

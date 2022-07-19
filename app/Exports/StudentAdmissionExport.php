@@ -18,7 +18,8 @@ class StudentAdmissionExport implements FromArray, WithHeadings
     public function __construct($data, $error)
     {        
         $this->errors = $data;
-        $this->got_some_error = json_encode($error);
+        // $this->got_some_error = json_encode($error);
+        $this->got_some_error = $error;
     }
 
     public function headings(): array
@@ -78,11 +79,13 @@ class StudentAdmissionExport implements FromArray, WithHeadings
     {
         $error_data = [];
         foreach($this->errors as $key => $error) {
+            // print_r($this->got_some_error);
+            // print_r($this->got_some_error[$key]);
+            // dd($key.'<br />');
             array_push($error_data,
                 [
                     $error["temporary_gr"], 
                     $error["bform_crms_no"],
-
                     $error["dob"],
                     $error["gender"],
                     $error["nationality"],
@@ -130,10 +133,10 @@ class StudentAdmissionExport implements FromArray, WithHeadings
                     "N/A",
                     "N/A",
                     "N/A",
-                    $error["vehicle_no"],
+                    // $error["vehicle_no"],
                     $error["total_no_of_siblings"],
                     $error["siblings_in_mpa"],
-                    $this->got_some_error
+                    $this->got_some_error[$key]
 
 
                     // $error["place_of_birth"],

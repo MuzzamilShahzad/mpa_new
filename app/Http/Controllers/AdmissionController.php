@@ -901,13 +901,22 @@ class AdmissionController extends Controller
             return response()->json($response);
 
         } else {
+            // $data = [
+            //     "session_id"    => $request->session_id,
+            //     "section_id"    => $request->section_id,
+            //     "campus_id"     => $request->campus_id,
+            //     "system_id"     => $request->system_id,
+            //     "class_id"      => $request->class_id,
+            //     "group_id"      => $request->group_id
+            // ];
+            
             $data = [
-                "session_id"    => $request->session_id,
-                "section_id"    => $request->section_id,
-                "campus_id"     => $request->campus_id,
-                "system_id"     => $request->system_id,
-                "class_id"      => $request->class_id,
-                "group_id"      => $request->group_id
+                "session_id"    => 1,
+                "section_id"    => 1,
+                "campus_id"     => 1,
+                "system_id"     => 1,
+                "class_id"      => 1,
+                "group_id"      => 1
             ];
 
             $import = new StudentAdmissionImport($data);
@@ -919,10 +928,11 @@ class AdmissionController extends Controller
                 $import->import(request()->file('import_file'));
 
                 foreach ($import->failures() as $failure) {
-                    $failure->row();        // row that went wrong
-                    $failure->attribute();  // either heading key (if using heading row concern) or column index
-                    $failure->errors();     // Actual error messages from Laravel validator
-                    $failure->values();     // The values of the row that has failed.
+                   
+                    // $failure->row();        // row that went wrong
+                    // $failure->attribute();  // either heading key (if using heading row concern) or column index
+                    // $failure->errors();     // Actual error messages from Laravel validator
+                    // $failure->values();     // The values of the row that has failed.
 
                     if($failure->row()) {
                         $errorsForReurnToBladeFile [$failure->row()][$failure->attribute()] = $failure->errors();
@@ -931,9 +941,13 @@ class AdmissionController extends Controller
                }
 
                 ksort($dataForExport);
+                ksort($errorsForReurnToBladeFile);
+
+                // dd($errorsForReurnToBladeFile);
                 $file_name = date('Y-m-d_H-i-s');          
 
-                Excel::store(new StudentAdmissionExport($dataForExport, $failure->errors()), 'uploads/student/admissions/student-admission-'.$file_name.'.xlsx');
+                // Excel::store(new StudentAdmissionExport($dataForExport, $failure->errors()), 'uploads/student/admissions/student-admission-'.$file_name.'.xlsx');
+                Excel::store(new StudentAdmissionExport($dataForExport, $errorsForReurnToBladeFile), 'uploads/student/admissions/student-admission-'.$file_name.'.xlsx');
 
                 
                 return redirect()->back()->with('errors', $errorsForReurnToBladeFile);
