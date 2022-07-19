@@ -1772,6 +1772,122 @@ $(document).ready(function () {
 
     });
 
+    // btn-import-file
+    $("#btn-import-admisisons").on("click", function (e) {
+        e.preventDefault();
+
+        $("span.error, .alert").remove();
+        $("span, input").removeClass("has-error");
+
+        var flag = true;
+        var message = '';
+
+        var campus_id = $("#campus-id").val();
+        var session_id = $("#session-id").val();
+        var class_id = $("#class-id").val();
+        var system_id = $("#system-id").val();
+        var section_id = $("#section-id").val();
+        var group_id = $("#group-id").val();
+        var import_file = $("#import-file").val();
+
+        if (campus_id == "" || campus_id == "0") {
+            $("#campus-id").siblings("span").find(".select2-selection--single").addClass("has-error");
+            $("#campus-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+            flag = false;
+        }
+        if (system_id == "" || system_id == "0") {
+            $("#system-id:not([disabled])").siblings(".select2-selection--single").addClass("has-error");
+            $("#system-id:not([disabled])").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+            flag = false;
+        }
+        if (class_id == "" || class_id == "0") {
+            $("#class-id:not([disabled]").siblings(".select2-selection--single").addClass("has-error");
+            $("#class-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+            flag = false;
+        }
+        if (group_id == "" || group_id == "0") {
+            $("#group-id:not([disabled]").siblings(".select2-selection--single").addClass("has-error");
+            $("#group-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+            flag = false;
+        }
+        if (session_id == "" || session_id == "0") {
+            $("#session-id").siblings(".select2-selection--single").addClass("has-error");
+            $("#session-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+            flag = false;
+        }
+        if (section_id == "" || section_id == "0") {
+            $("#section-id").siblings(".select2-selection--single").addClass("has-error");
+            $("#section-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+            flag = false;
+        }
+        if (import_file == "" || import_file == "0") {
+            $("#import-file").siblings(".select2-selection--single").addClass("has-error");
+            $("#import-file").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+            flag = false;
+        }
+
+        if (flag) {
+
+            $("#btn-import-admisisons").addClass('disabled');
+            $("#btn-import-admisisons").html('. . . . .');
+
+            var formData = {
+                "campus_id": campus_id,
+                "system_id": system_id,
+                "class_id": class_id,
+                "group_id": group_id,
+                "session_id": session_id,
+                "section_id": section_id,
+                "import_file": import_file
+            }
+
+            $.ajax({
+                url: baseUrl + '/admission/import/store',
+                type: "POST",
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                data: formData,
+                dataType: "json",
+                success: function (response) {
+
+                    if (response.status === false) {
+                        if (response.error) {
+
+                            $("#btn-import-admisisons").html('Save Details');
+                            $("#btn-import-admisisons").removeClass('disabled');
+
+                            if (Object.keys(response.error).length > 0) {
+                                $.each(response.error, function (key, value) {
+                                    $("select[name='" + key + "']").siblings("span").find(".select2-selection--single").addClass("has-error");
+                                    $("select[name='" + key + "']").siblings("span").after("<span class='error'>" + value.toString().split(/[,]+/).join("<br/>") + "</span>");
+                                });
+                            }
+                        }
+                    }
+                },
+                error: function () {
+
+                    $("#btn-import-admisisons").removeClass('disabled');
+                    $("#btn-import-admisisons").html('Submit');
+
+                    message = `<div class="alert alert-danger alert-dismissible">
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            <strong> Whoops !</strong> Something went wrong please contact to admintrator.
+                        </div>`;
+                },
+                complete: function () {
+
+                    if (message !== '') {
+                        $("form").prepend(message);
+                    }
+
+                    $("#btn-import-admisisons").removeClass('disabled');
+                    $("#btn-import-admisisons").html('Submit');
+
+                }
+            });
+        }
+    });
+
     //Student Search
     $("#btn-search-student").on("click", function (e) {
         e.preventDefault();

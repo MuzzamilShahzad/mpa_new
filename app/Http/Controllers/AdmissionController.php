@@ -14,9 +14,18 @@ use App\Models\Admission;
 use App\Models\Registration;
 use App\Models\CampusClass;
 use App\Models\Vehicle;
+use App\Imports\StudentAdmissionImport;
+use App\Exports\StudentAdmissionExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdmissionController extends Controller
 {
+
+    public function __construct()
+    {
+        date_default_timezone_set("Asia/Karachi");
+    }
+
     public function listing(Request $request) {
         
         $session    =  Session::get();
@@ -850,4 +859,124 @@ class AdmissionController extends Controller
         
 
     }
+
+    public function import(){
+
+        $campuses        =  Campus::get();
+        $sessions        =  Session::get();
+        $sections        =  Section::get();
+        $areas           =  Area::get();
+
+        $data = array(
+            'campus'         =>  $campuses,
+            'session'        =>  $sessions,
+            'section'        =>  $sections,
+            'areas'          =>  $areas,
+            'page'           =>  'Admission',
+            'menu'           =>  'Import Student Admission Data'
+        );
+        
+        return view('student.admission.import',compact('data'));
+    }
+
+    public function importStore(Request $request){
+
+        $validator = Validator::make($request->all(),[
+            'session_id'        =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'section_id'        =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'campus_id'         =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'system_id'         =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'class_id'          =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'group_id'          =>  'nullable|numeric|gt:0|digits_between:1,11',
+            'import_file'       =>  'required|mimes:xlsx, csv'
+        ]);
+       
+        if($validator->fails()) {
+
+            $response = array(
+                'status'  =>  false,
+                'error'   =>  $validator->errors()
+            );
+
+            return response()->json($response);
+
+        } else {
+            $data = [
+                "session_id"    => $request->session_id,
+                "section_id"    => $request->section_id,
+                "campus_id"     => $request->campus_id,
+                "system_id"     => $request->system_id,
+                "class_id"      => $request->class_id,
+                "group_id"      => $request->group_id
+            ];
+
+            $import = new StudentAdmissionImport($data);
+            $dataForExport = [];
+            $errorsForReurnToBladeFile = [];
+
+
+            try {
+                $import->import(request()->file('import_file'));
+
+                foreach ($import->failures() as $failure) {
+                    $failure->row();        // row that went wrong
+                    $failure->attribute();  // either heading key (if using heading row concern) or column index
+                    $failure->errors();     // Actual error messages from Laravel validator
+                    $failure->values();     // The values of the row that has failed.
+
+                    if($failure->row()) {
+                        $errorsForReurnToBladeFile [$failure->row()][$failure->attribute()] = $failure->errors();
+                        $dataForExport [$failure->row()] = $failure->values();    
+                    }
+               }
+
+                ksort($dataForExport);
+                $file_name = date('Y-m-d_H-i-s');          
+
+                Excel::store(new StudentAdmissionExport($dataForExport, $failure->errors()), 'uploads/student/admissions/student-admission-'.$file_name.'.xlsx');
+
+                
+                return redirect()->back()->with('errors', $errorsForReurnToBladeFile);
+            } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+                $failures = $e->failures();
+
+                foreach ($failures as $failure) {
+                    $failure->row();        // row that went wrong
+                    $failure->attribute();  // either heading key (if using heading row concern) or column index
+                    $failure->errors();     // Actual error messages from Laravel validator
+                    $failure->values();     // The values of the row that has failed.
+
+                    if($failure->row()) {
+                        $errorsForReurnToBladeFile [$failure->row()][$failure->attribute()] = $failure->errors();
+                        $dataForExport [$failure->row()] = $failure->values();    
+                    }
+               }
+
+                ksort($dataForExport);
+                $file_name = date('Y-m-d_H-i-s');          
+
+                Excel::store(new StudentAdmissionExport($dataForExport), 'uploads/student/admissions/student-admission-'.$file_name.'.xlsx');
+
+                // foreach ($failures as $key => $failure) {
+                //     echo "<pre>";
+                //     print_r($failure->row());    
+                //     echo "<br />";                
+                //     // if($failure->row()) {
+                //     //     $dataForExport [$failure->row()] = $failure->values();
+                //     //     // $dataForExport [$failure->row()][$failure->attribute()] = $failure->errors();
+                //     // }
+
+                //     // $errorsForReurnToBladeFile [$failure->row()][$failure->attribute()] = $failure->errors();                   
+                //     $errorsForReurnToBladeFile [$failure->row()]["values"] = $failure->values();                   
+                // }
+
+                // dd("as");
+
+
+            }
+
+            return redirect()->back()->with('errors', $errorsForReurnToBladeFile);
+        }
+    }
+
 }

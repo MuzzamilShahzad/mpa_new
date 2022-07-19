@@ -100,7 +100,7 @@ $(function (e) {
 					"targets": 8,
 					"render": function (data) {
 						var checkbox = `<i class="fas fa-check" id="btn-view-admission" data-id="` + data.id + `" title="View"></i> |
-										<a href="`+(baseUrl+'/admission/edit/'+data.id)+`">
+										<a href="`+ (baseUrl + '/admission/edit/' + data.id) + `">
 											<i class="fas fa-edit" id="btn-edit-admission" data-id="`+ data.id + `" title="Edit"></i> 
 										</a>|
 						 				<i class="fas fa-trash" id="btn-delete-admission" data-id="`+ data.id + `" title="Delete"></i>`;

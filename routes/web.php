@@ -120,7 +120,6 @@ Route::controller(AdmissionController::class)->group(function () {
     Route::post('/admission/store', 'store')->name('admission.store');
 
     Route::get('/admission/edit', 'edit')->name('admission.edit');
-    
     Route::get('/admission/edit/{id}', 'edit')->name('admission.edit');
     
     Route::put('/admission/update', 'update')->name('admission.update');
@@ -129,13 +128,11 @@ Route::controller(AdmissionController::class)->group(function () {
 
     Route::post('/search/student', 'searchStudent');
     Route::get('/student/details', 'studentDetails');
-    // Route::get('/import', 'import')->name('import');
     Route::get('admission/import', 'import')->name('admission.import');
     Route::post('/admission/import/store', 'importStore')->name('admission.import.store');
 
     Route::get('/campus/get-system', 'getCampusSystem');
 });
-
 
 //Vehicle routes
 Route::controller(VehicleController::class)->group(function () {
