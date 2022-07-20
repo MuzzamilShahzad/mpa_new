@@ -7,7 +7,7 @@
         width: 20px; 
         height: 20px;
     }
-    .fa-check{
+    .fa-check, .fa-file-excel{
         color: #19b159;
     }
     .fa-edit{
@@ -132,6 +132,7 @@
                                 <table class="table table-bordered text-nowrap border-bottom" id="admission-listing-datatable">
                                     <thead>
                                         <tr>
+                                            <th data-orderable="false" class="text-center"></th>
                                             <th data-orderable="false"> 
                                                 <div class="form-check">
                                                     <input class="form-check-input chkbox-select-all-admission" type="checkbox">
@@ -827,7 +828,7 @@
                                         <div class="form-group">
                                             <label for="session-id" class="form-label tx-semibold">Session</label>
                                             <select name="session_id" id="session-id" class="form-control sessionSelect2">
-                                                <option selected value="">Select Session</option>
+                                                <option value="">Select Session</option>
                                                 @foreach($data['session'] as $session)
                                                 <option value="{{$session->id}}">{{$session->session}}</option>
                                                 @endforeach
@@ -849,15 +850,15 @@
                                     <div class="col-3">
                                         <div class="form-group">
                                             <label for="school-id" class="form-label tx-semibold">School System</label>
-                                            <select name="system_id" id="system-id" class="form-control systemSelect2">
-                                                <option value=""></option>
+                                            <select name="system_id" id="system-id" class="form-control systemSelect2" disabled>
+                                                <option value="">Select School System</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-3">
                                         <div class="form-group">
                                             <label for="class-id" class="form-label tx-semibold">Class</label>
-                                            <select name="class_id" id="class-id" class="form-control classSelect2">
+                                            <select name="class_id" id="class-id" class="form-control classSelect2" disabled>
                                                 <option value="">Select Class</option>
                                             </select>
                                         </div>
@@ -867,8 +868,8 @@
                                     <div class="col-3">
                                         <div class="form-group">
                                             <label for="class-group-id" class="form-label tx-semibold">Class Group</label>
-                                            <select name="group_id" id="group-id" class="form-control classGroupSelect2">
-                                                <option value=""></option>
+                                            <select name="group_id" id="group-id" class="form-control classGroupSelect2" disabled>
+                                                <option value="">Class Group</option>
                                             </select>
                                         </div>
                                     </div>

@@ -16,6 +16,7 @@ use App\Models\CampusClass;
 use App\Models\Vehicle;
 use App\Imports\StudentAdmissionImport;
 use App\Exports\StudentAdmissionExport;
+use App\Exports\StudentDetailsExport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class AdmissionController extends Controller
@@ -991,6 +992,70 @@ class AdmissionController extends Controller
 
             return redirect()->back()->with('errors', $errorsForReurnToBladeFile);
         }
+    }
+
+    public function exportExcel(Request $request)
+    {
+        if($request->session_id){
+            $where['session_id'] = $request->session_id;
+        }
+        
+        if($request->campus_id){
+            $where['campus_id'] = $request->campus_id;
+        }
+        
+        if($request->system_id){
+            $where['system_id'] = $request->system_id;
+        }
+        
+        if($request->class_id){
+            $where['class_id'] = $request->class_id;
+        }
+
+        if($request->group_id){
+            $where['group_id'] = $request->group_id;
+        }
+
+        if($request->section_id){
+            $where['section_id'] = $request->section_id;
+        }
+        
+        if($request->admission_id){
+            $where['admission_id'] = $request->admission_id;
+        }
+
+        $where['admissions.is_active'] = 1;
+        $where['admissions.is_delete'] = 0;
+
+        $admissionListing  = Admission::select('admissions.*',
+                                                'admissions.id',
+                                                // 'admissions.temporary_gr',
+                                                // 'admissions.gr',
+                                                // 'admissions.first_name',
+                                                // 'admissions.last_name',
+                                                // 'admissions.father_details',
+                                                // 'admissions.admission_date',
+                                                'sessions.session',
+                                                'campuses.campus',
+                                                'systems.system',
+                                                'classes.class',
+                                                'previous_class.class as previous_class',
+                                                'groups.group',
+                                                'sections.section')
+                                        ->leftJoin('sessions','sessions.id','=','admissions.session_id')
+                                        ->leftJoin('campuses','campuses.id','=','admissions.campus_id')
+                                        ->leftJoin('systems','systems.id','=','admissions.system_id')
+                                        ->leftJoin('classes as classes','classes.id','=','admissions.class_id')
+                                        ->leftJoin('classes as previous_class','previous_class.id','=','admissions.previous_class_id')
+                                        ->leftJoin('groups','groups.id','=','admissions.group_id')
+                                        ->leftJoin('sections','sections.id','=','admissions.section_id')
+                                        ->where($where)
+                                        ->get();
+        // dd($admissionListing);
+
+        $file_name = date('Y-m-d');
+        
+        Excel::store(new StudentDetailsExport($admissionListing), 'uploads/student/details/student-detail-'.$file_name.'.xlsx');
     }
 
 }

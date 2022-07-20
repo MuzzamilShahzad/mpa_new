@@ -132,6 +132,10 @@ Route::controller(AdmissionController::class)->group(function () {
     Route::post('/admission/import/store', 'importStore')->name('admission.import.store');
 
     Route::get('/campus/get-system', 'getCampusSystem');
+    
+    Route::get('/admission/export-excel', 'exportExcel');
+
+    // Excel::create('Filename');
 });
 
 //Vehicle routes

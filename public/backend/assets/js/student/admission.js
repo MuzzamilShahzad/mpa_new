@@ -1538,15 +1538,28 @@ $(document).ready(function () {
                             $(campusSchoolSystems).each(function (key, value) {
                                 schoolSystems += `<option value="` + value.id + `" >` + value.system + `</option>`;
                             });
-                        }
+                       
+                            if (promotion_modal) {
+                                $('#promotion-form').find('#system-id').prop('disabled', false);
+                                $('#promotion-form').find('#system-id').html(schoolSystems);
+                            } else {
+                                $('#system-id').prop('disabled', false);
+                                $('#system-id').html(schoolSystems);
+                            }
 
-                        var promotion_modal = $('#promote-student-modal').hasClass('show');
-                        if (promotion_modal) {
-                            $('#promotion-form').find('#system-id').prop('disabled', false);
-                            $('#promotion-form').find('#system-id').html(schoolSystems);
                         } else {
-                            $('#system-id').prop('disabled', false);
-                            $('#system-id').html(schoolSystems);
+
+                            if (promotion_modal) {
+
+                                $('#promotion-form').find('#system-id, #class-id, #group-id').html('<option value="">Select</option>');
+                                $('#promotion-form').find('#system-id, #class-id, #group-id').prop('disabled', true);
+
+                            } else {
+
+                                $('#system-id, #class-id, #group-id').html('<option value="">Select</option>');
+                                $('#system-id, #class-id, #group-id').prop('disabled', true);
+
+                            }
                         }
 
                     } else {
@@ -1592,16 +1605,24 @@ $(document).ready(function () {
                             $(campusClasses).each(function (key, value) {
                                 classes += `<option value="` + value.id + `" >` + value.class + `</option>`;
                             });
-                        }
 
-                        if (promotion_modal) {
-                            $('#promotion-form').find('#class-id').prop('disabled', false);
-                            $('#promotion-form').find('#class-id').html(classes);
+                            if (promotion_modal) {
+                                $('#promotion-form').find('#class-id').prop('disabled', false);
+                                $('#promotion-form').find('#class-id').html(classes);
+                            } else {
+                                $('#class-id').prop('disabled', false);
+                                $('#class-id').html(classes);
+                            }
+
                         } else {
-                            $('#class-id').prop('disabled', false);
-                            $('#class-id').html(classes);
+                            if (promotion_modal) {
+                                $('#promotion-form').find('#class-id').prop('disabled', true);
+                                $('#promotion-form').find('#class-id').html('<option value="">Select</option>');
+                            } else {
+                                $('#class-id').prop('disabled', true);
+                                $('#class-id').html('<option value="">Select</option>');
+                            }
                         }
-
                     }
                 }
             });
@@ -1609,7 +1630,11 @@ $(document).ready(function () {
     });
 
     $(document).on('change', '#class-id', function (e) {
+        
         e.preventDefault();
+        
+        $('#group-id').html('<option value="">Select</option>');
+        $('#group-id').prop('disabled', true);
 
         var promotion_modal = $('#promote-student-modal').hasClass('show');
         if (promotion_modal) {
@@ -1622,10 +1647,9 @@ $(document).ready(function () {
             var class_id = $('#class-id').val();
         }
 
-        $('#group-id').html('<option value="">Select</option>');
-        $('#group-id').prop('disabled', true);
 
         if ((campus_id !== "" && campus_id > "0") && (system_id !== "" && system_id > "0") && (class_id !== "" && class_id > "0")) {
+            
             $.ajax({
                 url: baseUrl + '/campus/class-groups-and-sections',
                 type: "GET",
@@ -1639,7 +1663,7 @@ $(document).ready(function () {
 
                         var classGroup = response.classGroups;
                         var groups = `<option value="">Select</option>`;
-
+                        console.log(classGroup.length);
                         if (classGroup.length) {
                             $(classGroup).each(function (key, value) {
                                 groups += `<option value="` + value.id + `" >` + value.group + `</option>`;
@@ -1650,6 +1674,14 @@ $(document).ready(function () {
                             } else {
                                 $('#group-id').prop('disabled', false);
                                 $('#group-id').html(groups);
+                            }
+                        } else {
+                            if (promotion_modal) {
+                                $('#promotion-form').find('#group-id').html('<option value="">Select</option>');
+                                $('#promotion-form').find('#group-id').prop('disabled', true);
+                            } else {
+                                $('#group-id').html('<option value="">Select</option>');
+                                $('#group-id').prop('disabled', true);
                             }
                         }
                     }

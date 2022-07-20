@@ -40,6 +40,7 @@ $(function (e) {
 		$('#admission-listing-datatable').DataTable({
 			destroy: true,
 			searchable: false,
+			responsive:true,
 			ajax: {
 				url: baseUrl + '/admission/listingBySessionSystemClassGroupSection',
 				data: {
@@ -54,10 +55,16 @@ $(function (e) {
 			columnDefs: [
 				{
 					orderable: false,
-					targets: [0, 8]
+					targets: [0, 1, 8]
 				},
 				{
 					"targets": 0,
+					"render": function (data) {
+						return '';
+					}
+				},
+				{
+					"targets": 1,
 					"render": function (data) {
 						var checkbox = `<div class="form-check">
 											<input class="form-check-input chkbox-select-admission" type="checkbox" data-id="`+ data.id + `">
@@ -66,26 +73,26 @@ $(function (e) {
 					}
 				},
 				{
-					"targets": 1,
+					"targets": 2,
 					"render": function (data) {
 						return data.temporary_gr + ' / ' + data.gr;
 					}
 				},
 				{
-					"targets": 4,
+					"targets": 5,
 					"render": function (data) {
 						var data = JSON.parse(data);
 						return data.name;
 					}
 				},
 				{
-					"targets": 5,
+					"targets": 6,
 					"render": function (data) {
 						return data.campus + ' ( ' + data.system + ' ) ';
 					}
 				},
 				{
-					"targets": 6,
+					"targets": 7,
 					"render": function (data) {
 
 						var class_group = data.class;
@@ -97,9 +104,10 @@ $(function (e) {
 					}
 				},
 				{
-					"targets": 8,
+					"targets": 9,
 					"render": function (data) {
-						var checkbox = `<i class="fas fa-check" id="btn-view-admission" data-id="` + data.id + `" title="View"></i> |
+						var checkbox = `<i class="fas fa-file-excel" id="btn-excel-download-admission" data-id="` + data.id + `" title="Excel"></i> |
+										<i class="fas fa-check" id="btn-view-admission" data-id="` + data.id + `" title="View"></i> |
 										<a href="`+ (baseUrl + '/admission/edit/' + data.id) + `">
 											<i class="fas fa-edit" id="btn-edit-admission" data-id="`+ data.id + `" title="Edit"></i> 
 										</a>|
@@ -108,8 +116,9 @@ $(function (e) {
 					}
 				},
 			],
-			order: [[1, 'asc']],
+			order: [[2, 'asc']],
 			columns: [
+				{ data: null },
 				{ data: null },
 				{ data: null },
 				{ data: 'first_name' },
@@ -126,18 +135,18 @@ $(function (e) {
 
 	$(document).on('click', ".chkbox-select-all-admission", function () {
 		if ($('.chkbox-select-all-admission').is(':checked')) {
-			$('.checkBox').prop('checked', true);
+			$('.chkbox-select-admission').prop('checked', true);
 
 			$('.table-heading').after("&nbsp;&nbsp;<button data-bs-target='#promote-student-modal' data-bs-toggle='modal' class='btn btn-sm btn-primary' id='promote'> Promote </button>");
 		} else {
-			$('.checkBox').prop('checked', false);
+			$('.chkbox-select-admission').prop('checked', false);
 			$('#promote').remove();
 		}
 	});
 
-	$(document).on('click', ".chkbox-select-admissio", function () {
-		var check_box = $('.chkbox-select-admissio').length;
-		var checked_check_box = $('.chkbox-select-admissio:checked').length;
+	$(document).on('click', ".chkbox-select-admission", function () {
+		var check_box = $('.chkbox-select-admission').length;
+		var checked_check_box = $('.chkbox-select-admission:checked').length;
 
 		if (check_box == checked_check_box) {
 			$('.chkbox-select-all-admission').prop('checked', true);
