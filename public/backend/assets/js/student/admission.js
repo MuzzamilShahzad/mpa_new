@@ -2008,6 +2008,12 @@ $(document).ready(function () {
         var session_id = $('#promotion-form').find('#session-id').val()
         var section_id = $('#promotion-form').find('#section-id').val()
 
+        if (session_id == "" || session_id == "0") {
+            $('#promotion-form').find("#session-id").siblings(".select2-selection--single").addClass("has-error");
+            $('#promotion-form').find("#session-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+            flag = false;
+        }
+
         if (campus_id == "" || campus_id == "0") {
             $('#promotion-form').find("#campus-id").siblings("span").find(".select2-selection--single").addClass("has-error");
             $('#promotion-form').find("#campus-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
@@ -2023,30 +2029,26 @@ $(document).ready(function () {
             $('#promotion-form').find("#class-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
             flag = false;
         }
-        if (group_id == "" || group_id == "0") {
-            $('#promotion-form').find("#group-id:not([disabled]").siblings(".select2-selection--single").addClass("has-error");
-            $('#promotion-form').find("#group-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-        if (session_id == "" || session_id == "0") {
-            $('#promotion-form').find("#session-id").siblings(".select2-selection--single").addClass("has-error");
-            $('#promotion-form').find("#session-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
-        if (section_id == "" || section_id == "0") {
-            $('#promotion-form').find("#section-id").siblings(".select2-selection--single").addClass("has-error");
-            $('#promotion-form').find("#section-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
-            flag = false;
-        }
+        // if (group_id == "" || group_id == "0") {
+        //     $('#promotion-form').find("#group-id:not([disabled]").siblings(".select2-selection--single").addClass("has-error");
+        //     $('#promotion-form').find("#group-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+        //     flag = false;
+        // }
+        
+        // if (section_id == "" || section_id == "0") {
+        //     $('#promotion-form').find("#section-id").siblings(".select2-selection--single").addClass("has-error");
+        //     $('#promotion-form').find("#section-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
+        //     flag = false;
+        // }
 
+        console.log(flag);
         if (flag) {
 
             $("#btn-save-promotion").addClass('disabled');
             $("#btn-save-promotion").html('. . . . .');
-
             var message = '';
             var reg_ids = [];
-            $('.checkBox:checkbox:checked').each(function () {
+            $('.chkbox-select-admission:checked').each(function () {
                 var registration_id = (this.checked ? $(this).attr('data-id') : "");
                 if (registration_id) {
                     reg_ids.push(registration_id);
@@ -2059,7 +2061,7 @@ $(document).ready(function () {
                 "class_id": class_id,
                 "group_id": group_id,
                 "session_id": session_id,
-                "section_id": section_id,
+                // "section_id": section_id,
                 "registeration_ids": reg_ids
             }
 
@@ -2070,6 +2072,7 @@ $(document).ready(function () {
                 data: formData,
                 dataType: "json",
                 success: function (response) {
+                    console.log(response);
                     if (response.status === false) {
 
                         if (response.error) {
@@ -2133,6 +2136,23 @@ $(document).ready(function () {
             });
 
         }
+    });
+
+    // Save Students Promotion
+    $('#btn-admission-excel-download').on("click", function (e) {
+        e.preventDefault();
+
+        var session_id = $('#session-id').val();
+        var campus_id  = $('#campus-id').val();
+        var system_id  = $('#system-id').val();
+        var class_id   = $('#class-id').val();
+        var group_id   = $('#group-id').val();
+        var section_id = $('#section-id').val();
+        
+        // console.log(baseUrl+"/admission/export-excel?session_id="+session_id+"&campus_id="+campus_id+"&system_id="+system_id+"&class_id"+class_id+"&group_id="+group_id+"&section_id="+section_id);
+
+        window.location.href = baseUrl+"/admission/export-excel?session_id="+session_id+"&campus_id="+campus_id+"&system_id="+system_id+"&class_id"+class_id+"&group_id="+group_id+"&section_id="+section_id;
+
     });
 
     // Start Delete Data Script

@@ -61,6 +61,8 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
             $admisssion->group_id               = $this->group_id;
             $admisssion->system_id              = $this->system_id;
             $admisssion->temporary_gr           = $row["temporary_gr"];
+
+            // dd($admisssion->temporary_gr);
             $admisssion->gr                     = $row["temporary_gr"];
             $admisssion->bform_crms_no          = $row["bform_crms_no"];
             $admisssion->first_name             = $row["first_name"];
@@ -74,7 +76,7 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
             $admisssion->previous_school        = $row["previous_school"];
             // $admisssion->mobile_no              = $row["mobile_no"];
             // $admisssion->email                  = $row["email"];
-            $admisssion->admission_date         = $row["admission_year"];
+            $admisssion->admission_date         = $row["admission_date"];
             $admisssion->blood_group            = $row["blood_group"];
             $admisssion->height                 = $row["height"];
             $admisssion->weight                 = $row["weight"];
@@ -141,7 +143,7 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
 
             $admisssion->address_details       = json_encode([
                                                     'current_address'    =>  $currentAddress,
-                                                    'same_as_current'    =>  "yes",
+                                                    'same_as_current'    =>  ['same_as_current'  =>  "yes"],
                                                     'permanent_address'  =>  $permanentAddress
                                                 ]);
 
@@ -157,7 +159,7 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
         $data['dob']                            = $data['dob']                  ? date("Y-m-d", strtotime($data['dob']))            : '' ;
         $data['admission_date']                 = $data['admission_year']       ? $data['admission_year']."-08-01"                  : '' ;
         $data['current_city_id']                = 1;
-        $data['temporary_gr']                   = $data['temporary_gr']         ? (string)$data['temporary_gr']                     : '' ;
+        $data['temporary_gr']                   = $data['temporary_gr']         ? (string) $data['temporary_gr']                     : '' ;
         $data['gender']                         = $data['gender']               ? strtolower($data['gender'])                       : '' ;
         $data['student_vaccinated']             = $data['student_vaccinated']   ? strtolower($data['student_vaccinated'])           : '' ;
         $data['first_person_call']              = $data['first_person_call']    ? strtolower($data['first_person_call'])            : '' ;
@@ -192,8 +194,8 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
             }else if($data['guardian_relation'] == "neighbours") {
                 $data['guardian_relation']      = "neighbours";
             }else {
-                // $data['guardian_relation_other']      = $data['guardian_relation'];
                 $data['guardian_relation']      = "other";
+                $data['guardian_relation_other']      = $data['guardian_relation'];
             }
         }
         
@@ -222,7 +224,7 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
 
         return [
             
-            '*.temporary_gr'              =>  'required|unique:admissions,temporary_gr|string|min:1,max:10',  
+            '*.temporary_gr'              =>  'required|unique:admissions,temporary_gr|string|min:1,max:20',  
             // '*.campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',  
             // '*.system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',  
             // '*.class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',  

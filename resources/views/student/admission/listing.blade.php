@@ -119,6 +119,9 @@
                                             <button class="btn btn-primary" type="submit" id="btn-admission-search">
                                                 <i class="fas fa-search"></i>
                                             </button>
+                                            <button class="btn btn-light" type="submit" id="btn-admission-excel-download">
+                                                <i class="fas fa-file-excel"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -874,7 +877,35 @@
                                         </div>
                                     </div>
                                 </div>
-                                
+                                <!-- <div class="row mt-3">
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="class-group-id" class="form-label tx-semibold">Section</label>
+                                            <select name="section_id" id="section-id" class="form-control classGroupSelect2" disabled>
+                                                <option value="">Select Section</option>
+                                                @foreach($data['section'] as $section)
+                                                    <option value="{{$section->id}}">{{$section->section}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                                <!-- <div class="row mt-3">
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label class="form-label tx-semibold">Section</label>
+                                            <div class="pos-relative">
+                                                <select class="form-control select2" name="section_id" id="section-id">
+                                                    <option value="">Select Section</option>
+                                                    @foreach($data['section'] as $section)
+                                                        <option value="{{$section->id}}">{{$section->section}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
                             </form>
                         </div>
                         <div class="modal-footer">

@@ -163,7 +163,7 @@ class AdmissionController extends Controller
 
         $validator = Validator::make($request->all(), [
             'temporary_gr'              =>  'required|unique:admissions,temporary_gr|string|min:1,max:10',  
-            'gr'                        =>  'required|unique:admissions,gr|digits_between:1,11',
+            'gr'                        =>  'required|unique:admissions,gr|string|min:1,max:20',
             'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
             'campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
             'system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
@@ -295,7 +295,7 @@ class AdmissionController extends Controller
                 }
                 
                 if($student->siblings_in_mpa == "yes"){
-                    $student->no_of_siblings  =  $request->no_of_siblings;
+                    $student->no_of_siblings_in_mpa  =  $request->no_of_siblings;
                 }
 
                 $student->student_vaccinated  =  $request->student_vaccinated;
@@ -414,14 +414,14 @@ class AdmissionController extends Controller
 
         $validator = Validator::make($request->all(), [
             'temporary_gr'              =>  'required|string|min:1,max:10|unique:admissions,temporary_gr,'.$request->id,  
-            'gr'                        =>  'required|digits_between:1,11|unique:admissions,gr,'.$request->id,
+            'gr'                        =>  'required|string|min:1,max:20|unique:admissions,gr,'.$request->id,
             'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
             'campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
             'system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
             'class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
             'group_id'                  =>  'nullable|numeric|gt:0|digits_between:1,11',
             'section_id'                =>  'nullable|numeric|gt:0|digits_between:1,11',
-            'bform_crms_no'             =>  'nullable|numeric|gt:0|digits:11',
+            'bform_crms_no'             =>  'nullable|string|max:20',
             'first_name'                =>  'required|alpha|max:30',
             'last_name'                 =>  'required|alpha|max:30',
             'dob'                       =>  'nullable|date',
@@ -477,11 +477,11 @@ class AdmissionController extends Controller
             'vehicle_id'                =>  'nullable|required_if:pick_and_drop,by_school_van|required_if:pick_and_drop,by_private_van|digits_between:1,11',
         ]);
 
-        if ($validator->errors()->all()) {
+        if ($validator->fails()) {
 
             $response = array(
                 'status'  =>  false, 
-                'error'   =>  $validator->errors()->toArray()
+                'error'   =>  $validator->errors()
             );
             
             return response()->json($response);
@@ -491,10 +491,16 @@ class AdmissionController extends Controller
             // DB::beginTransaction();
             try {
                 
-                $student  = Admission::findOrFail($request->id);
-               
+                $studentDeatils  = Admission::findOrFail($request->id);
+                $student  = new \stdClass;
+                // dd($student);
                 if(isset($request->temporary_gr) && !empty($request->temporary_gr)) {
-                    $student->registration_id  = Registration::where('registration_id', $request->temporary_gr)->first()->id;
+                    $registration  = Registration::where('registration_id', $request->temporary_gr)->first();
+                    // dd($registration_id);
+                    if($registration){
+
+                        $student->registration_id  = $registration->id;
+                    }
                 }
 
                 $student->temporary_gr         =  $request->temporary_gr;
@@ -544,7 +550,7 @@ class AdmissionController extends Controller
                 }
                 
                 if($student->siblings_in_mpa == "yes"){
-                    $student->no_of_siblings  =  $request->no_of_siblings;
+                    $student->no_of_siblings_in_mpa  =  $request->no_of_siblings;
                 }
 
                 $student->student_vaccinated  =  $request->student_vaccinated;
@@ -630,8 +636,10 @@ class AdmissionController extends Controller
                 ));
 
                 // dd($student);
+                $data = (array) $student;
+                $update = Admission::where('id',$request->id)->update($data);
                 
-                if($student->save()){
+                if($update){
                     
                     $response = array(
                         'status'   =>  true, 
@@ -652,7 +660,7 @@ class AdmissionController extends Controller
                 $success = false;
                 $response = array(
                     'status'   =>  false, 
-                    'message'  =>  $e
+                    'message'  =>  'éxception '.$e
                 );
                 return response()->json($response);
             }
@@ -697,7 +705,7 @@ class AdmissionController extends Controller
             'system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',
             'class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
             'session_id'                =>  'required|numeric|gt:0|digits_between:1,11',
-            'group_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
+            // 'group_id'                  =>  'required|numeric|gt:0|digits_between:1,11',
             'registeration_ids'         =>  'required|array'
         ]);
 
@@ -794,6 +802,8 @@ class AdmissionController extends Controller
                     $pick_and_drop = str_replace('by_','',$admission->pick_and_drop);
                     $vehicle = Vehicle::where('vehicle_type',$pick_and_drop)->get();
                     $data['vehicle']     =  $vehicle;
+                } else {
+                    $data['vehicle'] = Vehicle::get();
                 }
                 // dd($admission->vehicle_id);
                 // dd($data['vehicle']);
@@ -842,7 +852,7 @@ class AdmissionController extends Controller
                 $data['admission']['guardian_details']  =  json_decode($data['admission']->guardian_details);
                 $data['admission']['address_details']   =  json_decode($data['admission']->address_details);
 
-                // dd($data['admission']->address_details->current_address->current_house_no);
+                // dd($data['admission']->address_details->same_as_current);
                 // dd($data['admission']->guardian_details);
                 
                 return view('student.admission.edit', compact('data'));
@@ -1021,11 +1031,13 @@ class AdmissionController extends Controller
         }
         
         if($request->admission_id){
-            $where['admission_id'] = $request->admission_id;
+            $where['admissions.id'] = $request->admission_id;
         }
 
+        
         $where['admissions.is_active'] = 1;
         $where['admissions.is_delete'] = 0;
+        // dd($where);
 
         $admissionListing  = Admission::select('admissions.*',
                                                 'admissions.id',
@@ -1053,9 +1065,9 @@ class AdmissionController extends Controller
                                         ->get();
         // dd($admissionListing);
 
-        $file_name = date('Y-m-d');
+        $file_name = 'student_details_'.date('d-m-Y');
         
-        Excel::store(new StudentDetailsExport($admissionListing), 'uploads/student/details/student-detail-'.$file_name.'.xlsx');
+        return Excel::download(new StudentDetailsExport($admissionListing), $file_name.'.xlsx');
     }
 
 }

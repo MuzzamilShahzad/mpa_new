@@ -315,7 +315,7 @@
                                     <div class="form-group col-md-4 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">No. of Siblings</label>
-                                            <input type="number" class="form-control" name="no_of_siblings"  id="no-of-siblings"  value="{{ isset($data['admission']) && !empty($data['admission']) ? ( isset($data['admission']->no_of_siblings) ? $data['admission']->no_of_siblings : '') : ''}}">
+                                            <input type="number" class="form-control" name="no_of_siblings"  id="no-of-siblings"  value="{{ isset($data['admission']) && !empty($data['admission']) ? ( isset($data['admission']->no_of_siblings_in_mpa) ? $data['admission']->no_of_siblings_in_mpa : '') : ''}}">
                                         </div>
                                     </div>
 
@@ -601,7 +601,7 @@
                                     <div class="form-group col-md-6 mb-0">
                                         <div class="form-group">
                                             <label class="form-label tx-semibold">House / Apartment Number</label>
-                                            <input type="text" class="form-control" name="permanent_house_no" id="permanent-house-no" {{ isset($data['admission']) && !empty($data['admission']) ? ( isset($data['admission']->address_details->same_as_current->same_as_current) && $data['admission']->address_details->same_as_current->same_as_current == 'yes' ? 'disabled' : '') : ''}} value="{{ isset($data['admission']) && !empty($data['admission']) ? ( isset($data['admission']->address_details->permanent_address->permanent_house_no) && $data['admission']->address_details->same_as_current->same_as_current == 'no' ? $data['admission']->address_details->permanent_address->permanent_house_no : '') : ''}}">
+                                            <input type="text" class="form-control" name="permanent_house_no" id="permanent-house-no"          {{ isset($data['admission']) && !empty($data['admission']) ? ( isset($data['admission']->address_details->same_as_current->same_as_current) && $data['admission']->address_details->same_as_current->same_as_current == 'yes' ? 'disabled' : '') : ''}} value="{{ isset($data['admission']) && !empty($data['admission']) ? ( isset($data['admission']->address_details->permanent_address->permanent_house_no) && $data['admission']->address_details->same_as_current->same_as_current == 'no' ? $data['admission']->address_details->permanent_address->permanent_house_no : '') : ''}}">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6 mb-0">

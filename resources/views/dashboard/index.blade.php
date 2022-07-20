@@ -47,7 +47,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
+                        <!-- <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
                             <div class="card custom-card">
                                 <div class="card-body">
                                     <div class="card-item">
@@ -71,7 +71,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
                             <div class="card custom-card">
                                 <div class="card-body">
@@ -97,7 +97,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
+                        <!-- <div class="col-sm-12 col-md-6 col-lg-6 col-xl-3">
                             <div class="card custom-card">
                                 <div class="card-body">
                                     <div class="card-item">
@@ -121,12 +121,12 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                     <!--End row-->
 
                     <!--row-->
-                    <div class="row row-sm">
+                    <!-- <div class="row row-sm">
                         <div class="col-sm-12 col-lg-12 col-xl-8">
                             <div class="card custom-card overflow-hidden">
                                 <div class="card-header border-bottom d-flex">
@@ -188,13 +188,13 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div><!-- col end -->
             </div>
             <!-- End Row -->
 
             <!--Row-->
-            <div class="row row-sm">
+            <!-- <div class="row row-sm">
                 <div class="col-sm-12 col-md-12 col-lg-12 col-xl-4">
                     <div class="card custom-card overflow-hidden">
                         <div class="card-header border-bottom">
@@ -480,11 +480,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <!-- End Row -->
 
             <!--Row-->
-            <div class="row row-sm">
+            <!-- <div class="row row-sm">
                 <div class="col-lg-12">
                     <div class="card custom-card">
                         <div class="card-header border-bottom">
@@ -744,10 +744,10 @@
                                     </tbody>
                                 </table>
                             </div>
-                        </div><!-- col end -->
-                    </div><!-- col end -->
-                </div><!-- col end -->
-            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
             <!-- End Row -->
         </div>
     </div>

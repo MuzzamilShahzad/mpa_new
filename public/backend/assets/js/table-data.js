@@ -106,7 +106,9 @@ $(function (e) {
 				{
 					"targets": 9,
 					"render": function (data) {
-						var checkbox = `<i class="fas fa-file-excel" id="btn-excel-download-admission" data-id="` + data.id + `" title="Excel"></i> |
+						var checkbox = `<a href="`+ (baseUrl + '/admission/export-excel?admission_id=' + data.id) + `">
+											<i class="fas fa-file-excel" id="btn-excel-download-admission="`+ data.id + `" title="Edit"></i> 
+										</a>|
 										<i class="fas fa-check" id="btn-view-admission" data-id="` + data.id + `" title="View"></i> |
 										<a href="`+ (baseUrl + '/admission/edit/' + data.id) + `">
 											<i class="fas fa-edit" id="btn-edit-admission" data-id="`+ data.id + `" title="Edit"></i> 

@@ -238,10 +238,14 @@ class StudentDetailsExport implements FromArray, WithHeadings, ShouldAutoSize
             $admissionDetails['pick_and_drop']        =  $admission->pick_and_drop;
             
             if($admissionDetails['pick_and_drop'] == "by_ride"){
+                $admissionDetails['vehicle_id']       =  '';
                 $admissionDetails['vehicle_no']       =  $admission->vehicle_no;
             } else if($admissionDetails['pick_and_drop'] == "by_school_van" || $admissionDetails['pick_and_drop'] == "by_private_van") {
                 $admissionDetails['vehicle_id']       =  $admission->vehicle_id;
                 $admissionDetails['vehicle_no']       =  $admission->vehicle_no;
+            } else{
+                $admissionDetails['vehicle_id']       =  '';
+                $admissionDetails['vehicle_no']       =  '';
             }
             
             $admissionDetails['status']        =  $admission->status;
@@ -249,7 +253,7 @@ class StudentDetailsExport implements FromArray, WithHeadings, ShouldAutoSize
 
             // dd($admissionListingDetails);
         }
-
+        
         return [
             $admissionListingDetails
         ];
