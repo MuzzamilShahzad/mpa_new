@@ -906,23 +906,23 @@ class AdmissionController extends Controller
             return response()->json($response);
 
         } else {
-            // $data = [
-            //     "session_id"    => $request->session_id,
-            //     "section_id"    => $request->section_id,
-            //     "campus_id"     => $request->campus_id,
-            //     "system_id"     => $request->system_id,
-            //     "class_id"      => $request->class_id,
-            //     "group_id"      => $request->group_id
-            // ];
-            
             $data = [
-                "session_id"    => 1,
-                "section_id"    => 1,
-                "campus_id"     => 1,
-                "system_id"     => 1,
-                "class_id"      => 1,
-                "group_id"      => 1
+                "session_id"    => $request->session_id,
+                "section_id"    => $request->section_id,
+                "campus_id"     => $request->campus_id,
+                "system_id"     => $request->system_id,
+                "class_id"      => $request->class_id,
+                "group_id"      => $request->group_id
             ];
+            
+            // $data = [
+            //     "session_id"    => 1,
+            //     "section_id"    => 1,
+            //     "campus_id"     => 1,
+            //     "system_id"     => 1,
+            //     "class_id"      => 1,
+            //     "group_id"      => 1
+            // ];
 
             $import = new StudentAdmissionImport($data);
             $dataForExport = [];
