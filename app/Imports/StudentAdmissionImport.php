@@ -224,68 +224,67 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
 
         return [
             
-            '*.temporary_gr'              =>  'required|unique:admissions,temporary_gr|string|min:1,max:20',  
-            // '*.campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',  
-            // '*.system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',  
-            // '*.class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',  
-            // '*.section_id'                =>  'required|numeric|gt:0|digits_between:1,11',  
+            // '*.temporary_gr'              =>  'required|unique:admissions,temporary_gr|string|min:1,max:20',  
+            '*.temporary_gr'              =>  'required|string|max:20',  
             '*.campus'                    =>  'required|string|min:8,max:30',  
             '*.system'                    =>  'required|string|min:6,max:30',  
             '*.class'                     =>  'required|string|min:4,max:30',  
             '*.section'                   =>  'required|string|min:1,max:30',  
-            '*.bform_crms_no'             =>  'nullable|min:5,max:20',
+            '*.bform_crms_no'             =>  'nullable|string|min:5,max:20',
             '*.dob'                       =>  'nullable|date',
             '*.gender'                    =>  'required|in:male,female',
             '*.place_of_birth'            =>  'nullable|alpha|max:30',                                      // required => karachi
             '*.nationality'               =>  'required|alpha|max:30',
             '*.mother_tongue'             =>  'required|alpha|max:30',
             '*.first_name'                =>  'required|string|max:30',
-            '*.last_name'                 =>  'required|string|max:30',
+            '*.last_name'                 =>  'nullable|string|max:30',
             '*.religion'                  =>  'required|in:islam,Islam',                         // issue if asna ok else other
             '*.religion_type'             =>  'nullable|in:sunni,asna_ashri,other',                         // issue if asna ok else other
             '*.religion_type_other'       =>  'nullable|required_if:religion_type,other|max:20',            // invalid => n/a
-            '*.admission_year'            =>  'required|max:'.(date('Y')+1),                                              // invalid => 1 aug
+            // '*.admission_year'            =>  'required|max:'.(date('Y')+1),                                              // invalid => 1 aug
+            '*.admission_year'            =>  'required|numeric|min:4|max:4',                                             // invalid => 1 aug
             '*.admission_class'           =>  'nullable|string|max:20',
             '*.previous_school'           =>  'nullable|max:30',
             '*.blood_group'               =>  'nullable|min:2|max:3',
             '*.height'                    =>  'nullable|gt:0|between:1,10',
-            '*.weight'                    =>  'nullable|gt:0',
+            '*.weight'                    =>  'nullable|gt:0|between:1,150',
             '*.student_vaccinated'        =>  'nullable|in:yes,no',
             // '*.mobile_no'                 =>  'nullable|max:20',
             // '*.email'                     =>  'nullable|email|max:30',
             // '*.as_on_date'                =>  'nullable|date',
             // '*.fees_discount'             =>  'nullable|min:0|digits_between:1,3',
             '*.father_name'               =>  'required|max:30',
-            '*.father_cnic'               =>  'required|numeric|gt:0|digits:13',
-            '*.father_phone'              =>  'nullable|numeric|gt:0|digits:11',                
+            // '*.father_cnic'               =>  'required|numeric|gt:0|digits:13',
+            '*.father_cnic'               =>  'required|string|max:20',
+            '*.father_phone'              =>  'nullable|string|min:11|max:20',                
             '*.father_email'              =>  'nullable|email|max:30',
             '*.father_occupation'         =>  'nullable|string|max:30',
-            '*.father_company_name'       =>  'nullable|max:40',                                            // 30 -> 40                    
-            '*.father_salary'             =>  'nullable|numeric|gt:0|digits_between:1,11',
+            '*.father_company_name'       =>  'nullable|string|max:40',                                            // 30 -> 40                    
+            '*.father_salary'             =>  'nullable|numeric|gt:0|digits_between:1,10',
             '*.father_vaccinated'         =>  'nullable|in:yes,no',
             '*.mother_name'               =>  'required|max:30',
-            '*.mother_cnic'               =>  'required|numeric|gt:0|digits:13',
-            '*.mother_phone'              =>  'nullable|numeric|gt:0|digits:11',                    
+            '*.mother_cnic'               =>  'required|string|max:20',
+            '*.mother_phone'              =>  'nullable|string|min:11|max:20',                    
             '*.mother_email'              =>  'nullable|email|max:30',
             '*.mother_occupation'         =>  'nullable|string:30',
-            '*.mother_company_name'       =>  'nullable|max:30',
-            '*.mother_salary'             =>  'nullable|numeric|gt:0|digits_between:1,11',
+            '*.mother_company_name'       =>  'nullable|max:40',
+            '*.mother_salary'             =>  'nullable|numeric|gt:0|digits_between:1,10',
             '*.mother_vaccinated'         =>  'nullable|in:yes,no',
-            '*.current_house_no'          =>  'required|max:60',
-            '*.current_block_no'          =>  'required|max:60',
-            '*.current_area'              =>  'required|string',
+            '*.current_house_no'          =>  'required|max:30',
+            '*.current_block_no'          =>  'required|max:30',
+            '*.current_area'              =>  'required|string|max:30',
             // '*.guardian_cnic'             =>  'nullable|numeric|gt:0|digits:13',
             '*.guardian_name'             =>  'nullable|max:30',
-            '*.guardian_phone'            =>  'nullable|numeric|gt:0|digits:11',
+            '*.guardian_phone'            =>  'nullable|string|min:11|max:20',
             '*.guardian_relation'         =>  'nullable|in:uncle_aunty,grandfather_grandmother,neighbours,other',       // invalid
             // '*.guardian_relation_other'   =>  'nullable|required_if:guardian_relation,other|max:20',
             '*.first_person_call'         =>  'required|in:father,mother,guardian',
             '*.pick_and_drop'             =>  'required|in:by_walk,by_ride,by_private_van,by_school_van',
-            '*.total_no_of_siblings'      =>  'nullable|numeric|gt:0|digits_between:1,11', 
-            '*.siblings_in_mpa'           =>  'nullable|numeric|gt:0|digits_between:1,11',
-            // '*.no_of_siblings'            =>  'nullable|numeric|required_if:siblings_in_mpa,gt:0|gt:0|digits_between:1,11',  // issue
-            '*.vehicle_number'                =>  'nullable|required_if:pick_and_drop,by_ride|max:20',
-            // '*.vehicle_id'                =>  'nullable|required_if:pick_and_drop,by_school_van|required_if:pick_and_drop,by_private_van|digits_between:1,11',
+            '*.total_no_of_siblings'      =>  'nullable|numeric|gt:0|digits_between:1,10', 
+            '*.siblings_in_mpa'           =>  'nullable|numeric|gt:0|digits_between:1,10',
+            // '*.no_of_siblings'            =>  'nullable|numeric|required_if:siblings_in_mpa,gt:0|gt:0|digits_between:1,10',  // issue
+            // '*.vehicle_number'                =>  'nullable|required_if:pick_and_drop,by_ride|max:20',
+            // '*.vehicle_id'                =>  'nullable|required_if:pick_and_drop,by_school_van|required_if:pick_and_drop,by_private_van|digits_between:1,10',
             
         ];
     }
