@@ -917,12 +917,10 @@ class AdmissionController extends Controller
 
             $dataForExport = [];
             $errorsForReurnToBladeFile = [];
-            
-            
+
             try {
 
                 $import = new StudentAdmissionImport($data);
-                
                 $import->import(request()->file('import_file'));
 
                 foreach ($import->failures() as $failure) {
