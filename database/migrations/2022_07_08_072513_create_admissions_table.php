@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedInteger('registration_id')->nullable();
             $table->foreign('registration_id')->references('id')->on('student_registrations')->onDelete('cascade');
 
-            $table->string('temporary_gr',10)->unique();
+            $table->string('temporary_gr',20)->unique();
             $table->string('gr',20)->unique();
             $table->string('roll_no',10)->nullable();
 
