@@ -857,18 +857,12 @@ class AdmissionController extends Controller
                 
                 return view('student.admission.edit', compact('data'));
                 
-                
             } else {
 
                 $data['admission']  =  $admission;
                 return redirect()->view('student.admission.edit', compact('data'));
             }
-
-            
-            
         }
-        
-
     }
 
     public function import(){
