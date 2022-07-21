@@ -914,22 +914,13 @@ class AdmissionController extends Controller
                 "class_id"      => $request->class_id,
                 "group_id"      => $request->group_id
             ];
-            
-            // $data = [
-            //     "session_id"    => 1,
-            //     "section_id"    => 1,
-            //     "campus_id"     => 1,
-            //     "system_id"     => 1,
-            //     "class_id"      => 1,
-            //     "group_id"      => 1
-            // ];
 
-            $import = new StudentAdmissionImport($data);
             $dataForExport = [];
             $errorsForReurnToBladeFile = [];
 
-
             try {
+
+                $import = new StudentAdmissionImport($data);
                 $import->import(request()->file('import_file'));
 
                 foreach ($import->failures() as $failure) {

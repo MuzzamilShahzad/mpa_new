@@ -54,12 +54,13 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
                         
             $admisssion                         = new Admission();
 
-            $admisssion->campus_id              = $this->campus_id;
-            $admisssion->class_id               = $this->class_id;
-            $admisssion->section_id             = $this->section_id;
-            $admisssion->session_id             = $this->session_id;
-            $admisssion->group_id               = $this->group_id;
-            $admisssion->system_id              = $this->system_id;
+            $admisssion                         = new Admission();
+            $admisssion->campus_id              = (isset($this->campus_id)  && !empty($this->campus_id)     ? $this->campus_id      : $row["campus_id"]);
+            $admisssion->class_id               = (isset($this->class_id)   && !empty($this->class_id)      ? $this->class_id       : $row["class_id"]);
+            $admisssion->section_id             = (isset($this->section_id) && !empty($this->section_id)    ? $this->section_id     : $row["section_id"]);
+            $admisssion->session_id             = isset($this->session_id) ? $this->session_id : '' ;
+            $admisssion->group_id               = isset($this->group_id) ? $this->group_id : '';
+            $admisssion->system_id              = (isset($this->system_id)  && !empty($this->system_id)     ? $this->system_id      : $row["system_id"]);
             $admisssion->temporary_gr           = $row["temporary_gr"];
 
             // dd($admisssion->temporary_gr);
@@ -156,26 +157,56 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
     public function prepareForValidation($data, $index)
     {
 
-        $data['dob']                            = $data['dob']                  ? date("Y-m-d", strtotime($data['dob']))            : '' ;
-        $data['admission_date']                 = $data['admission_year']       ? $data['admission_year']."-08-01"                  : '' ;
-        $data['current_city_id']                = 1;
-        $data['temporary_gr']                   = $data['temporary_gr']         ? (string) $data['temporary_gr']                     : '' ;
-        $data['gender']                         = $data['gender']               ? strtolower($data['gender'])                       : '' ;
-        $data['student_vaccinated']             = $data['student_vaccinated']   ? strtolower($data['student_vaccinated'])           : '' ;
-        $data['first_person_call']              = $data['first_person_call']    ? strtolower($data['first_person_call'])            : '' ;
-        
-        $data['mother_vaccinated']              = $data['mother_vaccinated']    ? strtolower($data['mother_vaccinated'])            : '' ;
-        $data['mother_cnic']                    = $data['mother_cnic']          ? str_replace('-', '', $data['mother_cnic'])        : '' ;       
-        $data['mother_phone']                   = $data['mother_phone']         ? str_replace('-', '', $data['mother_phone'])       : '' ;       
-        $data['mother_salary']                  = $data['mother_salary']        ? str_replace('k', '000', strtolower($data["mother_salary"]))   : '' ;
-        
-        $data['father_cnic']                    = $data['father_cnic']          ? str_replace('-', '', $data['father_cnic'])        : '' ;       
-        $data['father_vaccinated']              = $data['father_vaccinated']    ? strtolower($data['father_vaccinated'])            : '' ;
-        $data['father_phone']                   = $data['father_phone']         ? str_replace('-', '', $data['father_phone'])       : '' ;       
-        $data['father_salary']                  = $data['father_salary']        ? str_replace('k', '000', strtolower($data["father_salary"]))   : '' ;
+        // dd(explode('-', trim(preg_replace('/\s+/', '-', str_replace('-', '', $data["father_phone"]))))[0]);
+        // dd(explode('-', trim(preg_replace('/\s+/', '-', $data["mother_phone"]))));
 
-        $data['pick_and_drop']                  = $data['pick_and_drop']        ? str_replace(' ', '_', $data["pick_and_drop"])     : '' ;
-        $data['pick_and_drop']                  = $data['pick_and_drop']        ? strtolower($data['pick_and_drop'])                : '' ;
+        if(isset($data["class"]) && !empty($data["class"])) {
+            $result                             = Classes::where('class', $data["class"])->first();
+            $data["class_id"]                   = $result ? $result->id : "";
+        }
+
+        if(isset($data["section"]) && !empty($data["section"])) {
+            $result                             = Section::where('section', $data["section"])->first();
+            $data["section_id"]                 = ($result) ? $result->id : "";
+        }
+
+        if(isset($data["system"]) && !empty($data["system"])) {
+            $result                             = System::where('system', $data["system"])->first();
+            $data["system_id"]                  = ($result) ? $result->id : "";
+        }
+
+        if(isset($data["admission_class"]) && !empty($data["admission_class"])) {
+            $result                             = Classes::where('class', $data["admission_class"])->first();
+            $data["previous_class_id"]          = ($result) ? $result->id : "";
+        }
+
+        if(isset($data["campus"]) && !empty($data["campus"])) {
+            $campus_name                        = "Campus ".$this->numberToRomanRepresentation((int) filter_var($data["campus"], FILTER_SANITIZE_NUMBER_INT));
+            $result                             = Campus::where('campus', $campus_name)->first();
+            $data["campus_id"]                  = ($result) ? $result->id : "";
+        }
+
+        $data['dob']                            = isset($data['dob'])                  ? date("Y-m-d", strtotime($data['dob']))            : '' ;
+        $data['admission_date']                 = isset($data['admission_year'])       ? $data['admission_year']."-08-01"                  : '' ;
+        $data['current_city_id']                = 1;
+        $data['temporary_gr']                   = isset($data['temporary_gr'])         ? (string) $data['temporary_gr']                    : '' ;
+        $data['gender']                         = isset($data['gender'])               ? strtolower($data['gender'])                       : '' ;
+        $data['student_vaccinated']             = isset($data['student_vaccinated'])   ? strtolower($data['student_vaccinated'])           : '' ;
+        $data['first_person_call']              = isset($data['first_person_call'])    ? strtolower($data['first_person_call'])            : '' ;
+        
+        $data['mother_vaccinated']              = isset($data['mother_vaccinated'])    ? strtolower($data['mother_vaccinated'])            : '' ;
+        $data['mother_cnic']                    = isset($data['mother_cnic'])          ? str_replace('-', '', $data['mother_cnic'])        : '' ;       
+        $data['mother_phone']                   = isset($data["mother_phone"])  ? explode('-', trim(preg_replace('/\s+/', '-', str_replace('-', '', $data["mother_phone"]))))[0] : '';
+        $data['mother_phone']                   = isset($data["guardian_phone"])  ? explode('-', trim(preg_replace('/\s+/', '-', str_replace('-', '', $data["guardian_phone"]))))[0] : '';
+        $data['mother_salary']                  = isset($data['mother_salary'])        ? str_replace('k', '000', strtolower($data["mother_salary"]))   : '' ;
+        
+        $data['father_cnic']                    = isset($data['father_cnic'])          ? str_replace('-', '', $data['father_cnic'])        : '' ;       
+        $data['father_vaccinated']              = isset($data['father_vaccinated'])    ? strtolower($data['father_vaccinated'])            : '' ;
+        $data['father_phone']                   = isset($data['father_phone'])         ? explode('-', trim(preg_replace('/\s+/', '-', str_replace('-', '', $data["father_phone"]))))[0]       : '' ;       
+        $data['father_salary']                  = isset($data['father_salary'])       ? str_replace('k', '000', strtolower($data["father_salary"]))   : '' ;
+
+        $data['pick_and_drop']                  = isset($data['pick_and_drop'])        ? str_replace(' ', '_', $data["pick_and_drop"])     : '' ;
+        $data['pick_and_drop']                  = isset($data['pick_and_drop'])        ? strtolower($data['pick_and_drop'])                : '' ;
 
         $data['religion_type']   = strtolower(['sunni'] == 'yes') ? 'sunni' : (strtolower(['asna_ashri'] == 'yes') ? 'asna_ashri' : 'other');
         $data['religion_type_other']   = strtolower(['sunni'] == 'yes') ? '' : (strtolower(['asna_ashri'] == 'yes') ? '' : $data['religion_type']);
@@ -200,17 +231,14 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
         }
         
         if(isset($data["current_area"]) && !empty($data["current_area"])) {
-            $result                             = Area::where('area', $data["current_area"])->first();
-            // if(!$result) {
-            //     $area                           = new Area;
-            //     $area->area                     = ucfirst($data["current_area"]);
-            //     $area->save();
-            //     $data["current_area_id"]                   = $area->id;
-            // }else {
-            //     $data["current_area_id"]                   = $result->id;
-            // }
+            $result                             = Area::where('area', 'like', '%'.$data["current_area"].'%')->first();
+            if($result) {
+                $data["current_area"]                   = $result->id;
+            }else {
+                $data["current_area"]                   = "";
+            }
 
-            $data["current_area_id"]                   = 1;
+            // $data["current_area_id"]                   = 1;
         }
         return $data;
 
@@ -221,14 +249,14 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
     */
     public function rules(): array
     {
-
         return [
             
-            '*.temporary_gr'              =>  'required|unique:admissions,temporary_gr|string|min:1,max:20',  
-            // '*.campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',  
-            // '*.system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',  
-            // '*.class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',  
-            // '*.section_id'                =>  'required|numeric|gt:0|digits_between:1,11',  
+            // '*.temporary_gr'              =>  'required|unique:admissions,temporary_gr|string|min:1,max:20',  
+            '*.temporary_gr'              =>  'required|string|min:1,max:20',  
+            '*.campus_id'                 =>  'required|numeric|gt:0|digits_between:1,11',  
+            '*.system_id'                 =>  'required|numeric|gt:0|digits_between:1,11',  
+            '*.class_id'                  =>  'required|numeric|gt:0|digits_between:1,11',  
+            '*.section_id'                =>  'required|numeric|gt:0|digits_between:1,11',  
             '*.campus'                    =>  'required|string|min:8,max:30',  
             '*.system'                    =>  'required|string|min:6,max:30',  
             '*.class'                     =>  'required|string|min:4,max:30',  
