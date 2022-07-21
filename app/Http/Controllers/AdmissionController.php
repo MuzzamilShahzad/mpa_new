@@ -893,7 +893,7 @@ class AdmissionController extends Controller
             'system_id'         =>  'nullable|numeric|gt:0|digits_between:1,11',
             'class_id'          =>  'nullable|numeric|gt:0|digits_between:1,11',
             'group_id'          =>  'nullable|numeric|gt:0|digits_between:1,11',
-            // 'import_file'       =>  'required|mimes:xlsx,csv'
+            'import_file'       =>  'required|mimes:xlsx,xls,csv'
         ]);
        
         if($validator->fails()) {
