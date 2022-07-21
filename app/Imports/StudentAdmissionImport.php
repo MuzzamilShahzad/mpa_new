@@ -15,6 +15,10 @@ use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
+use App\Models\Classes;
+use App\Models\Section;
+use App\Models\System;
+use App\Models\Campus;
 use App\Models\Area;
 
 class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadingRow, SkipsOnFailure, ShouldAutoSize
