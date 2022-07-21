@@ -13,10 +13,11 @@ use Maatwebsite\Excel\Validators\Failure;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
 use App\Models\Area;
 
-class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadingRow, SkipsOnFailure
+class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadingRow, SkipsOnFailure, ShouldAutoSize
 {
 
     use Importable, SkipsFailures;
@@ -230,7 +231,7 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
             '*.system'                    =>  'required|string|min:6,max:30',  
             '*.class'                     =>  'required|string|min:4,max:30',  
             '*.section'                   =>  'required|string|min:1,max:30',  
-            '*.bform_crms_no'             =>  'nullable|string|min:5,max:20',
+            '*.bform_crms_no'             =>  'nullable|min:5,max:20',
             '*.dob'                       =>  'nullable|date',
             '*.gender'                    =>  'required|in:male,female',
             '*.place_of_birth'            =>  'nullable|alpha|max:30',                                      // required => karachi
@@ -242,7 +243,7 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
             '*.religion_type'             =>  'nullable|in:sunni,asna_ashri,other',                         // issue if asna ok else other
             '*.religion_type_other'       =>  'nullable|required_if:religion_type,other|max:20',            // invalid => n/a
             // '*.admission_year'            =>  'required|max:'.(date('Y')+1),                                              // invalid => 1 aug
-            '*.admission_year'            =>  'required|numeric|min:4|max:4',                                             // invalid => 1 aug
+            '*.admission_year'            =>  'required|numeric|digits:4',                                             // invalid => 1 aug
             '*.admission_class'           =>  'nullable|string|max:20',
             '*.previous_school'           =>  'nullable|max:30',
             '*.blood_group'               =>  'nullable|min:2|max:3',

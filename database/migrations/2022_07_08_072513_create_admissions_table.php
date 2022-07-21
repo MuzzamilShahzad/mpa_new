@@ -44,7 +44,7 @@ return new class extends Migration
 
             $table->string('bform_crms_no',20)->nullable();
             $table->string('first_name',30);
-            $table->string('last_name',30);
+            $table->string('last_name',30)->nullable();
             $table->date('dob')->nullable();
             $table->string('gender',6);
             $table->string('place_of_birth',30);
