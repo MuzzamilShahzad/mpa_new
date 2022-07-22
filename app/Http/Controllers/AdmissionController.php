@@ -18,6 +18,7 @@ use App\Imports\StudentAdmissionImport;
 use App\Exports\StudentAdmissionExport;
 use App\Exports\StudentDetailsExport;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Session as Sessions;
 
 class AdmissionController extends Controller
 {
@@ -917,11 +918,12 @@ class AdmissionController extends Controller
 
             $dataForExport = [];
             $errorsForReurnToBladeFile = [];
-            
+            $flag = false;
+            $file_path = "";
+
             try {
 
                 $import = new StudentAdmissionImport($data);
-                
                 $import->import(request()->file('import_file'));
 
                 foreach ($import->failures() as $failure) {
@@ -932,20 +934,21 @@ class AdmissionController extends Controller
                     // $failure->values();     // The values of the row that has failed.
 
                     if($failure->row()) {
+                        $flag = true;
                         $errorsForReurnToBladeFile [$failure->row()][$failure->attribute()] = $failure->errors();
                         $dataForExport [$failure->row()] = $failure->values();    
                     }
                }
 
-                ksort($dataForExport);
-                ksort($errorsForReurnToBladeFile);
-
-                // dd($errorsForReurnToBladeFile);
-                $file_name = date('Y-m-d_H-i-s');          
-
-                // Excel::store(new StudentAdmissionExport($dataForExport, $failure->errors()), 'uploads/student/admissions/student-admission-'.$file_name.'.xlsx');
-                Excel::store(new StudentAdmissionExport($dataForExport, $errorsForReurnToBladeFile), 'uploads/student/admissions/student-admission-'.$file_name.'.xlsx');
-
+               if($flag) {
+                    ksort($dataForExport);
+                    ksort($errorsForReurnToBladeFile);
+                    // dd($errorsForReurnToBladeFile);
+                    $file_name = date('Y-m-d_H-i-s');          
+                    // Excel::store(new StudentAdmissionExport($dataForExport, $failure->errors()), 'uploads/student/admissions/student-admission-'.$file_name.'.xlsx');
+                    Excel::store(new StudentAdmissionExport($dataForExport, $errorsForReurnToBladeFile), 'uploads/student/admissions/student-admission-'.$file_name.'.xlsx', 'public');  
+                    Sessions::put('excel_file_path', 'uploads/student/admissions/student-admission-'.$file_name.'.xlsx');
+                }
                 
                 return redirect()->back()->with('errors', $errorsForReurnToBladeFile);
             } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
@@ -958,16 +961,18 @@ class AdmissionController extends Controller
                     $failure->values();     // The values of the row that has failed.
 
                     if($failure->row()) {
+                        $flag = true;
                         $errorsForReurnToBladeFile [$failure->row()][$failure->attribute()] = $failure->errors();
                         $dataForExport [$failure->row()] = $failure->values();    
                     }
                }
 
-                ksort($dataForExport);
-                $file_name = date('Y-m-d_H-i-s');          
-
-                Excel::store(new StudentAdmissionExport($dataForExport), 'uploads/student/admissions/student-admission-'.$file_name.'.xlsx');
-
+               if($flag) {
+                    ksort($dataForExport);
+                    $file_name = date('Y-m-d_H-i-s');          
+                    Excel::store(new StudentAdmissionExport($dataForExport), 'public/uploads/student/admissions/student-admission-'.$file_name.'.xlsx');
+                    $file_path = 'student-admission-2022-07-19_19-29-16'.$file_name.'.xlsx';
+            }
                 // foreach ($failures as $key => $failure) {
                 //     echo "<pre>";
                 //     print_r($failure->row());    

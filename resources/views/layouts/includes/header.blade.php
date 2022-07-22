@@ -5,8 +5,8 @@
 
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
-    <meta name="description" content="Dashplex -  Admin Panel HTML Dashboard Template">
-    <meta name="author" content="Spruko Technologies Private Limited">
+    <meta name="description" content="IVEM -  Admin Panel">
+    <meta name="author" content="IVEM">
     <meta name="keywords"
         content="admin, dashboard, admin dashboard, admin template, crypto, crypto dashboard, sales dashboard, bootstrap 5 admin template, ecommerce template, ecommerce dashboard, responsive dashboard, admin panel, bootstrap 5 admin dashboard, cryptocurrency dashboard, bootstrap dashboard, multi dashboard, html, responsive, responsive admin, bootstrap admin template, dashboard template, bootstrap">
 

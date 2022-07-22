@@ -13,14 +13,15 @@ use Maatwebsite\Excel\Validators\Failure;
 use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-use App\Models\Area;
 use App\Models\Classes;
 use App\Models\Section;
-use App\Models\Campus;
 use App\Models\System;
+use App\Models\Campus;
+use App\Models\Area;
 
-class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadingRow, SkipsOnFailure
+class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadingRow, SkipsOnFailure, ShouldAutoSize
 {
 
     use Importable, SkipsFailures;
@@ -37,7 +38,7 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
     {
 
         ini_set('memory_limit', '3000M');
-        ini_set('max_execution_time', '600');
+        ini_set('max_execution_time', '6000');
 
         $this->campus_id        = $data["campus_id"];
         $this->class_id         = $data["class_id"];
@@ -58,16 +59,16 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
 
         // dd($rows);
         foreach($rows as $row) {
-                        
-            $admisssion                         = new Admission();
 
             $admisssion                         = new Admission();
-            $admisssion->campus_id              = (isset($this->campus_id)  && !empty($this->campus_id)     ? $this->campus_id      : $row["campus_id"]);
+            $admisssion->campus_id              = (isset($this->campus_id)  && !empty($this->campus_id)     ? $this->campus_id      : 2);
             $admisssion->class_id               = (isset($this->class_id)   && !empty($this->class_id)      ? $this->class_id       : $row["class_id"]);
             $admisssion->section_id             = (isset($this->section_id) && !empty($this->section_id)    ? $this->section_id     : $row["section_id"]);
             $admisssion->session_id             = isset($this->session_id) ? $this->session_id : '1' ;
             $admisssion->group_id               = isset($this->group_id) ? $this->group_id : NULL;
-            $admisssion->system_id              = (isset($this->system_id)  && !empty($this->system_id)     ? $this->system_id      : $row["system_id"]);
+            $admisssion->system_id              = (isset($this->system_id)  && !empty($this->system_id)     ? $this->system_id      : (isset($row["system_id"]) && !empty($row["system_id"]) ? $row["system_id"] : 1));
+            // dd($admisssion->system_id.$row["last_name"]);
+            // $admisssion->system_id              = 1;
             $admisssion->temporary_gr           = isset($row["temporary_gr"]) ? $row["temporary_gr"] : '';
 
             // dd($admisssion->temporary_gr);
@@ -75,16 +76,17 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
             $admisssion->bform_crms_no          = isset($row["bform_crms_no"]) ? $row["bform_crms_no"] : '';
             $admisssion->first_name             = isset($row["first_name"]) ? $row["first_name"] : '';
             $admisssion->last_name              = isset($row["last_name"]) ? $row["last_name"] : '';
-            $admisssion->dob                    = isset($row["dob"]) ? $row["dob"] : '';
+            $admisssion->dob                    = isset($row["dob"]) ? $row["dob"] : NULL;
             $admisssion->gender                 = isset($row["gender"]) ? $row["gender"] : '';
             $admisssion->place_of_birth         = "Karachi";
-            $admisssion->nationality            = isset($row["nationality"]) ? $row["nationality"] : '';
+            $admisssion->nationality            = isset($row["nationality"]) ? str_replace(' ','', $row["nationality"]) : '';
             $admisssion->mother_tongue          = isset($row["mother_tongue"]) ? $row["mother_tongue"] : '';
             // $admisssion->previous_class_id      = isset($row["previous_class_id"]) ? $row["previous_class_id"] : '';
             $admisssion->previous_school        = isset($row["previous_school"]) ? $row["previous_school"] : '';
-            // $admisssion->mobile_no              = isset($row["mobile_no"]) ? $row["mobile_no"] : '';
+            $admisssion->mobile_no              = isset($row["phone"]) ? $row["phone"] : '';
             // $admisssion->email                  = isset($row["email"]) ? $row["email"] : '';
-            $admisssion->admission_date         = isset($row["admission_date"]) ? $row["admission_date"] : '';
+
+            $admisssion->admission_date         = isset($row["admission_date"])  ? (strlen($row["admission_date"]) > 4 ? date("Y-m-d", strtotime($row["admission_date"])) : date("Y-m-d", strtotime($row["admission_date"]))."-08-01") : NULL;
             $admisssion->blood_group            = isset($row["blood_group"]) ? $row["blood_group"] : '';
             $admisssion->height                 = isset($row["height"]) ? $row["height"] : '';
             $admisssion->weight                 = isset($row["weight"]) ? $row["weight"] : '';
@@ -94,10 +96,10 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
             $admisssion->religion_type          = (isset($row["religion_type"]) && !empty($row["religion_type"]) && $row["religion_type"] == 'yes' ? 'asna_ashri' : "other");
             $admisssion->religion_type_other    = (isset($row["religion_type_other"]) && !empty($row["religion_type_other"] && $row["religion_type_other"] == "yes") ? $row["religion_type_other"] : "N/A");
             $admisssion->siblings_in_mpa        = (isset($row["siblings_in_mpa"]) && !empty($row["siblings_in_mpa"]) && ($row["siblings_in_mpa"] > 0) ? "yes" : "no");
-            $admisssion->total_no_of_siblings   = isset($row["total_no_of_siblings"]) ? $row["total_no_of_siblings"] : '';
-            $admisssion->no_of_siblings_in_mpa  = isset($row["siblings_in_mpa"]) ? $row["siblings_in_mpa"] : '';
-            $admisssion->student_vaccinated     = isset($row["student_vaccinated"]) ? $row["student_vaccinated"] : '';
-            $admisssion->pick_and_drop          = isset($row["pick_and_drop"]) ? $row["pick_and_drop"] : '';
+            $admisssion->total_no_of_siblings   = isset($row["total_no_of_siblings"]) ? $row["total_no_of_siblings"] : null;
+            $admisssion->no_of_siblings_in_mpa  = isset($row["siblings_in_mpa"]) ? $row["siblings_in_mpa"] : null;
+            $admisssion->student_vaccinated     = isset($row["student_vaccinated"]) ? $row["student_vaccinated"] : 'no';
+            $admisssion->pick_and_drop          = isset($row["pick_and_drop"]) && !empty($data["pick_and_drop"]) ? $row["pick_and_drop"] : 'by_walk';
 
             $admisssion->father_details         = json_encode([
                                                     "name"              => isset($row["father_name"]) ? $row["father_name"] : '',
@@ -164,6 +166,8 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
     public function prepareForValidation($data, $index)
     {
 
+
+
         // dd(explode('-', trim(preg_replace('/\s+/', '-', str_replace('-', '', $data["father_phone"]))))[0]);
         // dd(explode('-', trim(preg_replace('/\s+/', '-', $data["mother_phone"]))));
 
@@ -199,12 +203,18 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
             $data["campus_id"]                  = ($result) ? $result->id : "";
         }
 
-        $data['dob']                            = isset($data['dob'])                  ? date("Y-m-d", strtotime($data['dob']))            : '' ;
-        $data['admission_date']                 = isset($data['admission_year'])       ? $data['admission_year']."-08-01"                  : '' ;
+        $data['religion']                       = isset($data['religion'])             ? strtolower($data["religion"])                     : '' ;
+        $data['weight']                         = isset($data['weight']) && $data["weight"] > 0              ? $data["weight"]                                 : '0.0' ;
+        $data['height']                         = isset($data['height']) && $data["height"] > 0              ? $data["height"] : '0.0' ;
+
+        // dd([$data['weight'], $data['height']]);
+
+        $data['dob']                            = isset($data['dob'])                  ? date("Y-m-d", strtotime($data['dob']))            : NULL ;
+        $data['admission_date']                 = isset($data['admission_year']) && !empty($data["admission_year"])       ? $data['admission_year']."-08-01"                  : NULL ;
         $data['current_city_id']                = 1;
         $data['temporary_gr']                   = isset($data['temporary_gr'])         ? (string) $data['temporary_gr']                    : '' ;
         $data['gender']                         = isset($data['gender'])               ? strtolower($data['gender'])                       : '' ;
-        $data['student_vaccinated']             = isset($data['student_vaccinated'])   ? strtolower($data['student_vaccinated'])           : '' ;
+        $data['student_vaccinated']             = isset($data['student_vaccinated'])   ? strtolower($data['student_vaccinated'])           : 'no' ;
         $data['first_person_call']              = isset($data['first_person_call'])    ? strtolower($data['first_person_call'])            : '' ;
         
         $data['mother_vaccinated']              = isset($data['mother_vaccinated'])    ? strtolower($data['mother_vaccinated'])            : '' ;
@@ -221,8 +231,15 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
         $data['pick_and_drop']                  = isset($data['pick_and_drop'])        ? str_replace(' ', '_', $data["pick_and_drop"])     : '' ;
         $data['pick_and_drop']                  = isset($data['pick_and_drop'])        ? strtolower($data['pick_and_drop'])                : '' ;
 
-        $data['religion_type']   = strtolower(['sunni'] == 'yes') ? 'sunni' : (strtolower(['asna_ashri'] == 'yes') ? 'asna_ashri' : 'other');
-        $data['religion_type_other']   = strtolower(['sunni'] == 'yes') ? '' : (strtolower(['asna_ashri'] == 'yes') ? '' : $data['religion_type']);
+
+        $data['sunni']                          = isset($data['sunni'])         ? strtolower($data['sunni']) : '';
+        $data['asna_ashri']                     = isset($data['asna_ashri'])    ? strtolower($data['asna_ashri']) : '';
+
+        $data['religion_type']                  = isset($data['sunni']) && strtolower($data['sunni']) == 'yes' ? 'sunni' : (isset($data['sunni']) && strtolower($data['asna_ashri']) == 'yes' ? 'asna_ashri'  : 'other');
+        $data['religion_type_other']            = strtolower($data['sunni']) == 'yes' ? ''      : (strtolower($data['asna_ashri']) == 'yes' ? ''            : $data["religion_type_other"]);
+
+        // $data['religion_type']   = strtolower(['sunni'] == 'yes') ? 'sunni' : (strtolower(['asna_ashri'] == 'yes') ? 'asna_ashri' : 'other');
+        // $data['religion_type_other']   = strtolower(['sunni'] == 'yes') ? '' : (strtolower(['asna_ashri'] == 'yes') ? '' : $data['religion_type']);
         
         if(isset($data['guardian_relation']) && !empty($data['guardian_relation'])) {
             $guardian_relations                 = ["uncle", "grand_father", "neighbours"];
@@ -253,6 +270,9 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
 
             // $data["current_area_id"]                   = 1;
         }
+
+        $data["pick_and_drop"]                  = isset($data["pick_and_drop"]) && in_array($data["pick_and_drop"], ['parent', 'guardian']) ? "by_".$data["pick_and_drop"] : $data["pick_and_drop"];
+
         return $data;
 
     }
@@ -270,58 +290,58 @@ class StudentAdmissionImport implements ToCollection, WithValidation, WithHeadin
             '*.system'                    =>  'required|string|min:6,max:30',  
             '*.class'                     =>  'required|string|min:4,max:30',  
             '*.section'                   =>  'required|string|min:1,max:30',  
-            '*.bform_crms_no'             =>  'nullable|alpha_num|min:5,max:20',
+            '*.bform_crms_no'             =>  'nullable|min:5,max:20',
             '*.dob'                       =>  'nullable|date',
             '*.gender'                    =>  'required|in:male,female',
-            '*.place_of_birth'            =>  'nullable|alpha|max:30',                                      // required => karachi
-            '*.nationality'               =>  'required|alpha|max:30',
-            '*.mother_tongue'             =>  'required|alpha|max:30',
+            '*.place_of_birth'            =>  'nullable|max:30',                                      // required => karachi
+            '*.nationality'               =>  'nullable|max:30',
+            '*.mother_tongue'             =>  'nullable|max:30',
             '*.first_name'                =>  'required|string|max:30',
-            '*.last_name'                 =>  'nullable|string|max:30',
-            '*.religion'                  =>  'required|in:islam,Islam',                         // issue if asna ok else other
+            '*.last_name'                 =>  'nullable',
+            '*.religion'                  =>  'nullable',                         // issue if asna ok else other
             '*.religion_type'             =>  'nullable|in:sunni,asna_ashri,other',                         // issue if asna ok else other
-            '*.religion_type_other'       =>  'nullable|required_if:religion_type,other|max:20',            // invalid => n/a
+            '*.religion_type_other'       =>  'nullable|max:20',            // invalid => n/a
             // '*.admission_year'            =>  'required|max:'.(date('Y')+1),                                              // invalid => 1 aug
-            '*.admission_year'            =>  'required|numeric|digits:4',                                             // invalid => 1 aug
-            '*.admission_class'           =>  'nullable|string|max:20',
-            '*.previous_school'           =>  'nullable|max:30',
-            '*.blood_group'               =>  'nullable|min:2|max:3',
-            '*.height'                    =>  'nullable|gt:0|between:1,10',
-            '*.weight'                    =>  'nullable|gt:0|between:1,150',
-            '*.student_vaccinated'        =>  'nullable|in:yes,no',
-            // '*.mobile_no'                 =>  'nullable|max:20',
+            '*.admission_year'            =>  'nullable',                                             // invalid => 1 aug
+            '*.admission_class'           =>  'nullable|max:20',
+            '*.previous_school'           =>  'nullable|max:40',
+            '*.blood_group'               =>  'nullable',
+            '*.height'                    =>  'nullable',
+            '*.weight'                    =>  'nullable',
+            '*.student_vaccinated'        =>  'nullable',
+            '*.phone'                 =>  'nullable|max:20',
             // '*.email'                     =>  'nullable|email|max:30',
             // '*.as_on_date'                =>  'nullable|date',
             // '*.fees_discount'             =>  'nullable|min:0|digits_between:1,3',
-            '*.father_name'               =>  'required|max:30',
+            '*.father_name'               =>  'required',
             // '*.father_cnic'               =>  'required|numeric|gt:0|digits:13',
-            '*.father_cnic'               =>  'required|string|max:20',
-            '*.father_phone'              =>  'nullable|string|min:11|max:20',                
-            '*.father_email'              =>  'nullable|email|max:30',
-            '*.father_occupation'         =>  'nullable|string|max:30',
-            '*.father_company_name'       =>  'nullable|string|max:40',                                            // 30 -> 40                    
-            '*.father_salary'             =>  'nullable|numeric|gt:0|digits_between:1,10',
-            '*.father_vaccinated'         =>  'nullable|in:yes,no',
-            '*.mother_name'               =>  'required|max:30',
-            '*.mother_cnic'               =>  'required|string|max:20',
-            '*.mother_phone'              =>  'nullable|string|min:11|max:20',                    
-            '*.mother_email'              =>  'nullable|email|max:30',
-            '*.mother_occupation'         =>  'nullable|string:30',
-            '*.mother_company_name'       =>  'nullable|max:40',
-            '*.mother_salary'             =>  'nullable|numeric|gt:0|digits_between:1,10',
-            '*.mother_vaccinated'         =>  'nullable|in:yes,no',
-            '*.current_house_no'          =>  'required|max:30',
-            '*.current_block_no'          =>  'required|max:30',
-            '*.current_area'              =>  'nullable|string|max:30',
+            '*.father_cnic'               =>  'nullable|max:20',
+            '*.father_phone'              =>  'nullable',                
+            '*.father_email'              =>  'nullable',
+            '*.father_occupation'         =>  'nullable',
+            '*.father_company_name'       =>  'nullable',                                            // 30 -> 40                    
+            '*.father_salary'             =>  'nullable',
+            '*.father_vaccinated'         =>  'nullable',
+            '*.mother_name'               =>  'nullable',
+            '*.mother_cnic'               =>  'nullable',
+            '*.mother_phone'              =>  'nullable',                    
+            '*.mother_email'              =>  'nullable',
+            '*.mother_occupation'         =>  'nullable',
+            '*.mother_company_name'       =>  'nullable',
+            '*.mother_salary'             =>  'nullable',
+            '*.mother_vaccinated'         =>  'nullable',
+            '*.current_house_no'          =>  'nullable',
+            '*.current_block_no'          =>  'nullable',
+            '*.current_area'              =>  'nullable',
             // '*.guardian_cnic'             =>  'nullable|numeric|gt:0|digits:13',
-            '*.guardian_name'             =>  'nullable|max:30',
-            '*.guardian_phone'            =>  'nullable|string|min:11|max:20',
+            '*.guardian_name'             =>  'nullable',
+            '*.guardian_phone'            =>  'nullable',
             '*.guardian_relation'         =>  'nullable|in:uncle_aunty,grandfather_grandmother,neighbours,other',       // invalid
             // '*.guardian_relation_other'   =>  'nullable|required_if:guardian_relation,other|max:20',
-            '*.first_person_call'         =>  'nullable|in:father,mother,guardian',
-            '*.pick_and_drop'             =>  'required|in:by_walk,by_ride,by_private_van,by_school_van',
-            '*.total_no_of_siblings'      =>  'nullable|numeric|gt:0|digits_between:1,10', 
-            '*.siblings_in_mpa'           =>  'nullable|numeric|gt:0|digits_between:1,10',
+            '*.first_person_call'         =>  'nullable',
+            '*.pick_and_drop'             =>  'nullable|in:by_walk,by_ride,by_private_van,by_school_van,by_parent,by_guardian',
+            '*.total_no_of_siblings'      =>  'nullable|numeric|digits_between:1,10', 
+            '*.siblings_in_mpa'           =>  'nullable|numeric|digits_between:1,10',
             // '*.no_of_siblings'            =>  'nullable|numeric|required_if:siblings_in_mpa,gt:0|gt:0|digits_between:1,10',  // issue
             // '*.vehicle_number'                =>  'nullable|required_if:pick_and_drop,by_ride|max:20',
             // '*.vehicle_id'                =>  'nullable|required_if:pick_and_drop,by_school_van|required_if:pick_and_drop,by_private_van|digits_between:1,10',

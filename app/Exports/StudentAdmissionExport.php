@@ -6,8 +6,9 @@ use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\FromArray;
 use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 
-class StudentAdmissionExport implements FromArray, WithHeadings
+class StudentAdmissionExport implements FromArray, WithHeadings, ShouldAutoSize
 {
     use Exportable;
 
@@ -134,6 +135,7 @@ class StudentAdmissionExport implements FromArray, WithHeadings
                     "N/A",
                     "N/A",
                     // $error["vehicle_no"],
+                    "N/A",
                     $error["total_no_of_siblings"],
                     $error["siblings_in_mpa"],
                     $this->got_some_error[$key]

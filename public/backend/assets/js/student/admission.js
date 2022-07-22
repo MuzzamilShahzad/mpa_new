@@ -615,10 +615,10 @@ $(document).ready(function () {
         var pick_and_drop = $("#pick-and-drop").val();
 
 
-        if(id == "") {
+        if (id == "") {
             $("#temporary-gr").after("<span class='error'>Record id is required.</span>");
             flag = false;
-        }   
+        }
 
         if (temporary_gr == "") {
             $("#temporary-gr").addClass("has-error");
@@ -1538,7 +1538,7 @@ $(document).ready(function () {
                             $(campusSchoolSystems).each(function (key, value) {
                                 schoolSystems += `<option value="` + value.id + `" >` + value.system + `</option>`;
                             });
-                       
+
                             if (promotion_modal) {
                                 $('#promotion-form').find('#system-id').prop('disabled', false);
                                 $('#promotion-form').find('#system-id').html(schoolSystems);
@@ -1630,9 +1630,9 @@ $(document).ready(function () {
     });
 
     $(document).on('change', '#class-id', function (e) {
-        
+
         e.preventDefault();
-        
+
         $('#group-id').html('<option value="">Select</option>');
         $('#group-id').prop('disabled', true);
 
@@ -1649,7 +1649,7 @@ $(document).ready(function () {
 
 
         if ((campus_id !== "" && campus_id > "0") && (system_id !== "" && system_id > "0") && (class_id !== "" && class_id > "0")) {
-            
+
             $.ajax({
                 url: baseUrl + '/campus/class-groups-and-sections',
                 type: "GET",
@@ -2034,7 +2034,7 @@ $(document).ready(function () {
         //     $('#promotion-form').find("#group-id:not([disabled]").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
         //     flag = false;
         // }
-        
+
         // if (section_id == "" || section_id == "0") {
         //     $('#promotion-form').find("#section-id").siblings(".select2-selection--single").addClass("has-error");
         //     $('#promotion-form').find("#section-id").siblings("span").after("<span class='error text-danger'>This field is required.</span>");
@@ -2143,15 +2143,15 @@ $(document).ready(function () {
         e.preventDefault();
 
         var session_id = $('#session-id').val();
-        var campus_id  = $('#campus-id').val();
-        var system_id  = $('#system-id').val();
-        var class_id   = $('#class-id').val();
-        var group_id   = $('#group-id').val();
+        var campus_id = $('#campus-id').val();
+        var system_id = $('#system-id').val();
+        var class_id = $('#class-id').val();
+        var group_id = $('#group-id').val();
         var section_id = $('#section-id').val();
-        
+
         // console.log(baseUrl+"/admission/export-excel?session_id="+session_id+"&campus_id="+campus_id+"&system_id="+system_id+"&class_id"+class_id+"&group_id="+group_id+"&section_id="+section_id);
 
-        window.location.href = baseUrl+"/admission/export-excel?session_id="+session_id+"&campus_id="+campus_id+"&system_id="+system_id+"&class_id"+class_id+"&group_id="+group_id+"&section_id="+section_id;
+        window.location.href = baseUrl + "/admission/export-excel?session_id=" + session_id + "&campus_id=" + campus_id + "&system_id=" + system_id + "&class_id=" + class_id + "&group_id=" + group_id + "&section_id=" + section_id;
 
     });
 

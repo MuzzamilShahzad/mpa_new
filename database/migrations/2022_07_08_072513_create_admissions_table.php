@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreign('registration_id')->references('id')->on('student_registrations')->onDelete('cascade');
 
             $table->string('temporary_gr',20);
-            $table->string('gr',20)->unique();
+            $table->string('gr',20);
             $table->string('roll_no',10)->nullable();
 
             $table->unsignedInteger('session_id');
@@ -48,18 +48,18 @@ return new class extends Migration
             $table->date('dob')->nullable();
             $table->string('gender',6);
             $table->string('place_of_birth',30);
-            $table->string('nationality',30);
-            $table->string('mother_tongue',30);
+            $table->string('nationality',30)->nullable();
+            $table->string('mother_tongue',30)->nullable();
 
             $table->unsignedInteger('previous_class_id')->nullable();
             $table->foreign('previous_class_id')->references('id')->on('classes')->onDelete('cascade');
             
-            $table->string('previous_school',30)->nullable();
+            $table->string('previous_school',40)->nullable();
             $table->string('mobile_no',20)->nullable();
             $table->string('email',30)->nullable();
-            $table->date('admission_date');
+            $table->date('admission_date')->nullable();
             $table->string('blood_group',3)->nullable();
-            $table->decimal('height', 2,1)->nullable();
+            $table->string('height', 10)->nullable();
             $table->decimal('weight', 3,1)->nullable();
             $table->date('as_on_date')->nullable();
             $table->tinyInteger('fee_discount')->nullable();
@@ -79,7 +79,7 @@ return new class extends Migration
             $table->text('guardian_details');
             $table->text('address_details');
 
-            $table->enum('pick_and_drop',['by_walk','by_ride','by_school_van','by_private_van']);
+            $table->enum('pick_and_drop',['by_walk','by_ride','by_school_van','by_private_van', 'by_parent', 'by_guardian'])->nullable();
 
             $table->string('vehicle_no',10)->nullable();
 

@@ -189,15 +189,17 @@ class StudentDetailsExport implements FromArray, WithHeadings, ShouldAutoSize
             $admissionDetails['mother_vaccinated']    =  isset($motherDetails->vaccinated) && !empty($motherDetails->vaccinated) ? 'Yes' : 'No';
 
             $guardianDetails = json_decode($admission->guardian_details);
-            
+            // dd($guardianDetails);
+
             $admissionDetails['guardian_cnic']            =  isset($guardianDetails->cnic)      ?  $guardianDetails->cnic : '';
             $admissionDetails['guardian_name']            =  isset($guardianDetails->name)      ?  $guardianDetails->name : '';
             $admissionDetails['guardian_phone']           =  isset($guardianDetails->phone)     ?  $guardianDetails->phone : '';
             $admissionDetails['guardian_relation']        =  isset($guardianDetails->relation)  ?  $guardianDetails->relation : '';
-            $admissionDetails['guardian_other_relation']  =  $guardianDetails->relation == 'other' ? $guardianDetails->guardian_other_relation : NULL;
+            $admissionDetails['guardian_other_relation']  =  isset($guardianDetails->relation) && $guardianDetails->relation == 'other' ? $guardianDetails->other_relation : '';
             $admissionDetails['first_person_call']        =  isset($guardianDetails->first_person_call)  ?  $guardianDetails->first_person_call : '';
             
             $addressDetails    =  json_decode($admission->address_details);
+           
             
             // $currentAddress    =  json_decode($addressDetails->current_address);
             // $sameAsCurrent     =  json_decode($addressDetails->same_as_current);
@@ -215,9 +217,10 @@ class StudentDetailsExport implements FromArray, WithHeadings, ShouldAutoSize
             $admissionDetails['current_area_id']           =  isset($currentAddress->current_area_id)           ?  $currentAddress->current_area_id : '' ;
             $admissionDetails['current_city_id']           =  isset($currentAddress->current_city_id)           ?  $currentAddress->current_city_id : '' ;
             
-            $admissionDetails['same_as_current'] = isset($addressDetails->same_as_current) ? $addressDetails->same_as_current : 'no';
+            $admissionDetails['same_as_current'] = isset($sameAsCurrent->same_as_current) ? $sameAsCurrent->same_as_current : 'no';
+            // dd($admissionDetails['same_as_current']);
 
-            if($sameAsCurrent == 'yes'){
+            if($admissionDetails['same_as_current'] == 'yes'){
                 
                 $admissionDetails['permanent_house_no']          =  isset($currentAddress->current_house_no)          ?  $currentAddress->current_house_no : '' ;
                 $admissionDetails['permanent_block_no']          =  isset($currentAddress->current_block_no)          ?  $currentAddress->current_block_no : '' ;
