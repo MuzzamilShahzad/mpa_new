@@ -221,7 +221,7 @@ class AdmissionController extends Controller
             'current_block_no'          =>  'required|max:60',
             'current_building_name_no'  =>  'nullable|max:60',
             'current_area_id'           =>  'required|numeric|gt:0|digits_between:1,11',
-            'current_city_id'          =>  'required|numeric|gt:0|digits_between:1,11',
+            'current_city_id'           =>  'required|numeric|gt:0|digits_between:1,11',
             'pick_and_drop'             =>  'required|in:by_walk,by_ride,by_private_van,by_school_van',
             'vehicle_no'                =>  'nullable|required_if:pick_and_drop,by_ride|max:20',
             'vehicle_id'                =>  'nullable|required_if:pick_and_drop,by_school_van|required_if:pick_and_drop,by_private_van|digits_between:1,11',

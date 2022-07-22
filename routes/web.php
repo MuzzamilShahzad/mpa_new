@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
+use Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +14,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Auth::routes();
+
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/', function () {
     return view('dashboard.index');
@@ -143,7 +149,21 @@ Route::controller(VehicleController::class)->group(function () {
     Route::get('/vehicle/listing-by-type', 'listingByType')->name('vehicle.listingByType');
 });
 
+// Teacher Resource Rote
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource("teacher", TeacherController::class);
+
+    Route::controller(RoleController::class)->group(function () {
+        Route::get('/role/index', 'index')->name('role.index');
+        Route::post('/role/store', 'store')->name('role.store');
+        Route::get('/role/create', 'create')->name('role.create');
+    });
+
+    // Route::resource("role", RoleController::class);
+});
+
 Route::any('/dashboard', function() {
     return view('dashboard.index');
 })->name('dashboard');
+
 
